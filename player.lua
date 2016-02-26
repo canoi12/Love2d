@@ -44,6 +44,6 @@ end
 
 function player.keypress(k)
     if k == "up" and player.yvel == 0 then
-        player.yvel = -300
+        player.yvel = -400
     end
 end
