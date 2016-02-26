@@ -11,7 +11,7 @@ function player.load()
 end
 
 function player.limits()
-    player.x = math.clamp(player.x,0,love.graphics.getWidth()-player.width)
+    player.x = math.clamp(player.x,0,game.roomWidth-player.width)
     player.y = math.clamp(player.y,0,love.graphics.getHeight()-player.height)
 end
 

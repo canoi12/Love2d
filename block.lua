@@ -3,10 +3,12 @@ bloco = {}
 
 function bloco.load()
     limit = love.graphics.getWidth()/32
-    for i = 0,limit do
-        newBlock = {x = i*32,y = love.graphics:getHeight()-32,width = 32,height = 32}
-        table.insert(blocks,newBlock)
-    end
+    --for i = 0,limit do
+    --    newBlock = {x = i*32,y = love.graphics:getHeight()-32,width = 32,height = 32}
+    --    table.insert(blocks,newBlock)
+    --end
+    newBlock = {x = 0,y = love.graphics:getHeight()-32,width = game.roomWidth,height = 32}
+    table.insert(blocks,newBlock)
 end
 
 function bloco.update()

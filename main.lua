@@ -1,5 +1,12 @@
 require("player")
 require("block")
+require("camera")
+
+game = {}
+game.windowWidth = 640
+game.windowHeight = 480
+game.roomWidth = 1280
+game.roomHeight = 480
 
 function math.clamp(v1,v2,v3)
     if v1 < v2 then
@@ -28,12 +35,15 @@ function checkCol(x1,y1,w1,h1,x2,y2,w2,h2)
 end
 
 function love.update(dt)
+    camera.x = math.clamp(player.x-(game.windowWidth/2),0,game.roomWidth/2)
     player.update(dt)
 end
 
 function love.draw()
+    camera.set()
     player.draw()
     bloco.draw()
+    camera.unset()
 end
 
 function love.keypressed(k)
