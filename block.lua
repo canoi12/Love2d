@@ -2,7 +2,8 @@ blocks = {}
 bloco = {}
 
 function bloco.load()
-    for i = 0,10 do
+    limit = love.graphics.getWidth()/32
+    for i = 0,limit do
         newBlock = {x = i*32,y = love.graphics:getHeight()-32,width = 32,height = 32}
         table.insert(blocks,newBlock)
     end
