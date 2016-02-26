@@ -1,4 +1,4 @@
-player = {}
+require("player")
 
 function math.clamp(v1,v2,v3)
     if v1 < v2 then
@@ -12,14 +12,8 @@ function math.clamp(v1,v2,v3)
 end
 
 function love.load()
-    player.x = 0
-    player.y = 240
-    player.width = 32
-    player.height = 32
-    player.speed = 200
-    player.yvel = 50
-    player.alpha = 100
-    gravity = 150
+    player.load()
+    gravity = 2000
 end
 
 function player.checkCol(x1,y1,w1,h1,x2,y2,w2,h2)
@@ -31,35 +25,17 @@ function player.checkCol(x1,y1,w1,h1,x2,y2,w2,h2)
     end
 end
 
-function player.limits()
-    player.x = math.clamp(player.x,0,love.graphics.getWidth()-player.width)
-    player.y = math.clamp(player.y,0,love.graphics.getHeight()-player.height)
-end
-
 function love.update(dt)
-    if love.keyboard.isDown("a","left") then
-        player.x = player.x - (player.speed*dt)
-    end
-    if love.keyboard.isDown("d", "right") then
-        player.x = player.x + (player.speed*dt)
-    end
-    --if love.keyboard.isDown("w","up") then
-    --    player.y = player.y - (player.speed*dt)
-    --end
-    --if love.keyboard.isDown("s","down") then
-    --    player.y = player.y + (player.speed*dt)
-    --end
-    player.y = player.y + (player.yvel*dt)
-    player.yvel = player.yvel + (gravity*dt)
-    if player.y+player.height + (player.yvel*dt) > love.graphics:getHeight() then
-        player.yvel = 0
-        if love.keyboard.isDown("up") then
-        player.yvel = -100
-    end
-    end
-    player.limits()
+    player.update(dt)
 end
 
 function love.draw()
-    love.graphics.rectangle("line",player.x,player.y,player.width,player.height)
+    player.draw()
+end
+
+function love.keypressed(k)
+    if k == "escape" then
+        love.event.quit()
+    end
+    player.keypress(k)
 end
