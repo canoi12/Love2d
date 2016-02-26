@@ -31,6 +31,7 @@ function player.update(dt)
 end
 
 function player.draw()
+    love.graphics.setColor(255,255,255)
     love.graphics.rectangle("line",player.x,player.y,player.width,player.height)
 end
 
