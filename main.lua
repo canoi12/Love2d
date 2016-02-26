@@ -1,4 +1,5 @@
 require("player")
+require("block")
 
 function math.clamp(v1,v2,v3)
     if v1 < v2 then
@@ -13,10 +14,11 @@ end
 
 function love.load()
     player.load()
+    bloco.load()
     gravity = 2000
 end
 
-function player.checkCol(x1,y1,w1,h1,x2,y2,w2,h2)
+function checkCol(x1,y1,w1,h1,x2,y2,w2,h2)
     if x1 < x2 + w2 and
        x1 + w1 > x2 and
        y1 < y2 + h2 and
@@ -31,6 +33,7 @@ end
 
 function love.draw()
     player.draw()
+    bloco.draw()
 end
 
 function love.keypressed(k)

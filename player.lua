@@ -22,10 +22,17 @@ function player.update(dt)
     if love.keyboard.isDown("d", "right") then
         player.x = player.x + (player.speed*dt)
     end
-    player.y = player.y + (player.yvel*dt)
     player.yvel = player.yvel + (gravity*dt)
-    if player.y+player.height + (player.yvel*dt) > love.graphics:getHeight() then
-        player.yvel = 0
+    player.y = player.y + (player.yvel*dt)
+    for i,block in ipairs(blocks) do
+        if checkCol(player.x,player.y,player.width,player.height,block.x,block.y,block.width,block.height) then
+            player.yvel = 0
+            player.y = block.y - player.height
+            break
+        end
+        if player.y + player.height > love.graphics:getHeight() then
+            player.yvel = 0
+        end
     end
     player.limits()
 end
