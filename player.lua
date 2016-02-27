@@ -35,19 +35,19 @@ function player.update(dt)
         end
     end
     for i,en in ipairs(enemies) do
-        if checkCol(player.x,player.y,player.width,player.height,en.x,en.y,en.width,en.height) then
-            if player.y + player.height <= en.y+16 then
+        if checkCol(player.x,player.y+(player.yvel*dt),player.width,player.height,en.x,en.y,en.width,en.height) then
+            if player.y + player.height <= en.y then
                 table.remove(enemies,i)
             end
         end
     end
     player.limits()
-    enemy.update(dt)
 end
 
 function player.draw()
     love.graphics.setColor(255,255,255)
     love.graphics.rectangle("line",player.x,player.y,player.width,player.height)
+    love.graphics.print(player.x,player.x,0)
 end
 
 function player.keypress(k)

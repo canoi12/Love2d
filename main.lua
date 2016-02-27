@@ -6,7 +6,7 @@ require("enemy")
 game = {}
 game.windowWidth = 640
 game.windowHeight = 480
-game.roomWidth = 1280
+game.roomWidth = 5120
 game.roomHeight = 480
 
 function math.clamp(v1,v2,v3)
@@ -37,7 +37,8 @@ function checkCol(x1,y1,w1,h1,x2,y2,w2,h2)
 end
 
 function love.update(dt)
-    camera.x = math.clamp(player.x-(game.windowWidth/2),0,game.roomWidth/2)
+    camera.x = math.clamp(player.x-(game.windowWidth/2),0,game.roomWidth-(game.windowWidth))
+    enemy.update(dt)
     player.update(dt)
 end
 
