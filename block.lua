@@ -16,7 +16,7 @@ function bloco.update()
 end
 
 function bloco.draw()
-    love.graphics.setColor(255,0,0)
+    love.graphics.setColor(255,255,255)
     for i,block in ipairs(blocks) do
         love.graphics.rectangle("line",block.x,block.y,block.width,block.height)
     end
