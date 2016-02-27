@@ -1,6 +1,7 @@
 require("player")
 require("block")
 require("camera")
+require("enemy")
 
 game = {}
 game.windowWidth = 640
@@ -22,6 +23,7 @@ end
 function love.load()
     player.load()
     bloco.load()
+    enemy.load()
     gravity = 2000
 end
 
@@ -43,6 +45,7 @@ function love.draw()
     camera.set()
     player.draw()
     bloco.draw()
+    enemy.draw()
     camera.unset()
 end
 

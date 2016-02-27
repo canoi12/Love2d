@@ -35,6 +35,7 @@ function player.update(dt)
         end
     end
     player.limits()
+    enemy.update(dt)
 end
 
 function player.draw()
