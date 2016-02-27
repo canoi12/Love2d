@@ -34,6 +34,13 @@ function player.update(dt)
             player.yvel = 0
         end
     end
+    for i,en in ipairs(enemies) do
+        if checkCol(player.x,player.y,player.width,player.height,en.x,en.y,en.width,en.height) then
+            if player.y + player.height <= en.y+16 then
+                table.remove(enemies,i)
+            end
+        end
+    end
     player.limits()
     enemy.update(dt)
 end
