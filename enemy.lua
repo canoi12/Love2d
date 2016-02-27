@@ -30,7 +30,7 @@ function enemy.update(dt)
 end
 
 function enemy.draw()
-    love.graphics.setColor(255,0,0)
+    love.graphics.setColor(255,255,0)
     love.graphics.print(table.getn(enemies),0,0)
     for i,en in ipairs(enemies) do
         love.graphics.rectangle("line",en.x,en.y,en.width,en.height)
