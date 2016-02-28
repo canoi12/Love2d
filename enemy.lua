@@ -5,7 +5,7 @@ function enemy.load()
     limit = game.roomWidth/32-1
     j = 0
     for i = 10, limit do
-        j = math.random(10)
+        j = love.math.random(10)
         if j == 5 then
             newEnemy = {x = i*32,y = 320,width = 32,height = 32,yvel = 600}
             table.insert(enemies,newEnemy)
