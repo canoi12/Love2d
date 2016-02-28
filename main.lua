@@ -42,9 +42,9 @@ function love.update(dt)
     player.update(dt)
 end
 
-function love.draw()
+function love.draw(dt)
     camera.set()
-    player.draw()
+    player.draw(dt)
     bloco.draw()
     enemy.draw()
     camera.unset()

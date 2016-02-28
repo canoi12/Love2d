@@ -5,7 +5,8 @@ function player.load()
     player.y = 240
     player.width = 32
     player.height = 32
-    player.speed = 200
+    player.speed = 400
+    player.xvel = 200
     player.yvel = 600
     player.alpha = 100
 end
@@ -16,12 +17,17 @@ function player.limits()
 end
 
 function player.update(dt)
-    if love.keyboard.isDown("a","left") then
-        player.x = player.x - (player.speed*dt)
+    if love.keyboard.isDown("left") then
+        if player.xvel < player.speed then player.xvel = player.xvel + 10 end
+        player.x = player.x - (player.xvel*dt)
+    elseif love.keyboard.isDown("right") then
+        if player.xvel < player.speed then player.xvel = player.xvel + 10 end
+        player.x = player.x + (player.xvel*dt)
+    else
+        player.height = 32
+        player.xvel = 0
     end
-    if love.keyboard.isDown("d", "right") then
-        player.x = player.x + (player.speed*dt)
-    end
+    if player.height > 24 then player.height = player.height-(player.xvel*dt/10) end
     player.yvel = player.yvel + (gravity*dt)
     player.y = player.y + (player.yvel*dt)
     for i,block in ipairs(blocks) do
@@ -38,13 +44,14 @@ function player.update(dt)
         if checkCol(player.x,player.y+(player.yvel*dt),player.width,player.height,en.x,en.y,en.width,en.height) then
             if player.y + player.height <= en.y then
                 table.remove(enemies,i)
+                player.yvel = -200
             end
         end
     end
     player.limits()
 end
 
-function player.draw()
+function player.draw(dt)
     love.graphics.setColor(255,255,255)
     love.graphics.rectangle("line",player.x,player.y,player.width,player.height)
     love.graphics.print(player.x,player.x,0)
