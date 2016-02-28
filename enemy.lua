@@ -6,7 +6,7 @@ function enemy.load()
     j = 0
     while table.getn(enemies) < 10 do
         j = love.math.random(game.windowWidth,game.roomWidth)
-        newEnemy = {x = j,y = 320,width = 32,height = 32,yvel = 600}
+        newEnemy = {x = j,y = 320,width = 32,height = 32,yvel = 600,xvel = 0}
         table.insert(enemies,newEnemy)
     end
 end
@@ -14,7 +14,7 @@ end
 function enemy.update(dt)
     while table.getn(enemies) < 20 do
         j = love.math.random(10,game.roomWidth/32)
-        newEnemy = {x = j*32,y = 320,width = 32,height = 32,yvel = 600}
+        newEnemy = {x = j*32,y = 320,width = 32,height = 32,yvel = 600, xvel = 0}
         table.insert(enemies,newEnemy)
     end
     for i,en in ipairs(enemies) do
@@ -29,9 +29,9 @@ function enemy.update(dt)
                 end
             end
         --end
-        if math.sqrt((en.x-player.x)^2+(en.y-player.y)^2) < 320 and 
-        en.x > camera.x and en.x < camera.x+game.windowWidth then
-            en.x = en.x + ((player.x-en.x)*dt)
+        if math.sqrt((en.x-player.x)^2+(en.y-player.y)^2) < 240 then
+            en.xvel = (player.x-en.x)*dt
+            en.x = en.x + en.xvel
         end
     end
 end
