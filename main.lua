@@ -2,12 +2,15 @@ require("player")
 require("block")
 require("camera")
 require("enemy")
+require("gamescreen")
+require("menuscreen")
 
 game = {}
 game.windowWidth = 640
 game.windowHeight = 480
 game.roomWidth = 5120
 game.roomHeight = 480
+game.currentScreen = "menu"
 
 function math.clamp(v1,v2,v3)
     if v1 < v2 then
@@ -21,9 +24,8 @@ function math.clamp(v1,v2,v3)
 end
 
 function love.load()
-    player.load()
-    bloco.load()
-    enemy.load()
+    menuscreen.load()
+    gamescreen.load()
     gravity = 2000
     game.background = love.graphics.newImage("assets/background.png")
     game.background:setWrap("repeat","repeat")
@@ -41,19 +43,19 @@ function checkCol(x1,y1,w1,h1,x2,y2,w2,h2)
 end
 
 function love.update(dt)
-    camera.x = math.clamp(player.x-(game.windowWidth/2),0,game.roomWidth-(game.windowWidth))
-    enemy.update(dt)
-    player.update(dt)
+    if game.currentScreen == "menu" then
+        menuscreen.update()
+    else
+        gamescreen.update(dt)
+    end
 end
 
 function love.draw(dt)
-    camera.set()
-    love.graphics.setColor(255,255,255)
-    love.graphics.draw(game.background,game.bgquad,0,0)
-    player.draw(dt)
-    bloco.draw()
-    enemy.draw()
-    camera.unset()
+    if game.currentScreen == "menu" then
+        menuscreen.draw()
+    else
+        gamescreen.draw()
+    end
 end
 
 function love.keypressed(k)

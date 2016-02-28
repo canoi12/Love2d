@@ -52,7 +52,7 @@ function player.update(dt)
         if checkCol(player.x,player.y+(player.yvel*dt),player.width,player.height,en.x,en.y,en.width,en.height) then
             if player.y + player.height <= en.y then
                 table.remove(enemies,i)
-                player.yvel = -200
+                player.yvel = -300
             end
         end
     end

@@ -12,13 +12,13 @@ function enemy.load()
 end
 
 function enemy.update(dt)
-    while table.getn(enemies) < 10 do
+    while table.getn(enemies) < 20 do
         j = love.math.random(10,game.roomWidth/32)
         newEnemy = {x = j*32,y = 320,width = 32,height = 32,yvel = 600}
         table.insert(enemies,newEnemy)
     end
     for i,en in ipairs(enemies) do
-        if en.y + (en.yvel*dt) < love.graphics:getHeight()-32-en.height then
+        --if en.y + (en.yvel*dt) < love.graphics:getHeight()-32-en.height then
             en.yvel = en.yvel + (gravity*dt) 
             en.y = en.y + (en.yvel*dt)
             for j,block in ipairs(blocks) do
@@ -28,8 +28,9 @@ function enemy.update(dt)
                         break
                 end
             end
-        end
-        if math.sqrt((en.x-player.x)^2+(en.y-player.y)^2) < 320 then
+        --end
+        if math.sqrt((en.x-player.x)^2+(en.y-player.y)^2) < 320 and 
+        en.x > camera.x and en.x < camera.x+game.windowWidth then
             en.x = en.x + ((player.x-en.x)*dt)
         end
     end
