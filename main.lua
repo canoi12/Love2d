@@ -25,6 +25,10 @@ function love.load()
     bloco.load()
     enemy.load()
     gravity = 2000
+    game.background = love.graphics.newImage("assets/background.png")
+    game.background:setWrap("repeat","repeat")
+    
+    game.bgquad = love.graphics.newQuad(0,0,game.roomWidth,game.roomHeight,game.background:getDimensions())
 end
 
 function checkCol(x1,y1,w1,h1,x2,y2,w2,h2)
@@ -44,6 +48,8 @@ end
 
 function love.draw(dt)
     camera.set()
+    love.graphics.setColor(255,255,255)
+    love.graphics.draw(game.background,game.bgquad,0,0)
     player.draw(dt)
     bloco.draw()
     enemy.draw()

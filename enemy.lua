@@ -15,7 +15,7 @@ end
 
 function enemy.update(dt)
     for i,en in ipairs(enemies) do
-        if en.y + (en.yvel*dt) < love.graphics:getHeight()-(32+en.height) then
+        if en.y + (en.yvel*dt) < love.graphics:getHeight()-32-en.height then
             en.yvel = en.yvel + (gravity*dt) 
             en.y = en.y + (en.yvel*dt)
             for i,block in ipairs(blocks) do
@@ -25,6 +25,9 @@ function enemy.update(dt)
                         break
                 end
             end
+        end
+        if math.sqrt((en.x-player.x)^2+(en.y-player.y)^2) < 180 then
+            en.x = en.x + ((player.x-en.x)*dt)
         end
     end
 end
