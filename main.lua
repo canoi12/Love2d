@@ -23,6 +23,13 @@ function math.clamp(v1,v2,v3)
     return v1
 end
 
+function bool_to_int(valor)
+    if valor == true then
+        return 1
+    end
+    return 0
+end
+
 function love.load()
     menuscreen.load()
     gamescreen.load()
