@@ -22,15 +22,9 @@ function player.update(dt)
     if love.keyboard.isDown("left") then
         if player.xvel < player.speed then player.xvel = player.xvel + 20 end
         player.x = player.x - (player.xvel*dt)     
-        player.vertices.x0 = player.x + 16
-        player.vertices.y1 = player.y + 8
-        player.vertices.x1 = player.x+player.width + 16
     elseif love.keyboard.isDown("right") then
         if player.xvel < player.speed then player.xvel = player.xvel + 20 end
         player.x = player.x + (player.xvel*dt)
-        player.vertices.x0 = player.x - 16
-        player.vertices.y0 = player.y + 8
-        player.vertices.x1 = player.x+player.width - 16
     else
         player.height = 32
         player.xvel = 0
