@@ -15,5 +15,5 @@ function menuscreen.update(dt)
 end
 
 function menuscreen.draw()
-    love.graphics.print("Fears",240,150+(math.sin(x)*32),0,5,5)
+    love.graphics.print("Game",240,150+(math.sin(x)*32),0,5,5)
 end
