@@ -21,14 +21,17 @@ function enemy.update(dt)
         --if en.y + (en.yvel*dt) < love.graphics:getHeight()-32-en.height then
             en.yvel = en.yvel + (gravity*dt) 
             en.y = en.y + (en.yvel*dt)
-            for j,block in ipairs(blocks) do
+           for j,block in ipairs(blocks) do
                 if checkCol(en.x,en.y+(en.y*dt),en.width,en.height,block.x,block.y,block.width,block.height) then
                         en.yvel = 0
                         en.y = block.y - en.height
-                        break
+                       -- break
                 end
             end
-        --end
+        --
+        if en.y > love.graphics:getHeight() then
+            table.remove(enemies,i)
+        end 
         if math.sqrt((en.x-player.x)^2+(en.y-player.y)^2) < 240 then
             en.xvel = (player.x-en.x)*dt
             en.x = en.x + en.xvel
