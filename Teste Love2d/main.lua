@@ -65,7 +65,6 @@ function love.update(dt)
     cosA = dist3/dist1 
     teste = dist2/dist3
     artan = 1/teste--]]
-    
 end
 
 function love.draw()
