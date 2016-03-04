@@ -1,7 +1,7 @@
 player = {}
 
 function player.load()
-    player.x = 0
+    player.x = 32
     player.y = 240
     player.width = 32
     player.height = 32
