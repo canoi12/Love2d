@@ -1,0 +1,79 @@
+player = {}
+enemy = {}
+
+function math.clamp(valor1,valor2,valor3)
+    if valor1 < valor2 then
+        return valor2
+    end
+    if valor1 > valor3 then
+        return valor3
+    end
+    return valor1
+end
+
+function distance(xa,ya,xb,yb)
+    return math.sqrt((xa-xb)^2 + (ya-yb)^2)
+end
+
+function bool_to_int(valor)
+    if valor == true then
+        return 1
+    end
+    return 0
+end
+
+function love.load()
+    player.x = 0
+    player.y = 0
+    player.width = 32
+    player.height = 32
+    player.speed = 400
+    player.img = love.graphics.newImage("assets/charteste.png")
+    
+    enemy.x = 320
+    enemy.y = 240
+    enemy.xvel = 0
+    enemy.yvel = 0
+    enemy.width = 32
+    enemy.height = 32
+end
+
+function love.update(dt)
+    moveH = bool_to_int(love.keyboard.isDown("d")) - bool_to_int(love.keyboard.isDown("a"))
+    
+    player.x = player.x+((player.speed*moveH)*dt)
+    
+    moveV = bool_to_int(love.keyboard.isDown("s")) - bool_to_int(love.keyboard.isDown("w"))
+    
+    player.y = player.y+((player.speed*moveV)*dt)
+    
+    if distance(player.x,player.y,enemy.x,enemy.y) < 240 then
+        enemy.xvel = (player.x-enemy.x)*dt
+        enemy.x = enemy.x+enemy.xvel
+        enemy.yvel = (player.y-enemy.y)*dt
+        enemy.y = enemy.y+enemy.yvel
+    end
+    
+    player.x = math.clamp(player.x,0,love.graphics:getWidth()-32)
+    player.y = math.clamp(player.y,0,love.graphics:getHeight()-32)
+    dist1 = distance(player.x,player.y,love.mouse:getX(),love.mouse:getY())
+    --dist2 = distance(enemy.x,enemy.y,player.x,enemy.y)
+    --dist3 = distance(player.x,player.y,player.x,enemy.y)
+    dist2 = love.mouse:getY() - player.y
+    dist3 = love.mouse:getX() - player.x
+    --[[senA = dist2/dist1
+    cosA = dist3/dist1 
+    teste = dist2/dist3
+    artan = 1/teste--]]
+end
+
+function love.draw()
+    love.graphics.setColor(255,255,255)
+    --love.graphics.rectangle("line",player.x,player.y,player.width,player.height)
+    love.graphics.draw(player.img,player.x,player.y,math.atan2(player.y-love.mouse.getY(),player.x-love.mouse.getX()), 1,1,16,16)
+    --love.graphics.print(math.abs((dist2/dist1*360)*math.pi/180),0,0)
+    love.graphics.print(math.atan2(player.y-love.mouse.getY(),player.x-love.mouse.getX()),0,0)
+    love.graphics.setColor(255,0,0)
+    love.graphics.rectangle("line",enemy.x,enemy.y,enemy.width,enemy.height)
+    love.graphics.line(player.x,player.y,love.mouse:getX(),love.mouse:getY())
+end
