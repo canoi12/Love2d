@@ -1,5 +1,8 @@
 player = {}
 enemy = {}
+game = {}
+game.roomWidth = 640
+game.roomHeight = 480
 
 function math.clamp(valor1,valor2,valor3)
     if valor1 < valor2 then
@@ -29,6 +32,12 @@ function love.load()
     player.height = 32
     player.speed = 400
     player.img = love.graphics.newImage("assets/charteste.png")
+    
+    
+    game.background = love.graphics.newImage("assets/background.png")
+    game.background:setWrap("repeat","repeat")
+    
+    game.bgquad = love.graphics.newQuad(0,0,game.roomWidth,game.roomHeight,game.background:getDimensions())
     
     enemy.x = 320
     enemy.y = 240
@@ -68,6 +77,8 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.setColor(255,255,255)
+    love.graphics.draw(game.background,game.bgquad,0,0)
     love.graphics.setColor(255,255,255)
     --love.graphics.rectangle("line",player.x,player.y,player.width,player.height)
     love.graphics.draw(player.img,player.x,player.y,math.atan2(player.y-love.mouse.getY(),player.x-love.mouse.getX()), 1,1,16,16)
