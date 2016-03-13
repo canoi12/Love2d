@@ -57,7 +57,7 @@ function love.update(dt)
     
     player.y = player.y+((player.speed*moveV)*dt)
 
-	if love.mouse.isDown(0) then
+	if love.mouse.isDown(0)
 		newBullet = {x = player.x, y = player.y, dir = math.atan2(player.y-love.mouse.getY(),player.x-love.mouse.getX())}
 		table.insert(bullets,newBullet)
 	end
