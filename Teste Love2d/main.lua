@@ -46,6 +46,8 @@ function love.load()
     enemy.yvel = 0
     enemy.width = 32
     enemy.height = 32
+    
+    bulletSpeed = 250
 end
 
 function love.update(dt)
@@ -57,10 +59,16 @@ function love.update(dt)
     
     player.y = player.y+((player.speed*moveV)*dt)
 
-	if love.mouse.isDown(0) then
-		newBullet = {x = player.x, y = player.y, dir = math.atan2(player.y-love.mouse.getY(),player.x-love.mouse.getX())}
-		table.insert(bullets,newBullet)
-	end
+	for i,v in ipairs(bullets) do
+        v.x = v.x + (v.dx * dt)
+        v.y = v.y + (v.dy * dt)
+        if v.x > love.graphics:getWidth() or
+            v.x < 0 or
+            v.y > love.graphics:getHeight() or
+            v.y < 0 then
+            table.remove(bullets,i);
+        end
+    end
     
     if distance(player.x,player.y,enemy.x,enemy.y) < 240 then
         enemy.xvel = (player.x-enemy.x)*dt
@@ -89,11 +97,27 @@ function love.draw()
     --love.graphics.rectangle("line",player.x,player.y,player.width,player.height)
     love.graphics.draw(player.img,player.x,player.y,math.atan2(player.y-love.mouse.getY(),player.x-love.mouse.getX()), 1,1,16,16)
     --love.graphics.print(math.abs((dist2/dist1*360)*math.pi/180),0,0)
-    love.graphics.print(math.atan2(player.y-love.mouse.getY(),player.x-love.mouse.getX()),0,0)
+    love.graphics.print(table.getn(bullets),0,0)
     love.graphics.setColor(255,0,0)
     love.graphics.rectangle("line",enemy.x,enemy.y,enemy.width,enemy.height)
     love.graphics.line(player.x,player.y,love.mouse:getX(),love.mouse:getY())
 	for i,bul in ipairs(bullets) do
-		love.graphics.rectangle("fill",bul.x,bul.y,16,16)
+		love.graphics.circle("fill",bul.x,bul.y,3)
 	end
+end
+
+function love.mousepressed(x,y,button)
+    if button == 1 then
+        local startX = player.x
+        local startY = player.y
+        local mouseX = x
+        local mouseY = y
+        
+        local angle = math.atan2(mouseY-startY,mouseX-startX)
+        
+        local bulletDx = bulletSpeed * math.cos(angle)
+        local bulletDy = bulletSpeed * math.sin(angle)
+        
+        table.insert(bullets,{x = startX,y = startY, dx = bulletDx, dy = bulletDy})
+    end
 end
