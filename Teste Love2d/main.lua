@@ -1,5 +1,5 @@
 player = {}
-enemy = {}
+enemies = {}
 bullets = {}
 game = {}
 game.roomWidth = 640
@@ -40,12 +40,7 @@ function love.load()
     
     game.bgquad = love.graphics.newQuad(0,0,game.roomWidth,game.roomHeight,game.background:getDimensions())
     
-    enemy.x = 320
-    enemy.y = 240
-    enemy.xvel = 0
-    enemy.yvel = 0
-    enemy.width = 32
-    enemy.height = 32
+    
     
     bulletSpeed = 250
 end
@@ -58,7 +53,10 @@ function love.update(dt)
     moveV = bool_to_int(love.keyboard.isDown("s")) - bool_to_int(love.keyboard.isDown("w"))
     
     player.y = player.y+((player.speed*moveV)*dt)
-
+    while table.getn(enemies) < 10 do
+        newEnemy = {x = math.random(game.roomWidth),y = math.random(game.roomHeight),xvel = 0,yvel = 0,width = 32, height = 32}
+        table.insert(enemies,newEnemy)
+    end
 	for i,v in ipairs(bullets) do
         v.x = v.x + (v.dx * dt)
         v.y = v.y + (v.dy * dt)
@@ -68,13 +66,22 @@ function love.update(dt)
             v.y < 0 then
             table.remove(bullets,i);
         end
+        for j, e in ipairs(enemies) do
+            if v.x > e.x and v.x < e.x + e.width and
+                v.y > e.y and v.y < e.y + e.height then
+                table.remove(enemies,j)
+                table.remove(bullets,i)  
+            end
+        end
     end
     
-    if distance(player.x,player.y,enemy.x,enemy.y) < 240 then
-        enemy.xvel = (player.x-enemy.x)*dt
-        enemy.x = enemy.x+enemy.xvel
-        enemy.yvel = (player.y-enemy.y)*dt
-        enemy.y = enemy.y+enemy.yvel
+    for i, e in ipairs(enemies) do
+        if distance(player.x,player.y,e.x,e.y) < 240 then
+            e.xvel = (player.x-e.x)*dt
+            e.x = e.x+e.xvel
+            e.yvel = (player.y-e.y)*dt
+            e.y = e.y+e.yvel
+        end
     end
     
     player.x = math.clamp(player.x,0,love.graphics:getWidth()-32)
@@ -99,7 +106,9 @@ function love.draw()
     --love.graphics.print(math.abs((dist2/dist1*360)*math.pi/180),0,0)
     love.graphics.print(table.getn(bullets),0,0)
     love.graphics.setColor(255,0,0)
-    love.graphics.rectangle("line",enemy.x,enemy.y,enemy.width,enemy.height)
+    for i, e in ipairs(enemies) do
+        love.graphics.rectangle("line",e.x,e.y,e.width,e.height)
+    end
     love.graphics.line(player.x,player.y,love.mouse:getX(),love.mouse:getY())
 	for i,bul in ipairs(bullets) do
 		love.graphics.circle("fill",bul.x,bul.y,3)
