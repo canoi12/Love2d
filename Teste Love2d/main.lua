@@ -41,7 +41,6 @@ function love.load()
     game.bgquad = love.graphics.newQuad(0,0,game.roomWidth,game.roomHeight,game.background:getDimensions())
     
     
-    
     bulletSpeed = 250
 end
 
