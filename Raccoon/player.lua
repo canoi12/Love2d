@@ -10,7 +10,7 @@ end
 function player.load()
     player.x = 320
     player.y = 240
-    player.speed = 150
+    player.speed = 250
     player.width = 32
     player.height = 32
     image = love.graphics.newImage("assets/6Actor_5.png")
@@ -98,6 +98,8 @@ end
 function player.update(dt)
     player.x = player.x + ((bool2int(love.keyboard.isDown("right"))-bool2int(love.keyboard.isDown("left")))*(player.speed*dt))
     player.y = player.y + ((bool2int(love.keyboard.isDown("down"))-bool2int(love.keyboard.isDown("up")))*(player.speed*dt))
+    player.x = math.clamp(player.x,0,game.roomWidth-player.width)
+    player.y = math.clamp(player.y,0,game.roomHeight-player.height)
     player.frameTime = player.frameTime - 0.01
     if player.frameAtual < table.getn(player.animAtual) and player.frameTime <= 0 then
         player.frameAtual = player.frameAtual + 1
