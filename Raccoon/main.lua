@@ -16,6 +16,10 @@ function math.clamp(v1,v2,v3)
     return v1
 end
 
+function math.lerp(v1,v2,v3)
+    return v1 + v3*(v2-v1)
+end
+
 
 function love.load()
     player.load()
@@ -28,8 +32,8 @@ end
 
 function love.update(dt)
     player.update(dt)
-    camera.x = math.clamp(player.x - (game.windowWidth/2),0,game.roomWidth-game.windowWidth)
-    camera.y = math.clamp(player.y - (game.windowHeight/2),0,game.roomHeight-game.windowHeight)
+    camera.x = math.lerp(camera.x,math.clamp(player.x - (game.windowWidth/2),0,game.roomWidth-game.windowWidth),0.1)
+    camera.y = math.lerp(camera.y,math.clamp(player.y - (game.windowHeight/2),0,game.roomHeight-game.windowHeight),0.1)
 end
 
 function love.draw()
