@@ -93,6 +93,7 @@ function player.load()
         }
     }
     player.animAtual = player.anim.walk.up
+    player.angle = 45*math.pi/180
 end
 
 function player.update(dt)
@@ -111,29 +112,37 @@ function player.update(dt)
     if love.keyboard.isDown("down") then
         if love.keyboard.isDown("left") then
             player.animAtual = player.anim.walk.downleft
+            player.angle = 135*math.pi/180
         elseif love.keyboard.isDown("right") then
             player.animAtual = player.anim.walk.downright
+            player.angle = 45*math.pi/180
         else
             player.animAtual = player.anim.walk.down
+            player.angle = 90*math.pi/180
         end
     elseif love.keyboard.isDown("up") then
         if love.keyboard.isDown("left") then
             player.animAtual = player.anim.walk.upleft
+            player.angle = 225*math.pi/180
         elseif love.keyboard.isDown("right") then
             player.animAtual = player.anim.walk.upright
+            player.angle = 315*math.pi/180
         else
             player.animAtual = player.anim.walk.up
+            player.angle = 270*math.pi/180
         end
     elseif love.keyboard.isDown("left") then
         player.animAtual = player.anim.walk.left
+        player.angle = 180*math.pi/180
     elseif love.keyboard.isDown("right") then
         player.animAtual = player.anim.walk.right
+        player.angle = 0*math.pi/180
     else
         player.frameAtual = 0    
     end
 end
 
 function player.draw()
-    love.graphics.draw(image,player.animAtual[player.frameAtual],player.x,player.y)
-    love.graphics.print(player.frameAtual,0,0)
+    love.graphics.draw(image,player.animAtual[player.frameAtual],player.x,player.y,0,1,1,16,16)
+    love.graphics.print(table.getn(bullets),player.x,player.y)
 end

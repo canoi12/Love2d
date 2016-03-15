@@ -1,5 +1,6 @@
 require "player"
 require "camera"
+require "bullet"
 
 game = {}
 game.roomWidth = 1280
@@ -28,12 +29,15 @@ function love.load()
     game.background:setWrap("repeat","repeat")
     
     game.bgquad = love.graphics.newQuad(0,0,game.roomWidth,game.roomHeight,game.background:getDimensions())
+    
+    bullet.load()
 end
 
 function love.update(dt)
     player.update(dt)
     camera.x = math.lerp(camera.x,math.clamp(player.x - (game.windowWidth/2),0,game.roomWidth-game.windowWidth),0.1)
     camera.y = math.lerp(camera.y,math.clamp(player.y - (game.windowHeight/2),0,game.roomHeight-game.windowHeight),0.1)
+    bullet.update(dt)
 end
 
 function love.draw()
@@ -41,5 +45,10 @@ function love.draw()
     love.graphics.draw(game.background,game.bgquad,0,0)
     player.draw()
     love.graphics.print(player.x,0,0)
+    bullet.draw()
     camera.unset()
+end
+
+function love.keypressed(key)
+    bullet.keypressed(key)
 end
