@@ -32,7 +32,8 @@ end
 
 function bullet.keypressed(key)
 
-    if key == "z" then
+    if key == "up" or key == "down" or
+       key == "left" or key == "right" then
         local startX = player.x
         local startY = player.y
         

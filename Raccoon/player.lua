@@ -93,12 +93,12 @@ function player.load()
         }
     }
     player.animAtual = player.anim.walk.up
-    player.angle = 45*math.pi/180
+    player.angle = 0
 end
 
 function player.update(dt)
-    player.x = player.x + ((bool2int(love.keyboard.isDown("right"))-bool2int(love.keyboard.isDown("left")))*(player.speed*dt))
-    player.y = player.y + ((bool2int(love.keyboard.isDown("down"))-bool2int(love.keyboard.isDown("up")))*(player.speed*dt))
+    player.x = player.x + ((bool2int(love.keyboard.isDown("d"))-bool2int(love.keyboard.isDown("a")))*(player.speed*dt))
+    player.y = player.y + ((bool2int(love.keyboard.isDown("s"))-bool2int(love.keyboard.isDown("w")))*(player.speed*dt))
     player.x = math.clamp(player.x,0,game.roomWidth-player.width)
     player.y = math.clamp(player.y,0,game.roomHeight-player.height)
     player.frameTime = player.frameTime - 0.01
@@ -109,36 +109,36 @@ function player.update(dt)
         player.frameAtual = 0
         player.frameTime = player.frameTimeInit
     end
-    if love.keyboard.isDown("down") then
-        if love.keyboard.isDown("left") then
+    if love.keyboard.isDown("s") then
+        if love.keyboard.isDown("a") then
             player.animAtual = player.anim.walk.downleft
-            player.angle = 135*math.pi/180
-        elseif love.keyboard.isDown("right") then
+        elseif love.keyboard.isDown("d") then
             player.animAtual = player.anim.walk.downright
-            player.angle = 45*math.pi/180
         else
             player.animAtual = player.anim.walk.down
-            player.angle = 90*math.pi/180
         end
-    elseif love.keyboard.isDown("up") then
-        if love.keyboard.isDown("left") then
+    elseif love.keyboard.isDown("w") then
+        if love.keyboard.isDown("a") then
             player.animAtual = player.anim.walk.upleft
-            player.angle = 225*math.pi/180
-        elseif love.keyboard.isDown("right") then
+        elseif love.keyboard.isDown("d") then
             player.animAtual = player.anim.walk.upright
-            player.angle = 315*math.pi/180
         else
             player.animAtual = player.anim.walk.up
-            player.angle = 270*math.pi/180
         end
-    elseif love.keyboard.isDown("left") then
+    elseif love.keyboard.isDown("a") then
         player.animAtual = player.anim.walk.left
-        player.angle = 180*math.pi/180
-    elseif love.keyboard.isDown("right") then
+    elseif love.keyboard.isDown("d") then
         player.animAtual = player.anim.walk.right
-        player.angle = 0*math.pi/180
     else
         player.frameAtual = 0    
+    end
+    
+    if love.keyboard.isDown("left") or love.keyboard.isDown("right") then
+        player.angle = 180*(bool2int(love.keyboard.isDown("left")))*math.pi/180
+    end    
+    
+    if love.keyboard.isDown("down") or love.keyboard.isDown("up") then
+        player.angle = (90+(180*(bool2int(love.keyboard.isDown("up")))))*math.pi/180
     end
 end
 
