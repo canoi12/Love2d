@@ -19,6 +19,14 @@ function bullet.draw()
             b.y > camera.y + game.windowHeight or b.y < camera.y then
             table.remove(bullets,i)     
        end
+       
+       for j,e in ipairs(enemies) do
+            if b.x > e.x and b.x < e.x+e.width and
+                b.y > e.y and b.y < e.y + e.height then
+                table.remove(enemies,j)  
+                table.remove(bullets,i)  
+            end
+       end
     end
 end
 

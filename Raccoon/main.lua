@@ -1,6 +1,7 @@
 require "player"
 require "camera"
 require "bullet"
+require "enemy"
 
 game = {}
 game.roomWidth = 1280
@@ -21,6 +22,10 @@ function math.lerp(v1,v2,v3)
     return v1 + v3*(v2-v1)
 end
 
+function distance(x1,y1,x2,y2)
+    return math.sqrt(((x1-x2)*(x1-x2))+((y1-y2)*(y1-y2)))
+end
+
 
 function love.load()
     player.load()
@@ -31,6 +36,7 @@ function love.load()
     game.bgquad = love.graphics.newQuad(0,0,game.roomWidth,game.roomHeight,game.background:getDimensions())
     
     bullet.load()
+    enemy.load()
 end
 
 function love.update(dt)
@@ -38,6 +44,7 @@ function love.update(dt)
     camera.x = math.lerp(camera.x,math.clamp(player.x - (game.windowWidth/2),0,game.roomWidth-game.windowWidth),0.1)
     camera.y = math.lerp(camera.y,math.clamp(player.y - (game.windowHeight/2),0,game.roomHeight-game.windowHeight),0.1)
     bullet.update(dt)
+    enemy.update(dt)
 end
 
 function love.draw()
@@ -46,6 +53,7 @@ function love.draw()
     player.draw()
     love.graphics.print(player.x,0,0)
     bullet.draw()
+    enemy.draw()
     camera.unset()
 end
 
