@@ -7,7 +7,7 @@ end
 
 function enemy.update(dt)
     while table.getn(enemies) < 20 do
-        newEnemy = {x = math.random(game.roomWidth), y = math.random(game.roomHeight),width = 32, height = 32}
+        newEnemy = {x = math.random(game.roomWidth-32), y = math.random(game.roomHeight-32),width = 32, height = 32}
         table.insert(enemies,newEnemy)
     end
     

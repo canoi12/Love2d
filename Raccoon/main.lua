@@ -35,6 +35,30 @@ function love.load()
     
     game.bgquad = love.graphics.newQuad(0,0,game.roomWidth,game.roomHeight,game.background:getDimensions())
     
+    i = 0
+    
+    shader = love.graphics.newShader[[
+        extern number i;
+        vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords){
+            texture_coords.x = texture_coords.x + sin(texture_coords.y*20.0+i)/30.0;
+            texture_coords.y = texture_coords.y + cos(texture_coords.x*20.0+i)/30.0;
+            vec4 pixel = Texel(texture, texture_coords);
+            return pixel*color;
+        }
+    ]]
+    
+    local img = love.graphics.newImage("assets/circle.png")
+    
+    psystem = love.graphics.newParticleSystem(img,32)
+    
+    psystem:setParticleLifetime(2,5)
+    psystem:setEmissionRate(5)
+    psystem:setSizeVariation(1)
+    psystem:setLinearAcceleration(10,10,12,12)
+    psystem:setColors(255,255,255,255,255,255,255,0)
+    psystem:setSpeed(2,3)
+    
+    
     bullet.load()
     enemy.load()
 end
@@ -45,11 +69,23 @@ function love.update(dt)
     camera.y = math.lerp(camera.y,math.clamp(player.y - (game.windowHeight/2),0,game.roomHeight-game.windowHeight),0.1)
     bullet.update(dt)
     enemy.update(dt)
+    i = i + 0.1
+    if i%(math.pi*2) == 0 then
+        i = 0
+    end
+    shader:send("i",i)
+    psystem:update(dt)
 end
 
 function love.draw()
     camera.set()
+    love.graphics.setShader(shader)
     love.graphics.draw(game.background,game.bgquad,0,0)
+    love.graphics.setShader()
+    for i, b in ipairs(bullets) do
+        love.graphics.draw(psystem,b.x,b.y)
+        psystem:setLinearAcceleration(-b.dx,-b.dy,-b.dx,-b.dy)
+    end
     player.draw()
     love.graphics.print(player.x,0,0)
     bullet.draw()

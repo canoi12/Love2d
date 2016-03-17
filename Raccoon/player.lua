@@ -29,66 +29,66 @@ function player.load()
             up = {
                 [0] = love.graphics.newQuad(0,3*player.height,player.width,player.height,image:getDimensions()),
                 [1] = love.graphics.newQuad(32,3*player.height,player.width,player.height,image:getDimensions()),
-                [2] = love.graphics.newQuad(2*32,3*player.height,player.width,player.height,image:getDimensions()),
-                [3] = love.graphics.newQuad(3*32,3*player.height,player.width,player.height,image:getDimensions()),
-                [4] = love.graphics.newQuad(4*32,3*player.height,player.width,player.height,image:getDimensions()),
-                [5] = love.graphics.newQuad(5*32,3*player.height,player.width,player.height,image:getDimensions())
+                [2] = love.graphics.newQuad(2*player.width,3*player.height,player.width,player.height,image:getDimensions()),
+                [3] = love.graphics.newQuad(3*player.width,3*player.height,player.width,player.height,image:getDimensions()),
+                [4] = love.graphics.newQuad(4*player.width,3*player.height,player.width,player.height,image:getDimensions()),
+                [5] = love.graphics.newQuad(5*player.width,3*player.height,player.width,player.height,image:getDimensions())
             },
             upleft = {
                 [0] = love.graphics.newQuad(0,6*player.height,player.width,player.height,image:getDimensions()),
                 [1] = love.graphics.newQuad(32,6*player.height,player.width,player.height,image:getDimensions()),
-                [2] = love.graphics.newQuad(2*32,6*player.height,player.width,player.height,image:getDimensions()),
-                [3] = love.graphics.newQuad(3*32,6*player.height,player.width,player.height,image:getDimensions()),
-                [4] = love.graphics.newQuad(4*32,6*player.height,player.width,player.height,image:getDimensions()),
-                [5] = love.graphics.newQuad(5*32,6*player.height,player.width,player.height,image:getDimensions())
+                [2] = love.graphics.newQuad(2*player.width,6*player.height,player.width,player.height,image:getDimensions()),
+                [3] = love.graphics.newQuad(3*player.width,6*player.height,player.width,player.height,image:getDimensions()),
+                [4] = love.graphics.newQuad(4*player.width,6*player.height,player.width,player.height,image:getDimensions()),
+                [5] = love.graphics.newQuad(5*player.width,6*player.height,player.width,player.height,image:getDimensions())
             },
             upright = {
                 [0] = love.graphics.newQuad(0,7*player.height,player.width,player.height,image:getDimensions()),
                 [1] = love.graphics.newQuad(32,7*player.height,player.width,player.height,image:getDimensions()),
-                [2] = love.graphics.newQuad(2*32,7*player.height,player.width,player.height,image:getDimensions()),
-                [3] = love.graphics.newQuad(3*32,7*player.height,player.width,player.height,image:getDimensions()),
-                [4] = love.graphics.newQuad(4*32,7*player.height,player.width,player.height,image:getDimensions()),
-                [5] = love.graphics.newQuad(5*32,7*player.height,player.width,player.height,image:getDimensions())
+                [2] = love.graphics.newQuad(2*player.width,7*player.height,player.width,player.height,image:getDimensions()),
+                [3] = love.graphics.newQuad(3*player.width,7*player.height,player.width,player.height,image:getDimensions()),
+                [4] = love.graphics.newQuad(4*player.width,7*player.height,player.width,player.height,image:getDimensions()),
+                [5] = love.graphics.newQuad(5*player.width,7*player.height,player.width,player.height,image:getDimensions())
             },
             down = {
                 [0] = love.graphics.newQuad(0,0*player.height,player.width,player.height,image:getDimensions()),
                 [1] = love.graphics.newQuad(32,0*player.height,player.width,player.height,image:getDimensions()),
-                [2] = love.graphics.newQuad(2*32,0*player.height,player.width,player.height,image:getDimensions()),
-                [3] = love.graphics.newQuad(3*32,0*player.height,player.width,player.height,image:getDimensions()),
-                [4] = love.graphics.newQuad(4*32,0*player.height,player.width,player.height,image:getDimensions()),
-                [5] = love.graphics.newQuad(5*32,0*player.height,player.width,player.height,image:getDimensions())
+                [2] = love.graphics.newQuad(2*player.width,0*player.height,player.width,player.height,image:getDimensions()),
+                [3] = love.graphics.newQuad(3*player.width,0*player.height,player.width,player.height,image:getDimensions()),
+                [4] = love.graphics.newQuad(4*player.width,0*player.height,player.width,player.height,image:getDimensions()),
+                [5] = love.graphics.newQuad(5*player.width,0*player.height,player.width,player.height,image:getDimensions())
             },
             downleft = {
                [0] = love.graphics.newQuad(0,4*player.height,player.width,player.height,image:getDimensions()),
                 [1] = love.graphics.newQuad(32,4*player.height,player.width,player.height,image:getDimensions()),
-                [2] = love.graphics.newQuad(2*32,4*player.height,player.width,player.height,image:getDimensions()),
-                [3] = love.graphics.newQuad(3*32,4*player.height,player.width,player.height,image:getDimensions()),
-                [4] = love.graphics.newQuad(4*32,4*player.height,player.width,player.height,image:getDimensions()),
-                [5] = love.graphics.newQuad(5*32,4*player.height,player.width,player.height,image:getDimensions()) 
+                [2] = love.graphics.newQuad(2*player.width,4*player.height,player.width,player.height,image:getDimensions()),
+                [3] = love.graphics.newQuad(3*player.width,4*player.height,player.width,player.height,image:getDimensions()),
+                [4] = love.graphics.newQuad(4*player.width,4*player.height,player.width,player.height,image:getDimensions()),
+                [5] = love.graphics.newQuad(5*player.width,4*player.height,player.width,player.height,image:getDimensions()) 
             },
             downright = {
                [0] = love.graphics.newQuad(0,5*player.height,player.width,player.height,image:getDimensions()),
                 [1] = love.graphics.newQuad(32,5*player.height,player.width,player.height,image:getDimensions()),
-                [2] = love.graphics.newQuad(2*32,5*player.height,player.width,player.height,image:getDimensions()),
-                [3] = love.graphics.newQuad(3*32,5*player.height,player.width,player.height,image:getDimensions()),
-                [4] = love.graphics.newQuad(4*32,5*player.height,player.width,player.height,image:getDimensions()),
-                [5] = love.graphics.newQuad(5*32,5*player.height,player.width,player.height,image:getDimensions()) 
+                [2] = love.graphics.newQuad(2*player.width,5*player.height,player.width,player.height,image:getDimensions()),
+                [3] = love.graphics.newQuad(3*player.width,5*player.height,player.width,player.height,image:getDimensions()),
+                [4] = love.graphics.newQuad(4*player.width,5*player.height,player.width,player.height,image:getDimensions()),
+                [5] = love.graphics.newQuad(5*player.width,5*player.height,player.width,player.height,image:getDimensions()) 
             },
             left = {
                 [0] = love.graphics.newQuad(0,1*player.height,player.width,player.height,image:getDimensions()),
                 [1] = love.graphics.newQuad(32,1*player.height,player.width,player.height,image:getDimensions()),
-                [2] = love.graphics.newQuad(2*32,1*player.height,player.width,player.height,image:getDimensions()),
-                [3] = love.graphics.newQuad(3*32,1*player.height,player.width,player.height,image:getDimensions()),
-                [4] = love.graphics.newQuad(4*32,1*player.height,player.width,player.height,image:getDimensions()),
-                [5] = love.graphics.newQuad(5*32,1*player.height,player.width,player.height,image:getDimensions())
+                [2] = love.graphics.newQuad(2*player.width,1*player.height,player.width,player.height,image:getDimensions()),
+                [3] = love.graphics.newQuad(3*player.width,1*player.height,player.width,player.height,image:getDimensions()),
+                [4] = love.graphics.newQuad(4*player.width,1*player.height,player.width,player.height,image:getDimensions()),
+                [5] = love.graphics.newQuad(5*player.width,1*player.height,player.width,player.height,image:getDimensions())
             },
             right = {
                 [0] = love.graphics.newQuad(0,2*player.height,player.width,player.height,image:getDimensions()),
                 [1] = love.graphics.newQuad(32,2*player.height,player.width,player.height,image:getDimensions()),
-                [2] = love.graphics.newQuad(2*32,2*player.height,player.width,player.height,image:getDimensions()),
-                [3] = love.graphics.newQuad(3*32,2*player.height,player.width,player.height,image:getDimensions()),
-                [4] = love.graphics.newQuad(4*32,2*player.height,player.width,player.height,image:getDimensions()),
-                [5] = love.graphics.newQuad(5*32,2*player.height,player.width,player.height,image:getDimensions())
+                [2] = love.graphics.newQuad(2*player.width,2*player.height,player.width,player.height,image:getDimensions()),
+                [3] = love.graphics.newQuad(3*player.width,2*player.height,player.width,player.height,image:getDimensions()),
+                [4] = love.graphics.newQuad(4*player.width,2*player.height,player.width,player.height,image:getDimensions()),
+                [5] = love.graphics.newQuad(5*player.width,2*player.height,player.width,player.height,image:getDimensions())
             }
         }
     }

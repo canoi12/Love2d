@@ -3,6 +3,17 @@ bullet = {}
 
 function bullet.load()
     bulletSpeed = 300
+    
+    local img = love.graphics.newImage("assets/circle.png")
+    
+    bullet.psystem = love.graphics.newParticleSystem(img,32)
+    
+    bullet.psystem:setParticleLifetime(2,5)
+    bullet.psystem:setEmissionRate(5)
+    bullet.psystem:setSizeVariation(1)
+    bullet.psystem:setLinearAcceleration(10,10,12,12)
+    bullet.psystem:setColors(255,255,255,255,255,255,255,0)
+    bullet.psystem:setSpeed(2,3)
 end
 
 function bullet.update(dt)
