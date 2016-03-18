@@ -47,6 +47,27 @@ function love.load()
         }
     ]]
     
+    shadow = love.graphics.newShader[[
+        extern number mousex;
+        extern number mousey;
+
+
+        number distance(number x1, number y1, number x2, number y2){
+            return sqrt(((x1-x2)*(x1-x2))+((y1-y2)*(y1-y2)));
+        }
+        vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords){
+            vec4 pixel = Texel(texture, texture_coords);
+            number raio = 320;
+
+            number dist = distance(screen_coords.x,screen_coords.y,mousex,mousey);
+            if(dist > raio){
+                pixel.rgb = vec3(0.0);
+            }
+            
+            return pixel*color;
+        }
+    ]]
+    
     local img = love.graphics.newImage("assets/circle.png")
     
     psystem = love.graphics.newParticleSystem(img,32)
@@ -74,22 +95,31 @@ function love.update(dt)
         i = 0
     end
     shader:send("i",i)
+    shadow:send("mousex",love.mouse.getX())
+    shadow:send("mousey",love.mouse.getY())
+
+    --[[shadow:send("playerx",player.x)
+    shadow:send("playery",player.y)
+    
+    shadow:send("playerw",player.width)
+    shadow:send("playerh",player.height)--]]
     psystem:update(dt)
 end
 
 function love.draw()
     camera.set()
-    love.graphics.setShader(shader)
+    love.graphics.setShader(shadow)
+    --love.graphics.setShader(shader)
     love.graphics.draw(game.background,game.bgquad,0,0)
-    love.graphics.setShader()
+    --love.graphics.setShader()
     for i, b in ipairs(bullets) do
         love.graphics.draw(psystem,b.x,b.y)
-        psystem:setLinearAcceleration(-b.dx,-b.dy,-b.dx,-b.dy)
     end
     player.draw()
     love.graphics.print(player.x,0,0)
     bullet.draw()
     enemy.draw()
+    love.graphics.setShader()
     camera.unset()
 end
 
