@@ -18,7 +18,7 @@ function bullet.update(dt)
             table.remove(bullets,i)    
         end
         for j, e in ipairs(enemies) do
-            if b.x > e.x and b.x < e.x + e.width and b.y > e.y and b.y < e.y + e.height then
+            if distance(b.x,b.y,e.x,e.y) < e.width+8 then
                 table.remove(enemies,j)
                 table.remove(bullets,i)
             end
