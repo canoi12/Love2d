@@ -3,8 +3,8 @@ require "bullet"
 require "enemy"
 
 game = {}
-game.roomWidth = 1440
-game.roomHeight = 900
+game.roomWidth = 1024
+game.roomHeight = 768
 
 function Clamp(v1,v2,v3)
     return math.max(v2,math.min(v1,v3))

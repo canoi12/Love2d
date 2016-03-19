@@ -108,10 +108,9 @@ end
 
 function love.draw()
     camera.set()
-    love.graphics.setShader(shadow)
-    --love.graphics.setShader(shader)
+    love.graphics.setShader(shader)
     love.graphics.draw(game.background,game.bgquad,0,0)
-    --love.graphics.setShader()
+    love.graphics.setShader()
     for i, b in ipairs(bullets) do
         love.graphics.draw(psystem,b.x,b.y)
     end
@@ -119,7 +118,6 @@ function love.draw()
     love.graphics.print(player.x,0,0)
     bullet.draw()
     enemy.draw()
-    love.graphics.setShader()
     camera.unset()
 end
 
