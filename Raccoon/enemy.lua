@@ -20,6 +20,6 @@ end
 
 function enemy.draw()
     for i,e in ipairs(enemies) do
-        love.graphics.draw(enemy.image,e.x,e.y,0,1,1,16,16)
+        love.graphics.draw(enemy.image,e.x,e.y,0,1,1,0,0)
     end
 end
