@@ -76,6 +76,7 @@ function nave.load()
     }
     nave.animAtual = nave.anim.inicio[0].frames
     nave.imageAtual = nave.anim.inicio[0]
+    nave.imageAtual.image:setFilter("nearest","nearest")
 end
 
 function nave.update(dt)
@@ -108,10 +109,12 @@ function nave.update(dt)
    
         nave.x = math.clamp(nave.x,0,game.roomWidth-80)
         nave.y = math.clamp(nave.y,50,game.roomHeight-80)
+        
     end
     
 end
 
 function nave.draw()
-    love.graphics.draw(nave.imageAtual.image,nave.animAtual[nave.frameAtual],nave.x,nave.y)
+    love.graphics.draw(nave.imageAtual.image,nave.animAtual[nave.frameAtual],nave.x,nave.y,0,1,1,
+    40,40)
 end

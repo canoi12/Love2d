@@ -3,6 +3,7 @@ require "canhao"
 require "player"
 require "jogo"
 require "background"
+require "bullet"
 
 game = {}
 game.roomWidth = 720
@@ -30,6 +31,7 @@ function love.load()
     canhao.load()
     jogo.load()
     nave.load()
+    bullet.load()
 end
 
 function love.update(dt)
@@ -40,10 +42,8 @@ function love.update(dt)
         menu.update(dt)
     elseif game.currentScreen == "canhao" then
         canhao.update(dt)
-        nave.update(dt)
     elseif game.currentScreen == "jogo" then
         jogo.update(dt)
-        nave.update(dt)
     end
 end
 
@@ -53,9 +53,8 @@ function love.draw()
         menu.draw()
     elseif game.currentScreen == "canhao" then
         canhao.draw()
-        nave.draw()
     elseif game.currentScreen == "jogo" then
         jogo.draw()
-        nave.draw()
     end
+    love.graphics.print(love.timer.getFPS(),0,0)
 end

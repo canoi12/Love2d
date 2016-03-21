@@ -18,6 +18,7 @@ function canhao.update(dt)
     if love.keyboard.isDown("space") then
         game.currentScreen = "jogo"
     end
+    nave.update(dt)
 end
 
 function canhao.draw()
@@ -26,4 +27,5 @@ function canhao.draw()
     love.graphics.draw(canhao.bkg1,0,0)
     love.graphics.draw(canhao.gun.image,canhao.gun.x,canhao.gun.y)
     love.graphics.draw(canhao.bkg2,0,0)
+    nave.draw()
 end
