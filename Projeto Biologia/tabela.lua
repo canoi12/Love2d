@@ -11,17 +11,17 @@ end
 function tabela.find2(tab,i,j,v1,n,m)
     if tab[i][j] == v1 then
         tab[i][j] = 0
-        if i + 1 < n then
+        if i + 1 <= n then
             tabela.find2(tab,i+1,j,v1,n,m)
         end
-        if j + 1 < m then
+        if j + 1 <= m then
             tabela.find2(tab,i,j+1,v1,n,m)
         end
         if i - 1 > 0 then
             tabela.find2(tab,i-1,j,v1,n,m)
         end
         if j - 1 > 0 then
-            tabela.find2(tab,i,j-1,v1,n,m)
+            tabela.find2(tab,i,j-1,v1,n,m)      
         end
         return 1
     else
