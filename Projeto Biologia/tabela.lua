@@ -62,6 +62,7 @@ function tabela.load()
     tabela.height = love.graphics.getHeight()/m
     
     tabela.image = love.graphics.newImage("assets/1.png")
+    tabela.selimage = love.graphics.newImage("assets/selecao.png")
     
     tabela.quad = {
         [0] = love.graphics.newQuad(-32,-32,32,32,tabela.image:getDimensions()),
@@ -77,6 +78,8 @@ function tabela.update(dt)
 end
 
 function tabela.draw()
+    mousex = math.floor(love.mouse.getX()/tabela.width)
+    mousey = math.floor(love.mouse.getY()/tabela.height)
     love.graphics.setColor(255,255,255)
     for i=1,n do
         for j=1,m do
@@ -84,8 +87,10 @@ function tabela.draw()
         end
     end
     
-    love.graphics.print(math.floor(love.mouse.getX()/tabela.width),0,0)
-    love.graphics.print(math.floor(love.mouse.getY()/tabela.height),0,20)
+    love.graphics.draw(tabela.selimage,mousex*tabela.width,mousey*tabela.height)
+    
+    love.graphics.print(mousex,0,0)
+    love.graphics.print(mousey,0,20)
 end
 
 function tabela.mousepressed(x,y,bt)
