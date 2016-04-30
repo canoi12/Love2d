@@ -1,0 +1,85 @@
+Script started on Sat 23 Apr 2016 12:02:59 AM BRT
+]0;LowRezJamcanoi@canoi-X550LN:~/Documents/LowRezJam$ cd ..
+]0;Documentscanoi@canoi-X550LN:~/Documents$ cd ..
+]0;Homecanoi@canoi-X550LN:~$ cd ..
+]0;homecanoi@canoi-X550LN:/home$ cd.[K ..[K[K[K[Kd canoi/
+]0;Homecanoi@canoi-X550LN:~$ ls
+[0m[01;34mbin[0m        [01;34mGames[0m   main.c~   [01;34mPublic[0m     [01;34mworkspace[0m
+[01;34mDocuments[0m  [01;32mmain[0m    [01;34mMusic[0m     [01;34mTemplates[0m
+[01;34mDownloads[0m  main.c  [01;34mPictures[0m  [01;34mVideos[0m
+]0;Homecanoi@canoi-X550LN:~$ cd bin
+]0;bincanoi@canoi-X550LN:~/bin$ chmod +x script
+]0;bincanoi@canoi-X550LN:~/bin$ ls
+[0m[01;32maplicativo[0m  [01;32meclipse[0m     [01;32mmain[0m      [01;32mscript[0m
+[01;34mcat [0m        [01;32mlove_games[0m  main.cpp  script~
+]0;bincanoi@canoi-X550LN:~/bin$ script
+/home/canoi/bin/script: line 24: syntax error near unexpected token `)'
+/home/canoi/bin/script: line 24: `        *) "Opção desconhecida." ; echo ; Principar ;;'
+]0;bincanoi@canoi-X550LN:~/bin$ script
+/home/canoi/bin/script: line 24: syntax error near unexpected token `)'
+/home/canoi/bin/script: line 24: `        *) "Opção desconhecida." ; echo ; Principal ;;'
+]0;bincanoi@canoi-X550LN:~/bin$ script
+/home/canoi/bin/script: line 24: syntax error near unexpected token `)'
+/home/canoi/bin/script: line 24: `        *) "Opção desconhecida." ; echo ; Principal ;; '
+]0;bincanoi@canoi-X550LN:~/bin$ script
+Exemplo de script shell
+-----------------------
+Opções:
+
+1. Transformar nomes de arquivos
+2. Addicionar um usuário no sistema
+3. Deletar um usuário no sistema
+4. Fazer backup dos arquivos do /etc
+5. Sair do exemplo
+
+Qual a opção deseja? 5
+]0;bincanoi@canoi-X550LN:~/bin$ script
+Exemplo de script shell
+-----------------------
+Opções:
+
+1. Transformar nomes de arquivos
+2. Addicionar um usuário no sistema
+3. Deletar um usuário no sistema
+4. Fazer backup dos arquivos do /etc
+5. Sair do exemplo
+
+Qual a opção deseja? 5
+]0;bincanoi@canoi-X550LN:~/bin$ script
+Exemplo de script shell
+-----------------------
+Opções:
+
+1. Transformar nomes de arquivos
+2. Adicionar um usuário no sistema
+3. Deletar um usuário no sistema
+4. Fazer backup dos arquivos do /etc
+5. Sair do exemplo
+
+Qual a opção deseja? 4
+cp: cannot stat ‘/etc/aplicativo’: No such file or directory
+mv: cannot stat ‘/etc/aplicativo.bck’: No such file or directory
+cp: cannot stat ‘/etc/cat’: No such file or directory
+mv: cannot stat ‘/etc/cat.bck’: No such file or directory
+cp: cannot stat ‘/etc/eclipse’: No such file or directory
+mv: cannot stat ‘/etc/eclipse.bck’: No such file or directory
+cp: cannot stat ‘/etc/love_games’: No such file or directory
+mv: cannot stat ‘/etc/love_games.bck’: No such file or directory
+cp: cannot stat ‘/etc/main’: No such file or directory
+mv: cannot stat ‘/etc/main.bck’: No such file or directory
+cp: cannot stat ‘/etc/main.cpp’: No such file or directory
+mv: cannot stat ‘/etc/main.cpp.bck’: No such file or directory
+cp: cannot stat ‘/etc/script’: No such file or directory
+mv: cannot stat ‘/etc/script.bck’: No such file or directory
+cp: cannot stat ‘/etc/script~’: No such file or directory
+mv: cannot stat ‘/etc/script~.bck’: No such file or directory
+cp: cannot stat ‘/etc//etc’: No such file or directory
+mv: cannot stat ‘/etc//etc.bck’: No such file or directory
+]0;bincanoi@canoi-X550LN:~/bin$ script[Cscriptuscriptdscriptoscript script
+[sudo] password for canoi: 
+Script started, file is typescript
+]0;binroot@canoi-X550LN:~/bin# love .cod[C[C[Clov[C[C[C[Kscript
+]0;scriptScript started, file is typescript
+]0;binroot@canoi-X550LN:~/bin# ls
+]0;ls --color=auto[0m[01;32maplicativo[0m  [01;32meclipse[0m     [01;32mmain[0m      [01;32mscript[0m   typescript
+[01;34mcat [0m        [01;32mlove_games[0m  main.cpp  scri

@@ -1,0 +1,1 @@
+playertest = gameobject:new()
