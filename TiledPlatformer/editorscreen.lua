@@ -99,6 +99,7 @@ function editorscreen:update(dt)
 	editorscreen:moveCamera(dt)
 	editorscreen:Drawing(dt)
 	if love.keyboard.isDown("return") then
+		gamescreen:loadMap('level1.map')
 		funcs:setScreen("game")
 	end
 end

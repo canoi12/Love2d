@@ -15,7 +15,9 @@ function player:walkState(dt)
 	end
 
 	for i,b in ipairs(objects) do
-		funcs:col4Sides(self,b,dt)
+		if funcs:col4Sides(self,b,dt) and (self.y + self.height <= b.y) then
+			self.vspeed = 0
+		end
 	end
 
 	if love.keyboard.isDown("up") and self.vspeed == 0 then

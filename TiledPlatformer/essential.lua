@@ -7,9 +7,9 @@ function func:distance(x1,x2,y1,y2)
 end
 
 function func:col4Sides(obj1,obj2,dt)
-		if obj1 == obj2 then
-			return -1
-		end
+	if obj1 == obj2 then
+		return -1
+	end
 	local w = 0.5*(obj1.width+obj2.width)
 	local h = 0.5*(obj1.height+obj2.height)
 	local dx = (obj1.x+(obj1.width/2)) - (obj2.x+(obj2.width/2)) -- Tem que ser o CenterX
@@ -17,6 +17,7 @@ function func:col4Sides(obj1,obj2,dt)
 	local dy = (obj1.y+(obj1.height/2)) - (obj2.y+(obj2.height/2)) -- Tem que ser o CenterY
 
 	if math.abs(dx) <= w and math.abs(dy) <= h then
+		print(obj1.type .. obj1.y)
 		dy = dy - vspeed
 		local wy = w*dy
 		local hx = h*dx
@@ -35,28 +36,20 @@ function func:col4Sides(obj1,obj2,dt)
 
 		--io.read()]]
 
-		if wy > hx then
-			if wy > -hx then
+		if wy >= hx then
+			if wy >= -hx then
 				obj1.y = obj2.y + obj2.height -- Colisão cima
-				if obj1.type == "enemy" and obj2 == Amora then
-					obj1.life = obj1.life - 1
-				end
 			else
 				obj1.x = obj2.x - obj1.width-- Colisão esquerda
 			end
 		else
-			if wy > -hx then
+			if wy >= -hx then
 				obj1.x = obj2.x + obj2.width-- Colisão direita
 			else
 				obj1.y = obj2.y - obj1.height-- Colisão baixo
-				if obj1 == Amora and obj2.type == "enemy" then
-					obj1.vspeed = -200
-					return true
-				end
-				obj1.vspeed = 0
 			end
 		end
-		return true
+		return -1
 	end
 	return false
 end
