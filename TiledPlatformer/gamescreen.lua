@@ -5,6 +5,8 @@ objects = {}
 
 function gamescreen:loadMap(name)
 	local map = love.filesystem.load(name)()
+	objects = {}
+	table.insert(objects,Amora)
 	for i,v in ipairs(map) do
 		if(v.type == 'enemy') then
 			local newEnemy = enemy:new(v.x,v.y,v.width,v.height)

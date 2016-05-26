@@ -13,7 +13,13 @@ function enemy:walkState(dt)
 		self.vspeed = 0
 	end	
 	for i,b in ipairs(objects) do
-		funcs:col4Sides(self,b,dt)
+		if funcs:col4Sides(self,b,dt) and self.y + self.width <= b.y then
+			self.vspeed = 0
+		end		
+		if b == Amora and funcs:col4Sides(self,b,dt) and Amora.y + Amora.height <= self.y + 1 then
+			print(funcs:col4Sides(self,b,dt))
+			self.life = self.life - 1;
+		end
 	end
 	self.x = funcs:Clamp(self.x,0,game.roomwidth-self.width)
 	self.y = funcs:Clamp(self.y,0,game.roomheight-self.height)
@@ -38,4 +44,5 @@ end
 
 function enemy:draw()
 	love.graphics.rectangle("line",self.x,self.y,self.width,self.height)
+	love.graphics.print(self.life,self.x,self.y)
 end
