@@ -49,8 +49,8 @@ function tabela.add(tab)
 end
 
 function tabela.load()
-    n = 16
-    m = 16
+    n = 5
+    m = 7
     math.randomseed(os.time())
     for i=1,n do
         tabuleiro[i] = {}
@@ -61,14 +61,16 @@ function tabela.load()
     tabela.width = love.graphics.getWidth()/n
     tabela.height = love.graphics.getHeight()/m
     
-    tabela.image = love.graphics.newImage("assets/1.png")
+    tabela.image = love.graphics.newImage("assets/icones.png")
     tabela.selimage = love.graphics.newImage("assets/selecao.png")
+    tabela.imgWidth = 65
+    tabela.imgHeight = 65
     
     tabela.quad = {
         [0] = love.graphics.newQuad(-32,-32,32,32,tabela.image:getDimensions()),
-        [1] = love.graphics.newQuad(0,0,32,32,tabela.image:getDimensions()),
-        [2] = love.graphics.newQuad(32,0,32,32,tabela.image:getDimensions()),
-        [3] = love.graphics.newQuad(64,0,32,32,tabela.image:getDimensions())
+        [1] = love.graphics.newQuad(0,0,tabela.imgWidth,tabela.imgHeight,tabela.image:getDimensions()),
+        [2] = love.graphics.newQuad(tabela.imgWidth,0,tabela.imgWidth,tabela.imgHeight,tabela.image:getDimensions()),
+        [3] = love.graphics.newQuad(tabela.imgWidth*2,0,tabela.imgWidth,tabela.imgHeight,tabela.image:getDimensions())
     }
 end
 
