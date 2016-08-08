@@ -1,0 +1,11 @@
+local objects = {
+    {
+        x=0,
+        y=320,
+        width=480,
+        height=50,
+        type="block" 
+    }, nil
+}
+
+return objects

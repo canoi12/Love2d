@@ -17,7 +17,7 @@ function func:col4Sides(obj1,obj2,dt)
 	local dy = (obj1.y+(obj1.height/2)) - (obj2.y+(obj2.height/2)) -- Tem que ser o CenterY
 
 	if math.abs(dx) <= w and math.abs(dy) <= h then
-		print(obj1.type .. obj1.y)
+		--print(obj1.type .. obj1.y)
 		dy = dy - vspeed
 		local wy = w*dy
 		local hx = h*dx
