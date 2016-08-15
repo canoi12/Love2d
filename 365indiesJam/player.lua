@@ -14,6 +14,7 @@ function player:load()
 
 	self.x = 50
 	self.y = 50
+	self.friction = 0.8
 
 	self:addAnim("idle",0,0,16,16,3)
 	self:addAnim("walk",0,16,16,16,6)
@@ -28,9 +29,9 @@ function player:move()
 	local yprevious = self.y
 
 	if keyLeft then
-		self.dx = -2
+		self.dx = -1.2
 	elseif keyRight then
-		self.dx = 2
+		self.dx = 1.2
 	end
 
 	if not(keyLeft or keyRight) then 
@@ -51,7 +52,7 @@ function player:move()
 		end
 		self.dy = self.dy * -self.bounce
 		if keyUp then
-			self.dy = -4
+			self.dy = -3.1
 		end
 	end
 
