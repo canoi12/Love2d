@@ -22,3 +22,17 @@ function utils.check_solid(x,y)
 	end
 	return false
 end
+
+function utils.approach(v1,v2,variation)
+	if v1 < (v2 + 0.001) and v1 > (v2 - 0.001) then
+		return v2
+	end
+
+	if v1 < v2 then
+		v1 = v1 + variation
+	elseif v1 > (v2) then
+		v1 = v1 - variation
+	end
+
+	return v1
+end

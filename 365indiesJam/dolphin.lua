@@ -12,6 +12,8 @@ function dolphin:load()
 
 	self:addAnim("idle",0,0,16,16,4)
 	self:addAnim("walk",0,16,16,16,6)
+	self.bounce = 0.2
+	self.animSpeed=0.25
 
 	self.image:setFilter("nearest","nearest")
 end

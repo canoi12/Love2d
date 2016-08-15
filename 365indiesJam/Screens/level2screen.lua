@@ -12,16 +12,16 @@ function level2:load()
 
 	table.insert(self.objects,player:new())
 	local dol = dolphin:new()
-	table.insert(self.objects,dol)
+	--table.insert(self.objects,dol)
 	self.bg_quad = love.graphics.newQuad(0,0,self.map.test.width*16, self.map.test.height*16, self.bg_image:getDimensions())
 end
 
 function level2:update(dt)
-	camera.x = -self.objects[1].x+64
-	camera.y = -self.objects[1].y+64
 	for i,v in ipairs(self.objects) do
 		v:update(dt)
 	end
+	camera.x = -self.objects[1].x+64
+	camera.y = -self.objects[1].y+64
 	--player:update(dt)
 	--dol:update(dt)
 end

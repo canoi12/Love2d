@@ -12,8 +12,9 @@ function level1:load()
 	self.bg_image:setWrap("repeat","repeat")
 
 	table.insert(self.objects,player:new())
-	local dol = dolphin:new()
-	table.insert(self.objects,dol)
+	--local dol = dolphin:new()
+	--table.insert(self.objects,dol)
+	self:getObjects(self.objects)
 	self.bg_quad = love.graphics.newQuad(0,0,self.map.test.width*16, self.map.test.height*16, self.bg_image:getDimensions())
 end
 
@@ -22,14 +23,14 @@ function level1:reset()
 end
 
 function level1:update(dt)
-	camera.x = -self.objects[1].x+64
-	camera.y = -self.objects[1].y+64
 	for i,v in ipairs(level1.objects) do
 		v:update(dt)
 	end
 	if love.keyboard.isDown("z") then
 		screenmanager:setScreen("level2")
 	end
+	camera.x = -self.objects[1].x+64
+	camera.y = -self.objects[1].y+64
 	--player:update(dt)
 	--dol:update(dt)
 end

@@ -21,9 +21,12 @@ gameobject.image=nil --imagem
 gameobject.anim={} --tabela contendo as animações
 gameobject.frame=1 --frame atual
 gameobject.animTime=0 --tempo para trocar de frame
+gameobject.animSpeed=0.15
 gameobject.actualAnim="" --animação atual
 gameobject.kind=0
 gameobject.flip=1
+
+gameobject.isGround = false
 
 function gameobject:new(o)
 	o = o or {}
@@ -54,7 +57,7 @@ function gameobject:playAnim()
 		self.animTime = 0
 		self.frame =  self.frame + 1
 	else
-		self.animTime = self.animTime + 0.15
+		self.animTime = self.animTime + self.animSpeed
 	end
 
 	if self.frame >= table.getn(self.anim[self.actualAnim]) then

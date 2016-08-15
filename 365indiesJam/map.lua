@@ -14,15 +14,23 @@ function map:updateTilesetBatch()
 		k=0
 		x = 0
 		y = 0
-		for i,v in ipairs(datav.data) do
-			if v ~= 0 then
-				self.tilesetBatch:add(self.tilemap[v],x*16,y*16)
+		if datav.type == "tilelayer" then
+			for i,v in ipairs(datav.data) do
+				if v ~= 0 then
+					self.tilesetBatch:add(self.tilemap[v],x*16,y*16)
+				end
+				x = x + 1
+				if x >= self.test.width then
+					x = 0
+					y = y + 1
+				end
 			end
-			x = x + 1
-			if x >= self.test.width then
-				x = 0
-				y = y + 1
-			end
+		--[[elseif datav.type == "objectgroup" then
+			for i,v in ipairs(datav.objects) do
+				if v.name == "Dolphin" then
+					table.insert(self.objects,solphin:new{x=v.x,y=v.y})
+				end
+			end]]
 		end
 	end
 	self.tilesetBatch:flush()
@@ -33,6 +41,7 @@ function map:loadMap(name)
 	self.test=self.map()
 	self.image = {}
 	self.tmap = {}
+	self.objects={}
 	data = self.test.layers[1].data
 	self.tilemap = {}
 	x = 0
