@@ -1,5 +1,11 @@
 player = gameobject:new{}
-
+player.sword={}
+player.bbox = {
+	left = 0,
+	right = 16,
+	top = 0,
+	bottom = 16
+}
 
 function player:new(o)
 	o = o or {}
@@ -8,9 +14,10 @@ function player:new(o)
 end
 
 function player:load()
-	self.image = love.graphics.newImage("Assets/warrior.png")
+	self.image = love.graphics.newImage("Assets/warrior2.png")
 	self.image:setFilter("nearest","nearest")
 	self.kind=1
+	self.type = "player"
 
 	self.x = 50
 	self.y = 50
@@ -18,6 +25,8 @@ function player:load()
 
 	self:addAnim("idle",0,0,16,16,3)
 	self:addAnim("walk",0,16,16,16,6)
+
+	self.sword = sword:new()
 end
 
 function player:move()
@@ -75,6 +84,12 @@ function player:move()
 	end
 
 
+	self.sword.x = self.x
+	self.sword.y = self.y
+	self.sword.flip = self.flip
+
+	self.sword:update(dt)
+
 	self.x = self.x + self.dx
 	self.y = self.y + self.dy
 
@@ -98,5 +113,7 @@ function player:update(dt)
 end
 
 function player:draw()
-	love.graphics.draw(self.image, player.anim[self.actualAnim][self.frame],self.x, self.y, 0, self.flip*self.xscale, self.yscale, self.xorigin, self.yorigin)
+	love.graphics.draw(self.image, player.anim[self.actualAnim][self.frame],self.x, self.y, self.angle, self.flip*self.xscale, self.yscale, self.xorigin, self.yorigin)
+	--love.graphics.rectangle("line",self.x+self.bbox.left-self.xorigin,self.y+self.bbox.top-self.yorigin, self.bbox.right-self.bbox.left,self.bbox.bottom-self.bbox.top)
+	self.sword:draw()
 end

@@ -1,23 +1,13 @@
 gameobject = {}
 
-gameobject.x = 0
-gameobject.y = 0
-gameobject.dx = 0
-gameobject.dy = 0
-gameobject.grav = 0.2
-gameobject.anim ={}
-gameobject.animTime=0
-gameobject.actualAnim="idle"
-gameobject.teste={}
-gameobject.frame = 1
-gameobject.image=nil
-
 
 
 function gameobject:new(o)
 	o = o or {}
 	self:load()
-	return setmetatable(o, {__index=self})
+	setmetatable(o, self)
+	self.__index = self
+	return o
 end
 
 function gameobject:addAnim(name,x,y,frmWid,frmHei,numImages)
@@ -50,6 +40,17 @@ function gameobject:move(x)
 end
 
 function gameobject:load()
+	self.x = 0
+	self.y = 0
+	self.dx = 0
+	self.dy = 0
+	self.grav = 0.2
+	self.anim ={}
+	self.animTime=0
+	self.actualAnim="idle"
+	self.teste={}
+	self.frame = 1
+	self.image=nil
 end
 
 function gameobject:update(dt)

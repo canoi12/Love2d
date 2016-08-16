@@ -12,6 +12,7 @@ end
 function love.update(dt)
 	for i,obj in ipairs(objects) do
 		obj:update(dt)
+		print(obj.teste)
 	end
 end
 

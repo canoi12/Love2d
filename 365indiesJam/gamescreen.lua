@@ -1,6 +1,14 @@
 gamescreen={}
 gamescreen.map={}
 gamescreen.objects={}
+gamescreen.background={
+	image = nil,
+	quad = nil,
+	x=0,
+	y=0,
+	dx=0,
+	dy=0
+}
 
 
 function gamescreen:new(o)
@@ -20,6 +28,8 @@ function gamescreen:getObjects()
 			for i,v in ipairs(datav.objects) do
 				if v.name == "Dolphin" then
 					table.insert(self.objects,dolphin:new{x=v.x,y=v.y})
+				elseif v.name == "Coelho" then
+					table.insert(self.objects,bunny:new{x=v.x,y=v.y})
 				end
 			end
 		end

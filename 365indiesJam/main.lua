@@ -1,5 +1,3 @@
-Base = require 'knife'
-
 require "gameobject"
 require "player"
 require "utils"
@@ -7,6 +5,9 @@ require "map"
 require "gamescreen"
 require "enemy"
 require "dolphin"
+require "coelho"
+require "swordcol"
+require "sword"
 require "screenmanager"
 require "Screens/menuscreen"
 require "Screens/level1screen"
@@ -37,7 +38,6 @@ end
 function love.draw()
 	love.graphics.push()
 	love.graphics.scale(4,4)
-	love.graphics.translate(camera.x, camera.y)
 	screenmanager:draw()
 	love.graphics.pop()
 end

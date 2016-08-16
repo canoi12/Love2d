@@ -8,7 +8,7 @@ return {
   height = 8,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 1,
+  nextobjectid = 15,
   properties = {},
   tilesets = {
     {
@@ -109,6 +109,102 @@ return {
         0, 0, 23, 24, 0, 8, 0, 8, 0, 0, 0, 23, 24, 0, 23, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 23, 24, 0, 0, 8, 0, 0, 23, 24, 0, 0, 0, 0, 0, 0, 0, 0, 23, 24, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 24, 8, 23, 24, 0, 0, 0, 8, 0, 0, 0, 0, 0, 16, 17,
         0, 0, 0, 0, 0, 15, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 15, 0, 0, 8, 0, 0, 23, 24,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0
+      }
+    },
+    {
+      type = "objectgroup",
+      name = "Camada de Objetos 1",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 5,
+          name = "Dolphin",
+          type = "Enemy",
+          shape = "rectangle",
+          x = 1051,
+          y = 23.5,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 8,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 8,
+          name = "Dolphin",
+          type = "Enemy",
+          shape = "rectangle",
+          x = 1281,
+          y = 52.5,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 8,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 9,
+          name = "Dolphin",
+          type = "Enemy",
+          shape = "rectangle",
+          x = 1444,
+          y = 69.5,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 8,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 10,
+          name = "Dolphin",
+          type = "Enemy",
+          shape = "rectangle",
+          x = 1547,
+          y = 82.5,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 8,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 13,
+          name = "Coelho",
+          type = "Enemy",
+          shape = "rectangle",
+          x = 373,
+          y = 58.5,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 8,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 14,
+          name = "Coelho",
+          type = "Enemy",
+          shape = "rectangle",
+          x = 564,
+          y = 75.5,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 8,
+          visible = true,
+          properties = {}
+        }
       }
     }
   }

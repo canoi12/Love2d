@@ -1,4 +1,4 @@
-player=gameobject:new{anim={}}
+player=gameobject:new()
 
 
 player.image = love.graphics.newImage("warrior-idle.png")
@@ -10,7 +10,7 @@ function player:load()
 end
 
 function player:update(dt)
-	player:playAnim()
+	self:playAnim()
 	print("player",self.frame)
 	if self.y < 480 then
 		self.dy = self.dy + self.grav
@@ -20,9 +20,9 @@ function player:update(dt)
 	end
 
 	if love.keyboard.isDown("left") then
-		player:move(-2)
+		self:move(-2)
 	elseif love.keyboard.isDown("right") then
-		player:move(2)
+		self:move(2)
 	end
 
 	self.y = self.y + self.dy

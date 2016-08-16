@@ -8,7 +8,7 @@ function enemy:load()
 end
 
 function enemy:update(dt)
-	enemy:playAnim()
+	self:playAnim()
 	print("enemy",self.frame)
 	if self.y < 480 then
 		self.dy = self.dy + self.grav

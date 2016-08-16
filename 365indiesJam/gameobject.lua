@@ -25,6 +25,19 @@ gameobject.animSpeed=0.15
 gameobject.actualAnim="" --animação atual
 gameobject.kind=0
 gameobject.flip=1
+gameobject.angle=0
+gameobject.type=""
+gameobject.damage=false
+gameobject.damageTime=1
+
+gameobject.knockback=8
+
+gameobject.bbox = {
+	left = 0,
+	right = 16,
+	top = 0,
+	bottom= 16
+}
 
 gameobject.isGround = false
 
