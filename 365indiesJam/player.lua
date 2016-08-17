@@ -57,7 +57,7 @@ function player:collision(obj2)
 
 		if wy > hx then
 			if wy > -hx then
-				self.y = obj2.y + h
+				--self.y = obj2.y + h
 			else
 				self.x = obj2.x - w
 			end
@@ -65,7 +65,7 @@ function player:collision(obj2)
 			if wy > -hx then
 				self.x = obj2.x + w
 			else
-				self.y = obj2.y - h
+				--self.y = obj2.y - h
 			end
 		end
 		return true
@@ -113,7 +113,7 @@ function player:move()
 	end
 	--if self.y < 127-self.xorigin then
 	--if gamescreen.map.tmap[math.floor(((self.y-8)/16))+1][math.floor((self.x)/16)] ~= gamescreen.map.test.tilesets[1].tiles[1].id+1 then
-	if not utils.check_solid(self.x, self.y+16-10) then
+	if not utils.check_solid(self.x, self.y+6) and not(utils.check_through(self.x, self.y+8) and self.dy >= 0) then
 		self.dy = self.dy + self.gravity
 		self.isGround = false
 	else
@@ -123,17 +123,25 @@ function player:move()
 			self.xscale = 1.6
 			self.yscale = 0.6
 		end
-		while utils.check_solid(self.x,self.y-11+16) do
+		while utils.check_solid(self.x,self.y+5) do
 			self.y = self.y-1
+		end
+		while utils.check_through(self.x, self.y+7) do
+			self.y = self.y - 1
 		end
 		self.dy = self.dy * -self.bounce
 		if keyUp and not(oldKeyUp) then
-			self.dy = -3.2
+			self.dy = -3.5
 			self.xscale=0.4
 			self.yscale=1.8
 		end
 	end
 	oldKeyUp = keyUp
+
+	if utils.check_solid(self.x, self.y - 6) then
+		self.dy = 0
+		self.y = self.y + 1
+	end
 
 	if utils.check_solid(self.x-3+self.dx,self.y) or utils.check_solid(self.x+3+self.dx,self.y) then
 		self.dx = 0
@@ -144,6 +152,7 @@ function player:move()
 			self.x = self.x - 1.2
 		end
 	end
+
 
 
 	self.sword.x = self.x
@@ -162,7 +171,7 @@ function player:move()
 end
 
 function player:bounds()
-	self.x = math.max(self.xorigin,math.min(self.x, (screenmanager.currentScreen.map.test.width*16)-self.xorigin))
+	self.x = math.max(self.xorigin,math.min(self.x, (screenmanager.currentScreen.map.test.width*screenmanager.currentScreen.tileheight)-self.xorigin))
 
 end
 

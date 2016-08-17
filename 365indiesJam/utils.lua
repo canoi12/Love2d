@@ -13,13 +13,27 @@ end
 
 -- check if a position on the grid is solid
 function utils.check_solid(x,y)
-	if x < 0 or x >= (screenmanager.currentScreen.map.test.width)*16 or 
-	   y < 0 or y >= (screenmanager.currentScreen.map.test.height)*16 then
+	if x < 0 or x > (screenmanager.currentScreen.map.test.width)*screenmanager.currentScreen.tilewidth or 
+	   y < 0 or y > (screenmanager.currentScreen.map.test.height)*screenmanager.currentScreen.tileheight then
 		return false
 	end
 	local test = true
 	for i,v in ipairs(screenmanager.currentScreen.map.test.tilesets[1].tiles) do
-		if screenmanager.currentScreen.map.tmap[math.floor((y)/16)][math.floor((x)/16)] == v.id+1 and v.properties["solid"]==1 then
+		if screenmanager.currentScreen.map.tmap[math.floor((y)/screenmanager.currentScreen.tileheight)][math.floor((x)/screenmanager.currentScreen.tilewidth)] == v.id+1 and v.properties["solid"]==1 then
+			return true
+		end
+	end
+	return false
+end
+
+function utils.check_through(x,y)
+	if x < 0 or x > (screenmanager.currentScreen.map.test.width)*screenmanager.currentScreen.tilewidth or 
+	   y < 0 or y > (screenmanager.currentScreen.map.test.height)*screenmanager.currentScreen.tileheight then
+		return false
+	end
+	local test = true
+	for i,v in ipairs(screenmanager.currentScreen.map.test.tilesets[1].tiles) do
+		if screenmanager.currentScreen.map.tmap[math.floor((y)/screenmanager.currentScreen.tileheight)][math.floor((x)/screenmanager.currentScreen.tilewidth)] == v.id+1 and v.properties["solid"]==2 then
 			return true
 		end
 	end
@@ -48,8 +62,11 @@ function utils.distanceToPoint(x1,y1,x2,y2)
 end
 
 function utils.cameraBound()
-	camera.x = math.min(0,math.max(camera.x,-(screenmanager.currentScreen.map.test.width*16)+128))
-	camera.y = math.min(0,math.max(camera.y,-(screenmanager.currentScreen.map.test.height*16)+128))
+	--camera.x = math.min(0,math.max(camera.x,-(screenmanager.currentScreen.map.test.width*16)+128))
+	--camera.y = math.min(0,math.max(camera.y,-(screenmanager.currentScreen.map.test.height*16)+128))
+
+	camera.x = -global.width*math.floor(screenmanager.currentScreen.objects[1].x/global.width)
+	camera.y = -global.height*math.floor(screenmanager.currentScreen.objects[1].y/global.height)
 end
 
 function utils.collision(obj1, obj2)

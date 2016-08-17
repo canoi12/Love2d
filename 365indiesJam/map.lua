@@ -17,7 +17,7 @@ function map:updateTilesetBatch()
 		if datav.type == "tilelayer" then
 			for i,v in ipairs(datav.data) do
 				if v ~= 0 then
-					self.tilesetBatch:add(self.tilemap[v],x*16,y*16)
+					self.tilesetBatch:add(self.tilemap[v],x*self.test.tilewidth,y*self.test.tileheight)
 				end
 				x = x + 1
 				if x >= self.test.width then
@@ -43,6 +43,7 @@ function map:loadMap(name)
 	self.tmap = {}
 	self.objects={}
 	data = self.test.layers[1].data
+	print(table.getn(data))
 	self.tilemap = {}
 	x = 0
 	y = 0

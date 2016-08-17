@@ -51,7 +51,7 @@ function dolphin:collision(obj2)
 
 		if wy > hx then
 			if wy > -hx then
-				self.y = obj2.y + h
+				--self.y = obj2.y + h
 			else
 				self.x = obj2.x - w
 			end
@@ -59,7 +59,7 @@ function dolphin:collision(obj2)
 			if wy > -hx then
 				self.x = obj2.x + w
 			else
-				self.y = obj2.y - h
+				--self.y = obj2.y - h
 			end
 		end
 		return true
@@ -85,22 +85,33 @@ end
 function dolphin:move()
 	local xprevious = self.x
 	local yprevious = self.y
-	if not utils.check_solid(self.x, self.y-10+16) then
+	if not utils.check_solid(self.x, self.y+7) then
 		self.dy = self.dy + self.gravity
 	else
 		--while map.tmap[math.floor(((self.y-9)/16))+1][math.floor((self.x)/16)] == gamescreen.map.test.tilesets[1].tiles[1].id+1 do
-		while utils.check_solid(self.x,self.y-11+16) do
+		while utils.check_solid(self.x,self.y+6) do
 			self.y = self.y-1
 		end
 		self.dy = self.dy * -self.bounce
 	end
 
-	if not(utils.check_solid(self.x+16, self.y+16)) and utils.check_solid(self.x,self.y+16) then
+	if not(utils.check_solid(self.x+screenmanager.currentScreen.tilewidth, self.y+screenmanager.currentScreen.tileheight)) and utils.check_solid(self.x,self.y+screenmanager.currentScreen.tileheight) then
 		self.flip = -1
-	elseif not(utils.check_solid(self.x-16, self.y+16)) and utils.check_solid(self.x,self.y+16)  then
+	elseif not(utils.check_solid(self.x-screenmanager.currentScreen.tilewidth, self.y+screenmanager.currentScreen.tileheight)) and utils.check_solid(self.x,self.y+screenmanager.currentScreen.tileheight)  then
 		self.flip = 1
 	end
 
+	if utils.check_solid(self.x+8,self.y) then
+		self.flip = -1
+	elseif utils.check_solid(self.x-8, self.y) then
+		self.flip = 1
+	end
+
+	if self.x <= math.abs(camera.x) then
+		self.flip = 1 
+	elseif self.x >= math.abs(camera.x-global.width) then
+		self.flip = -1
+	end
 	if self.flip ~= 0 then
 		self:setAnim("walk")
 		--self.flip = self.dx

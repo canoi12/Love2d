@@ -51,7 +51,7 @@ function bunny:collision(obj2)
 
 		if wy > hx then
 			if wy > -hx then
-				self.y = obj2.y + h
+				--self.y = obj2.y + h
 			else
 				self.x = obj2.x - w
 			end
@@ -59,7 +59,7 @@ function bunny:collision(obj2)
 			if wy > -hx then
 				self.x = obj2.x + w
 			else
-				self.y = obj2.y - h
+				--self.y = obj2.y - h
 			end
 		end
 		return true
@@ -100,11 +100,11 @@ end
 function bunny:move()
 	local xprevious = self.x
 	local yprevious = self.y
-	if not utils.check_solid(self.x, self.y-10+16) then
+	if not utils.check_solid(self.x, self.y+6) then
 		self.dy = self.dy + self.gravity
 	else
 		--while map.tmap[math.floor(((self.y-9)/16))+1][math.floor((self.x)/16)] == gamescreen.map.test.tilesets[1].tiles[1].id+1 do
-		while utils.check_solid(self.x,self.y-11+16) do
+		while utils.check_solid(self.x,self.y+5) do
 			self.y = self.y-1
 		end
 		self.dy = self.dy * -self.bounce
