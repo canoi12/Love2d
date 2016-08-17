@@ -38,7 +38,7 @@ end
 
 function map:loadMap(name)
 	self.map = love.filesystem.load(name)
-	self.test=self.map()
+	self.test = self.map()
 	self.image = {}
 	self.tmap = {}
 	self.objects={}

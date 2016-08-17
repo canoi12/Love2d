@@ -40,6 +40,20 @@ function utils.check_through(x,y)
 	return false
 end
 
+function utils.check_trap(x,y)
+	if x < 0 or x > (screenmanager.currentScreen.map.test.width)*screenmanager.currentScreen.tilewidth or 
+	   y < 0 or y > (screenmanager.currentScreen.map.test.height)*screenmanager.currentScreen.tileheight then
+		return false
+	end
+	local test = true
+	for i,v in ipairs(screenmanager.currentScreen.map.test.tilesets[1].tiles) do
+		if screenmanager.currentScreen.map.tmap[math.floor((y)/screenmanager.currentScreen.tileheight)][math.floor((x)/screenmanager.currentScreen.tilewidth)] == v.id+1 and v.properties["trap"]==1 then
+			return true
+		end
+	end
+	return false
+end
+
 function utils.approach(v1,v2,variation)
 	if v1 < (v2 + 0.001) and v1 > (v2 - 0.001) then
 		return v2
@@ -64,9 +78,19 @@ end
 function utils.cameraBound()
 	--camera.x = math.min(0,math.max(camera.x,-(screenmanager.currentScreen.map.test.width*16)+128))
 	--camera.y = math.min(0,math.max(camera.y,-(screenmanager.currentScreen.map.test.height*16)+128))
-
+	local oldQuadrant = screenmanager.currentScreen.activequadrant
 	camera.x = -global.width*math.floor(screenmanager.currentScreen.objects[1].x/global.width)
 	camera.y = -global.height*math.floor(screenmanager.currentScreen.objects[1].y/global.height)
+	
+	camera.x = math.min(0,math.max(camera.x,-(screenmanager.currentScreen.map.test.width*16)+128))
+	camera.y = math.min(0,math.max(camera.y,-(screenmanager.currentScreen.map.test.height*16)+128))
+	
+
+	screenmanager.currentScreen.activequadrant = math.floor(screenmanager.currentScreen.objects[1].x/global.width) + (math.floor(screenmanager.currentScreen.objects[1].y/global.height)*(level1.map.test.width*level1.tilewidth)/global.width)
+
+	if oldQuadrant ~= screenmanager.currentScreen.activequadrant then
+		screenmanager.currentScreen:resetEnemies()
+	end
 end
 
 function utils.collision(obj1, obj2)

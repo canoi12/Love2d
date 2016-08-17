@@ -10,6 +10,11 @@ gamescreen.background={
 	dy=0
 }
 
+gamescreen.activequadrant = 0
+
+gamescreen.quadrants = {}
+gamescreen.spawns={}
+gamescreen.activeSpawn={x=0,y=0}
 
 function gamescreen:new(o)
 	o = o or {}

@@ -2,7 +2,7 @@ bunny=gameobject:new({anim={}})
 
 function bunny:new(o)
 	o = o or {}
-	self.x=64
+	o.quadrant = math.floor(o.x/global.width) + (math.floor(o.y/global.height)*(level1.map.test.width*level1.tilewidth)/global.width)
 	self:load()
 	return setmetatable(o, {__index=self})
 end
@@ -74,8 +74,9 @@ function bunny:load()
 	self:addAnim("shoot",0,16,16,16,4)
 	self.bounce = 0.2
 	self.animSpeed=0.25
-	self.shootCoolDown = 3
+	self.shootCoolDown = 5
 	self.life = 2
+	self.kind = 2
 
 	self.bbox = {
 		left = 4,
@@ -88,11 +89,7 @@ function bunny:load()
 end
 
 function bunny:shoot()
-	newBullet = bullet:new()
-
-	newBullet.x = self.x
-	newBullet.dx = self.flip*1.5
-	newBullet.y = self.y+4
+	newBullet = bullet:new({x=self.x, dx=self.flip*1.5,y=self.y+4})
 
 	table.insert(screenmanager.currentScreen.objects, newBullet)
 end
@@ -100,12 +97,15 @@ end
 function bunny:move()
 	local xprevious = self.x
 	local yprevious = self.y
-	if not utils.check_solid(self.x, self.y+6) then
+	if not utils.check_solid(self.x, self.y+6) and not utils.check_through(self.x, self.y + 8) then
 		self.dy = self.dy + self.gravity
 	else
 		--while map.tmap[math.floor(((self.y-9)/16))+1][math.floor((self.x)/16)] == gamescreen.map.test.tilesets[1].tiles[1].id+1 do
 		while utils.check_solid(self.x,self.y+5) do
 			self.y = self.y-1
+		end
+		while utils.check_through(self.x, self.y+7) do
+			self.y = self.y - 1
 		end
 		self.dy = self.dy * -self.bounce
 	end
@@ -123,8 +123,24 @@ function bunny:move()
 		end
 	end
 
-	if self.shootCoolDown > 0 then
+	if self.shootCoolDown > 0 and not self.damageSSS then
 		self.shootCoolDown = self.shootCoolDown - 0.1
+	end
+
+	if utils.check_solid(self.x+8,self.y) then
+		self.flip = -1
+		self.dx = -1
+	elseif utils.check_solid(self.x-8, self.y) then
+		self.flip = 1
+		self.dx = 1
+	end
+
+	if self.x <= math.abs(camera.x) then
+		self.flip = 1 
+		self.dx = 1
+	elseif self.x >= math.abs(camera.x-global.width) then
+		self.flip = -1
+		self.dx = -1
 	end
 
 	-- Damage taken

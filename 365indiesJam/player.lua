@@ -55,6 +55,16 @@ function player:collision(obj2)
 			return true
 		end
 
+		if obj2.kind == 4 then
+			self:backToSpawn()
+			obj2.destroy = true
+			return true
+		elseif obj2.type=="dolphin" then
+			self:backToSpawn()
+			obj2.destroy = true
+			return true
+		end
+
 		if wy > hx then
 			if wy > -hx then
 				--self.y = obj2.y + h
@@ -153,8 +163,6 @@ function player:move()
 		end
 	end
 
-
-
 	self.sword.x = self.x
 	self.sword.y = self.y
 	self.sword.flip = self.flip
@@ -167,12 +175,21 @@ function player:move()
 	self.xscale = utils.approach(self.xscale,1.0,0.1)
 	self.yscale = utils.approach(self.yscale,1.0,0.1)
 
+	if utils.check_trap(self.x, self.y+8) then
+		self:backToSpawn()
+	end
+
 	--print(self.xscale, self.yscale)
 end
 
-function player:bounds()
-	self.x = math.max(self.xorigin,math.min(self.x, (screenmanager.currentScreen.map.test.width*screenmanager.currentScreen.tileheight)-self.xorigin))
+function player:backToSpawn()
+	self.x = screenmanager.currentScreen.activeSpawn.x
+	self.y = screenmanager.currentScreen.activeSpawn.y
+end
 
+function player:bounds()
+	self.x = math.max(self.xorigin,math.min(self.x, (screenmanager.currentScreen.map.test.width*screenmanager.currentScreen.tilewidth)-self.xorigin))
+	self.y = math.max(self.yorigin,math.min(self.y, (screenmanager.currentScreen.map.test.height*screenmanager.currentScreen.tileheight)-self.yorigin))
 end
 
 function player:update(dt)

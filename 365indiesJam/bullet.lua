@@ -4,6 +4,7 @@ bullet = gameobject:new()
 function bullet:new(o)
 	o = o or {}
 	self:load()
+	o.quadrant = math.floor(o.x/global.width) + (math.floor(o.y/global.height)*(level1.map.test.width*level1.tilewidth)/global.width)
 	return setmetatable(o, {__index=self})
 end
 
@@ -52,9 +53,6 @@ function bullet:collision(obj2)
 		if obj2.kind == 3 then
 			return true
 		end
-		if obj2.kind == 1 then
-			self.destroy = true
-		end
 
 		if wy > hx then
 			if wy > -hx then
@@ -96,12 +94,16 @@ function bullet:update(dt)
 			self.destroy = true
 		end
 	end
+	if utils.check_solid(self.x - 3 + self.dx,self.y) or utils.check_solid(self.x + 3 + self.dx, self.y)  then
+		self.destroy = true
+	end
 	self.x = self.x + self.dx
 
 end
 
 function bullet:draw()
 	love.graphics.draw(self.image,self.x,self.y,math.rad(self.angle),self.flip*self.xscale,self.yscale,self.xorigin,self.yorigin)
+	--love.graphics.print(self.dx,self.x,self.y)
 end
 
 function bullet:keypressed(key)

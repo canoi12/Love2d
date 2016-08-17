@@ -35,6 +35,8 @@ function love.load()
 
 	love.window.setMode(scaleX*global.width, scaleY*global.height,{resizable = true})
 
+	font = love.graphics.newFont("Assets/Early GameBoy.ttf", 8)
+
 	canvas = love.graphics.newCanvas(global.width, global.height)
 	canvas:setFilter("nearest","nearest")
 	--screenmanager:addScreen("level2",level2:new())
@@ -60,6 +62,7 @@ end
 
 function love.draw()
 	love.graphics.setCanvas(canvas)
+	love.graphics.setFont(font)
 	love.graphics.push()
 	--love.graphics.scale(2,2)
 	screenmanager:draw()

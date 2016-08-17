@@ -2,7 +2,7 @@ dolphin=gameobject:new{anim={}}
 
 function dolphin:new(o)
 	o = o or {}
-	self.x=64
+	o.quadrant = math.floor(o.x/global.width) + (math.floor(o.y/global.height)*(level1.map.test.width*level1.tilewidth)/global.width)
 	self:load()
 	return setmetatable(o, {__index=self})
 end
@@ -78,8 +78,8 @@ function dolphin:load()
 	self.animSpeed=0.25
 	self.life = 3
 	self.kind = 2
-
 	self.image:setFilter("nearest","nearest")
+	self.type = "dolphin"
 end
 
 function dolphin:move()
@@ -103,14 +103,18 @@ function dolphin:move()
 
 	if utils.check_solid(self.x+8,self.y) then
 		self.flip = -1
+		self.dx = -1
 	elseif utils.check_solid(self.x-8, self.y) then
 		self.flip = 1
+		self.dx = 1
 	end
 
 	if self.x <= math.abs(camera.x) then
 		self.flip = 1 
+		self.dx = 1
 	elseif self.x >= math.abs(camera.x-global.width) then
 		self.flip = -1
+		self.dx = -1
 	end
 	if self.flip ~= 0 then
 		self:setAnim("walk")
@@ -145,7 +149,7 @@ function dolphin:move()
 	end
 
 	if not self.damage then
-		self.x = self.x + self.flip + self.dx
+		self.x = self.x + self.flip
 	else
 		self.x = self.x + self.dx
 	end
@@ -160,5 +164,6 @@ end
 
 function dolphin:draw()
 	love.graphics.draw(self.image,self.anim[self.actualAnim][self.frame],self.x,self.y,self.angle,self.flip*self.xscale,self.yscale,self.xorigin,self.yorigin)
+	--love.graphics.print(self.quadrant, self.x, self.y)
 	--love.graphics.rectangle("line",self.x+self.bbox.left-self.xorigin,self.y+self.bbox.top-self.yorigin, self.bbox.right,self.bbox.bottom)
 end

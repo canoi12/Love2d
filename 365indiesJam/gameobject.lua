@@ -34,6 +34,8 @@ gameobject.life = 5
 
 gameobject.knockback=8
 
+gameobject.quadrant = 0
+
 gameobject.bbox = {
 	left = 0,
 	right = 16,

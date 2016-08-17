@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="24" height="24" tilewidth="16" tileheight="16" nextobjectid="17">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="24" height="24" tilewidth="16" tileheight="16" nextobjectid="28">
  <tileset firstgid="1" name="ground" tilewidth="16" tileheight="16" tilecount="28" columns="7">
   <image source="ground.png" width="112" height="64"/>
   <tile id="0">
@@ -108,5 +108,16 @@
  </layer>
  <objectgroup name="Camada de Objetos 1">
   <object id="14" name="Dolphin" type="Enemy" gid="8" x="191" y="52" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Camada de Objetos 2">
+  <object id="17" x="0" y="0" width="128" height="128"/>
+  <object id="18" x="0" y="128" width="128" height="128"/>
+  <object id="19" x="256" y="0" width="128" height="128"/>
+  <object id="20" x="256" y="256" width="128" height="128"/>
+  <object id="23" x="128" y="256" width="128" height="128"/>
+  <object id="24" x="0" y="256" width="128" height="128"/>
+  <object id="25" x="128" y="0" width="128" height="128"/>
+  <object id="26" x="256" y="128" width="128" height="128"/>
+  <object id="27" x="128" y="128" width="128" height="128"/>
  </objectgroup>
 </map>
