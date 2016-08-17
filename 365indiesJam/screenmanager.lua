@@ -25,3 +25,9 @@ function screenmanager:draw()
 		screenmanager.currentScreen:draw()
 	end
 end
+
+function screenmanager:keypressed(key)
+	if screenmanager.currentScreen ~= nil then
+		screenmanager.currentScreen:keypressed(key)
+	end
+end

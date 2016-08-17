@@ -22,6 +22,13 @@ function gamescreen:load()
 	self.objects={}
 end
 
+function gamescreen:reset()
+	for i, v in ipairs(self.objects) do
+		v = nil
+	end
+	self:load()
+end
+
 function gamescreen:getObjects()
 	for j,datav in ipairs(self.map.test.layers) do
 		if datav.type == "objectgroup" then
@@ -43,4 +50,7 @@ function gamescreen:update(dt)
 end
 
 function gamescreen:draw()
+end
+
+function gamescreen:keypressed(key)
 end

@@ -5,6 +5,7 @@ require "map"
 require "gamescreen"
 require "enemy"
 require "dolphin"
+require "bullet"
 require "coelho"
 require "swordcol"
 require "sword"
@@ -40,4 +41,8 @@ function love.draw()
 	love.graphics.scale(4,4)
 	screenmanager:draw()
 	love.graphics.pop()
+end
+
+function love.keypressed(key)
+	screenmanager:keypressed(key)
 end

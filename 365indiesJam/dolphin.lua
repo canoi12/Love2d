@@ -7,6 +7,67 @@ function dolphin:new(o)
 	return setmetatable(o, {__index=self})
 end
 
+function dolphin:collision(obj2)
+	if self == obj2 or self.kind == obj2.kind or obj2.kind == 4 then
+		return false
+	end
+	local ob1 = {
+		x = self.bbox.left + self.x - self.xorigin,
+		y = self.bbox.top + self.y - self.yorigin,
+		w = self.bbox.right - self.bbox.left,
+		h = self.bbox.bottom - self.bbox.top,
+		flip = self.flip
+	}
+	ob1.xc = (ob1.x) + (ob1.w/2)
+	ob1.yc = ob1.y + (ob1.h/2)
+	local ob2 = {
+		x = obj2.bbox.left + obj2.x - obj2.xorigin,
+		y = obj2.bbox.top + obj2.y - obj2.yorigin,
+		w = obj2.bbox.right - obj2.bbox.left,
+		h = obj2.bbox.bottom - obj2.bbox.top,
+		flip = obj2.flip
+	}
+
+	if obj2.flip == -1 and obj2.kind == 3 then
+		ob2.xc = (ob2.x-12) + (ob2.w/2)
+	else
+		ob2.xc = (ob2.x) + (ob2.w/2)
+	end
+	ob2.yc = ob2.y + (ob2.h/2)
+
+	local w = (ob1.w + ob2.w)/2
+	local h = (ob1.h + ob2.h)/2
+
+	local dx = ob1.xc - ob2.xc
+	local dy = ob1.yc - ob2.yc
+
+	if math.abs(dx) <= w and math.abs(dy) <= h then
+		local wy = y * dy
+		local hx = h * dx
+
+		if self.kind == 3 or obj2.kind == 3 then
+			return true
+		end
+
+		if wy > hx then
+			if wy > -hx then
+				self.y = obj2.y + h
+			else
+				self.x = obj2.x - w
+			end
+		else
+			if wy > -hx then
+				self.x = obj2.x + w
+			else
+				self.y = obj2.y - h
+			end
+		end
+		return true
+	end
+	return false
+
+end
+
 function dolphin:load()
 	self.image = love.graphics.newImage("Assets/dolphin.png")
 
@@ -15,6 +76,7 @@ function dolphin:load()
 	self.dx = 0
 	self.bounce = 0.2
 	self.animSpeed=0.25
+	self.life = 3
 	self.kind = 2
 
 	self.image:setFilter("nearest","nearest")
@@ -39,13 +101,15 @@ function dolphin:move()
 		self.flip = 1
 	end
 
-	if self.dx ~= 0 then
+	if self.flip ~= 0 then
 		self:setAnim("walk")
 		--self.flip = self.dx
 	else
 		self:setAnim("idle")
 	end
 
+
+	-- Damage taken
 	if self.damage then
 		self.damageTime = self.damageTime - 0.05
 	end
@@ -55,21 +119,26 @@ function dolphin:move()
 		self.dx = 0
 	end
 
-	if utils.collision(self, screenmanager.currentScreen.objects[1].sword) then
+	if self:collision(screenmanager.currentScreen.objects[1].sword) then
 		if screenmanager.currentScreen.objects[1].sword.attack and not self.damage then
 			self.damage = true
 			self.damageTime = 1
+			self.life = self.life - 1
 			self.dy = -2
 			self.dx = screenmanager.currentScreen.objects[1].sword.flip * 2
 		end
+	end
+
+	if self.life <= 0 then
+		self.destroy = true
 	end
 
 	if not self.damage then
 		self.x = self.x + self.flip + self.dx
 	else
 		self.x = self.x + self.dx
-		print(self.dx)
 	end
+	-- End damage taken
 	self.y = self.y + self.dy
 end
 

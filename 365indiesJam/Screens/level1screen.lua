@@ -12,8 +12,6 @@ function level1:load()
 	self.map = map:new()
 	self.objects={}
 
-	print(self.objects)
-
 	self.map:loadMap("Assets/level1.lua")
 	self.background.image = love.graphics.newImage("Assets/bg_fix.png")
 	self.background.image:setFilter("nearest","nearest")
@@ -28,14 +26,20 @@ function level1:load()
 end
 
 function level1:reset()
-
+	for i, v in ipairs(self.objects) do
+		v = nil
+	end
+	self:load()
 end
 
 function level1:update(dt)
-	for i,v in ipairs(level1.objects) do
+	for i,v in ipairs(self.objects) do
 		v:update(dt)
-		for j,ob in ipairs(level1.objects) do
-			utils.collision(v,ob)
+		for j,ob in ipairs(self.objects) do
+			v:collision(ob)
+		end
+		if v.destroy then
+			table.remove(self.objects, i)
 		end
 	end
 	self.oldCamX = camera.x
@@ -45,6 +49,10 @@ function level1:update(dt)
 	utils.cameraBound()
 	self.background.x = (self.background.dx* -camera.x)
 	self.background.y = self.background.y + self.background.dy
+
+	if love.keyboard.isDown("r") then
+		self:reset()
+	end
 	--player:update(dt)
 	--dol:update(dt)
 end
@@ -58,4 +66,10 @@ function level1:draw()
 	end
 	--player:draw()
 	--dol:draw()
+end
+
+function level1:keypressed(key)
+	for i,v in ipairs(level1.objects) do
+		v:keypressed(key)
+	end
 end

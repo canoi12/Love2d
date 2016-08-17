@@ -100,15 +100,15 @@ function utils.collision(obj1, obj2)
 
 		if wy > hx then
 			if wy > -hx then
-
+				obj1.y = obj2.y + h
 			else
-				obj1.x = obj2.x - obj2.xorigin - obj1.xorigin
+				obj1.x = obj2.x - w
 			end
 		else
 			if wy > -hx then
-				obj1.x = obj2.x + obj2.xorigin + obj1.xorigin
+				obj1.x = obj2.x + w
 			else
-
+				obj1.y = obj2.y - h
 			end
 		end
 		return true

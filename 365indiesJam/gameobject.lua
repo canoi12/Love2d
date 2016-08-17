@@ -29,6 +29,8 @@ gameobject.angle=0
 gameobject.type=""
 gameobject.damage=false
 gameobject.damageTime=1
+gameobject.destroy = false
+gameobject.life = 5
 
 gameobject.knockback=8
 
@@ -40,6 +42,10 @@ gameobject.bbox = {
 }
 
 gameobject.isGround = false
+
+function gameobject:collision(table)
+
+end
 
 function gameobject:new(o)
 	o = o or {}
@@ -87,4 +93,8 @@ function gameobject:update(dt)
 end
 
 function gameobject:draw()
+end
+
+function gameobject:keypressed(key)
+
 end

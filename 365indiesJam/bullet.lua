@@ -1,13 +1,14 @@
-sword=gameobject:new()
+bullet = gameobject:new()
 
-function sword:new(o)
+
+function bullet:new(o)
 	o = o or {}
 	self:load()
 	return setmetatable(o, {__index=self})
 end
 
-function sword:collision(obj2)
-	if self == obj2 then
+function bullet:collision(obj2)
+	if self == obj2 or self.kind == obj2.kind or obj2.kind == 2 then
 		return false
 	end
 	local ob1 = {
@@ -17,7 +18,7 @@ function sword:collision(obj2)
 		h = self.bbox.bottom - self.bbox.top,
 		flip = self.flip
 	}
-	if self.flip == -1 then
+	if self.flip == -1 and self.kind == 3 then
 		ob1.xc = (ob1.x-12) + (ob1.w/2)
 	else
 		ob1.xc = (ob1.x) + (ob1.w/2)
@@ -48,21 +49,24 @@ function sword:collision(obj2)
 		local wy = y * dy
 		local hx = h * dx
 
-		if self.kind == 3 or obj2.kind == 3 then
+		if obj2.kind == 3 then
 			return true
+		end
+		if obj2.kind == 1 then
+			self.destroy = true
 		end
 
 		if wy > hx then
 			if wy > -hx then
-				self.y = obj2.y + h
+				--self.y = obj2.y + h
 			else
-				self.x = obj2.x - w
+				--self.x = obj2.x - w
 			end
 		else
 			if wy > -hx then
-				self.x = obj2.x + w
+				--self.x = obj2.x + w
 			else
-				self.y = obj2.y - h
+				--self.y = obj2.y - h
 			end
 		end
 		return true
@@ -70,55 +74,36 @@ function sword:collision(obj2)
 	return false
 end
 
-function sword:load()
-	self.image = love.graphics.newImage("Assets/sword.png")
+function bullet:load()
+	self.kind = 4
+	self.image = love.graphics.newImage("Assets/bullet.png")
 	self.image:setFilter("nearest","nearest")
-	self.xorigin=2
-	self.yorigin=12
-	self.kind = 3
-	self.swordcol = swordcol:new()
-	self.atkCoolDown = 1
 
-	self.attack = false
+	self.xorigin = 4
+	self.yorigin = 4
+	self.bbox = {
+		left = 0,
+		right = 8,
+		top = 0,
+		bottom = 8
+	}
+end
 
-	oldKeyZ = false
+function bullet:update(dt)
+
+	if self:collision(screenmanager.currentScreen.objects[1].sword) then
+		if screenmanager.currentScreen.objects[1].sword.attack and not self.damage then
+			self.destroy = true
+		end
+	end
+	self.x = self.x + self.dx
 
 end
 
-function sword:update(dt)
-	local keyZ = love.keyboard.isDown("z")
-
-
-	if keyZ and self.atkCoolDown <= 0 and not(oldKeyZ) then
-		self.attack = true
-	end
-
-	oldKeyZ = keyZ
-
-	if self.atkCoolDown > 0 then
-		self.atkCoolDown = self.atkCoolDown - 0.1
-	end
-
-	if math.abs(self.angle) >= 130 and self.attack then
-		self.attack = false
-		self.atkCoolDown = 1
-	end
-	--[[self.swordcol.x = self.x
-	if self.flip == -1 then
-		self.swordcol.x = self.x - 12
-	end
-	self.swordcol.y = self.y]]
-
-	if self.attack then
-		self.angle = utils.approach(self.angle, self.flip*130, 20)
-	else
-		self.angle = 0
-	end
-	self.swordcol:update(dt)
-end
-
-function sword:draw()
+function bullet:draw()
 	love.graphics.draw(self.image,self.x,self.y,math.rad(self.angle),self.flip*self.xscale,self.yscale,self.xorigin,self.yorigin)
-	--love.graphics.rectangle("line",self.x+self.bbox.left-self.xorigin,self.y+self.bbox.top-self.yorigin, self.bbox.right,self.bbox.bottom)
-	self.swordcol:draw()
+end
+
+function bullet:keypressed(key)
+
 end
