@@ -44,7 +44,6 @@ end
 function level1:resetEnemies()
 	for j=2,table.getn(self.objects) do
 		table.remove(self.objects,j)
-		print(j)
 	end
 	--print(table.getn(self.objects))
 	self:getObjects()

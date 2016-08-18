@@ -35,7 +35,11 @@ function love.load()
 
 	love.window.setMode(scaleX*global.width, scaleY*global.height,{resizable = true})
 
-	font = love.graphics.newFont("Assets/Early GameBoy.ttf", 8)
+	--[[font = love.graphics.newImageFont("Assets/font-2-love.png"," abcdefghijklmnopqrstuvwxyz" ..
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0" ..
+    "123456789.,!?-+/():;%&`'*#=[]\"")]]
+    font = love.graphics.newFont("Assets/Minimal Pixels.ttf",8)
+    font:setFilter("nearest","nearest")
 
 	canvas = love.graphics.newCanvas(global.width, global.height)
 	canvas:setFilter("nearest","nearest")
@@ -64,7 +68,7 @@ function love.draw()
 	love.graphics.setCanvas(canvas)
 	love.graphics.setFont(font)
 	love.graphics.push()
-	--love.graphics.scale(2,2)
+	--love.graphics.scale(1/scaleX,1/scaleY)
 	screenmanager:draw()
 	love.graphics.pop()
 	love.graphics.setCanvas()

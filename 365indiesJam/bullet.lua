@@ -97,6 +97,10 @@ function bullet:update(dt)
 	if utils.check_solid(self.x - 3 + self.dx,self.y) or utils.check_solid(self.x + 3 + self.dx, self.y)  then
 		self.destroy = true
 	end
+
+	if self.x <= math.abs(camera.x) or self.x >= math.abs(camera.x-global.width) then
+		self.destroy = true
+	end
 	self.x = self.x + self.dx
 
 end

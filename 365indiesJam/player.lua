@@ -91,7 +91,7 @@ function player:load()
 
 	self.x = 50
 	self.y = 50
-	self.friction = 0.8
+	self.friction = 0.2
 
 	self:addAnim("idle",0,0,16,16,3)
 	self:addAnim("walk",0,16,16,16,6)
@@ -123,7 +123,7 @@ function player:move()
 	end
 	--if self.y < 127-self.xorigin then
 	--if gamescreen.map.tmap[math.floor(((self.y-8)/16))+1][math.floor((self.x)/16)] ~= gamescreen.map.test.tilesets[1].tiles[1].id+1 then
-	if not utils.check_solid(self.x, self.y+6) and not(utils.check_through(self.x, self.y+8) and self.dy >= 0) then
+	if not( utils.check_solid(self.x + 2, self.y+6) or utils.check_solid(self.x - 2, self.y+6)) and not((utils.check_through(self.x + 2, self.y+8) or utils.check_through(self.x - 2, self.y+8)) and self.dy >= 0) then
 		self.dy = self.dy + self.gravity
 		self.isGround = false
 	else
@@ -133,10 +133,10 @@ function player:move()
 			self.xscale = 1.6
 			self.yscale = 0.6
 		end
-		while utils.check_solid(self.x,self.y+5) do
+		while utils.check_solid(self.x + 2, self.y+5) or utils.check_solid(self.x - 2, self.y+5) do
 			self.y = self.y-1
 		end
-		while utils.check_through(self.x, self.y+7) do
+		while utils.check_through(self.x + 2, self.y+7) or utils.check_through(self.x - 2, self.y+7) do
 			self.y = self.y - 1
 		end
 		self.dy = self.dy * -self.bounce
