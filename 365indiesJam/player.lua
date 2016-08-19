@@ -7,6 +7,8 @@ player.bbox = {
 	bottom = 16
 }
 
+local firstDialogue = false;
+
 function player:new(o)
 	o = o or {}
 	self:load()
@@ -51,16 +53,24 @@ function player:collision(obj2)
 		local wy = y * dy
 		local hx = h * dx
 
-		if self.kind == 3 or obj2.kind == 3 then
+		if obj2.kind == 3 or obj2.kind == 5 then
+			if obj2.type == "doublejump" then
+				self.candoublejump = true
+				obj2.destroy = true
+			elseif obj2.type == "dash" then
+				self.candash = true
+				obj2.destroy = true
+			end
 			return true
 		end
 
 		if obj2.kind == 4 then
-			self:backToSpawn()
+			--self:backToSpawn()
+			transition:doTransition(0.4)
 			obj2.destroy = true
 			return true
 		elseif obj2.type=="dolphin" then
-			self:backToSpawn()
+			transition:doTransition(0.4)
 			obj2.destroy = true
 			return true
 		end
@@ -88,10 +98,19 @@ function player:load()
 	self.image:setFilter("nearest","nearest")
 	self.kind=1
 	self.type = "player"
+	self.bbox = {
+		left = 4,
+		right = 12,
+		top = 2,
+		bottom = 16
+	}
 
 	self.x = 50
 	self.y = 50
 	self.friction = 0.2
+	self.candoublejump = true
+	self.candash = false
+	self.jumpcount = 0
 
 	self:addAnim("idle",0,0,16,16,3)
 	self:addAnim("walk",0,16,16,16,6)
@@ -100,10 +119,49 @@ function player:load()
 	self.sword = sword:new()
 end
 
+function player:fgravity()
+	local keyUp = love.keyboard.isDown("up")
+	if not( utils.check_solid(self.x + 2, self.y+6) or utils.check_solid(self.x - 2, self.y+6)) and not((utils.check_through(self.x + 2, self.y+8) or utils.check_through(self.x - 2, self.y+8)) and self.dy >= 0) then
+		self.dy = self.dy + self.gravity
+		self.isGround = false
+		if self.jumpcount == 0 then
+			self.jumpcount = 1
+		end
+	else
+		--while map.tmap[math.floor(((self.y-9)/16))+1][math.floor((self.x)/16)] == gamescreen.map.test.tilesets[1].tiles[1].id+1 do
+		if not self.isGround then
+			self.isGround = true
+			self.xscale = 1.6
+			self.yscale = 0.6
+		end
+		self.jumpcount = 0
+		if not firstDialogue then
+			textbox:createDialogue(1,15)
+			self.xscale = 1
+			self.yscale = 1
+			firstDialogue = true
+		end
+		while utils.check_solid(self.x + 2, self.y+5) or utils.check_solid(self.x - 2, self.y+5) do
+			self.y = self.y-1
+		end
+		while utils.check_through(self.x + 2, self.y+7) or utils.check_through(self.x - 2, self.y+7) do
+			self.y = self.y - 1
+		end
+		self.dy = self.dy * -self.bounce
+	end
+	if keyUp and not(oldKeyUp) and self.jumpcount < 2 then
+		self.dy = -3.2
+		self.xscale=0.4
+		self.yscale=1.8
+		self.jumpcount = self.jumpcount + 1
+	end
+	oldKeyUp = keyUp
+end
+
 function player:move()
 	local keyLeft = love.keyboard.isDown("left")
 	local keyRight = love.keyboard.isDown("right")
-	local keyUp = love.keyboard.isDown("up")
+	
 
 	local xprevious = self.x
 	local yprevious = self.y
@@ -123,30 +181,8 @@ function player:move()
 	end
 	--if self.y < 127-self.xorigin then
 	--if gamescreen.map.tmap[math.floor(((self.y-8)/16))+1][math.floor((self.x)/16)] ~= gamescreen.map.test.tilesets[1].tiles[1].id+1 then
-	if not( utils.check_solid(self.x + 2, self.y+6) or utils.check_solid(self.x - 2, self.y+6)) and not((utils.check_through(self.x + 2, self.y+8) or utils.check_through(self.x - 2, self.y+8)) and self.dy >= 0) then
-		self.dy = self.dy + self.gravity
-		self.isGround = false
-	else
-		--while map.tmap[math.floor(((self.y-9)/16))+1][math.floor((self.x)/16)] == gamescreen.map.test.tilesets[1].tiles[1].id+1 do
-		if not self.isGround then
-			self.isGround = true
-			self.xscale = 1.6
-			self.yscale = 0.6
-		end
-		while utils.check_solid(self.x + 2, self.y+5) or utils.check_solid(self.x - 2, self.y+5) do
-			self.y = self.y-1
-		end
-		while utils.check_through(self.x + 2, self.y+7) or utils.check_through(self.x - 2, self.y+7) do
-			self.y = self.y - 1
-		end
-		self.dy = self.dy * -self.bounce
-		if keyUp and not(oldKeyUp) then
-			self.dy = -3.5
-			self.xscale=0.4
-			self.yscale=1.8
-		end
-	end
-	oldKeyUp = keyUp
+	self:fgravity()
+	
 
 	if utils.check_solid(self.x, self.y - 6) then
 		self.dy = 0
@@ -176,7 +212,7 @@ function player:move()
 	self.yscale = utils.approach(self.yscale,1.0,0.1)
 
 	if utils.check_trap(self.x, self.y+8) then
-		self:backToSpawn()
+		transition:doTransition(0.4)
 	end
 
 	--print(self.xscale, self.yscale)
@@ -185,6 +221,9 @@ end
 function player:backToSpawn()
 	self.x = screenmanager.currentScreen.activeSpawn.x
 	self.y = screenmanager.currentScreen.activeSpawn.y
+	self.sword.x = self.x
+	self.sword.y = self.y
+	self.sword.flip = self.flip
 end
 
 function player:bounds()
@@ -196,8 +235,24 @@ function player:update(dt)
 
 	self:playAnim()
 
-	self:move()
+	if not screenmanager.currentScreen.dialogue then
 
+		self:move()
+		for i,v in ipairs(screenmanager.currentScreen.objects) do
+			self:collision(v)
+		end
+		for i,v in ipairs(screenmanager.currentScreen.spawns) do
+			if self:collision(v) and love.keyboard.isDown("down") then
+				if v ~= screenmanager.currentScreen.activeSpawn then
+					v:showMessage()
+				end
+				screenmanager.currentScreen.activeSpawn = v
+			end
+		end
+		for i,v in ipairs(screenmanager.currentScreen.powerups) do
+			self:collision(v)
+		end
+	end
 	self:bounds()	
 end
 

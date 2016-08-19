@@ -4,7 +4,7 @@ bullet = gameobject:new()
 function bullet:new(o)
 	o = o or {}
 	self:load()
-	o.quadrant = math.floor(o.x/global.width) + (math.floor(o.y/global.height)*(level1.map.test.width*level1.tilewidth)/global.width)
+	--o.quadrant = math.floor(o.x/global.width) + (math.floor(o.y/global.height)*(level1.map.test.width*level1.tilewidth)/global.width)
 	return setmetatable(o, {__index=self})
 end
 
@@ -80,17 +80,17 @@ function bullet:load()
 	self.xorigin = 4
 	self.yorigin = 4
 	self.bbox = {
-		left = 0,
-		right = 8,
-		top = 0,
-		bottom = 8
+		left = 2,
+		right = 6,
+		top = 2,
+		bottom = 6
 	}
 end
 
 function bullet:update(dt)
 
-	if self:collision(screenmanager.currentScreen.objects[1].sword) then
-		if screenmanager.currentScreen.objects[1].sword.attack and not self.damage then
+	if self:collision(screenmanager.currentScreen.player.sword) then
+		if screenmanager.currentScreen.player.sword.attack and not self.damage then
 			self.destroy = true
 		end
 	end
@@ -98,7 +98,7 @@ function bullet:update(dt)
 		self.destroy = true
 	end
 
-	if self.x <= math.abs(camera.x) or self.x >= math.abs(camera.x-global.width) then
+	if self.x+4 <= math.abs(camera.x) or self.x-4 >= math.abs(camera.x-global.width) then
 		self.destroy = true
 	end
 	self.x = self.x + self.dx
@@ -107,6 +107,7 @@ end
 
 function bullet:draw()
 	love.graphics.draw(self.image,self.x,self.y,math.rad(self.angle),self.flip*self.xscale,self.yscale,self.xorigin,self.yorigin)
+	--love.graphics.rectangle("line",self.x+self.bbox.left-self.xorigin,self.y+self.bbox.top-self.yorigin, self.bbox.right-self.bbox.left,self.bbox.bottom-self.bbox.top)
 	--love.graphics.print(self.dx,self.x,self.y)
 end
 

@@ -32,7 +32,7 @@ function sword:collision(obj2)
 	}
 
 	if obj2.flip == -1 and obj2.kind == 3 then
-		ob2.xc = (ob2.x-12) + (ob2.w/2)
+		ob2.xc = (ob2.x-14) + (ob2.w/2)
 	else
 		ob2.xc = (ob2.x) + (ob2.w/2)
 	end
@@ -78,6 +78,12 @@ function sword:load()
 	self.kind = 3
 	self.swordcol = swordcol:new()
 	self.atkCoolDown = 1
+	self.bbox = {
+		left = -2,
+		right = 18,
+		top = 0,
+		bottom = 16
+	}
 
 	self.attack = false
 

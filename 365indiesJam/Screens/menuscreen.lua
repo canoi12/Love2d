@@ -58,9 +58,9 @@ function menu:draw()
 
 	for i,v in ipairs(self.options) do
 		if self.curoption == i then
-			love.graphics.print(v, 16, 48 + i * 16)
+			love.graphics.print(v, 16, math.abs(48 + i * 16))
 		else
-			love.graphics.print(v, 8, 48 + i * 16)
+			love.graphics.print(v, 8, math.abs(48 + i * 16))
 		end
 	end
 end

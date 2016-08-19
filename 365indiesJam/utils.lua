@@ -86,7 +86,7 @@ function utils.cameraBound()
 	camera.y = math.min(0,math.max(camera.y,-(screenmanager.currentScreen.map.test.height*16)+128))
 	
 
-	screenmanager.currentScreen.activequadrant = math.floor(screenmanager.currentScreen.objects[1].x/global.width) + (math.floor(screenmanager.currentScreen.objects[1].y/global.height)*(level1.map.test.width*level1.tilewidth)/global.width)
+	screenmanager.currentScreen.activequadrant = math.floor(screenmanager.currentScreen.player.x/global.width) + (math.floor(screenmanager.currentScreen.player.y/global.height)*(level1.map.test.width*level1.tilewidth)/global.width)
 
 	if oldQuadrant ~= screenmanager.currentScreen.activequadrant then
 		screenmanager.currentScreen:resetEnemies()

@@ -25,12 +25,6 @@ function map:updateTilesetBatch()
 					y = y + 1
 				end
 			end
-		--[[elseif datav.type == "objectgroup" then
-			for i,v in ipairs(datav.objects) do
-				if v.name == "Dolphin" then
-					table.insert(self.objects,solphin:new{x=v.x,y=v.y})
-				end
-			end]]
 		end
 	end
 	self.tilesetBatch:flush()
@@ -43,7 +37,7 @@ function map:loadMap(name)
 	self.tmap = {}
 	self.objects={}
 	data = self.test.layers[1].data
-	print(table.getn(data))
+	--print(table.getn(data))
 	self.tilemap = {}
 	x = 0
 	y = 0

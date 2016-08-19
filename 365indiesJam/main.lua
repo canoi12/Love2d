@@ -1,13 +1,18 @@
 require "gameobject"
+require("utf8")
 require "player"
 require "utils"
 require "map"
 require "gamescreen"
+require "checkpoint"
+require "powerup"
 require "enemy"
 require "dolphin"
 require "bullet"
 require "coelho"
 require "swordcol"
+require "transition"
+require "textbox"
 require "sword"
 require "screenmanager"
 require "Screens/menuscreen"
@@ -38,8 +43,9 @@ function love.load()
 	--[[font = love.graphics.newImageFont("Assets/font-2-love.png"," abcdefghijklmnopqrstuvwxyz" ..
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ0" ..
     "123456789.,!?-+/():;%&`'*#=[]\"")]]
-    font = love.graphics.newFont("Assets/Minimal Pixels.ttf",8)
+    font = love.graphics.newFont("Assets/TinyUnicode.ttf",16)
     font:setFilter("nearest","nearest")
+    font:setLineHeight(0.6)
 
 	canvas = love.graphics.newCanvas(global.width, global.height)
 	canvas:setFilter("nearest","nearest")

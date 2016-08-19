@@ -89,7 +89,7 @@ function bunny:load()
 end
 
 function bunny:shoot()
-	newBullet = bullet:new({x=self.x, dx=self.flip*1.5,y=self.y+4})
+	newBullet = bullet:new({x=self.x, dx=self.flip*1.5,y=self.y+4,quadrant=self.quadrant})
 
 	table.insert(screenmanager.currentScreen.objects, newBullet)
 end
@@ -153,13 +153,13 @@ function bunny:move()
 		self.dx = 0
 	end
 
-	if self:collision(screenmanager.currentScreen.objects[1].sword) then
-		if screenmanager.currentScreen.objects[1].sword.attack and not self.damage then
+	if self:collision(screenmanager.currentScreen.player.sword) then
+		if screenmanager.currentScreen.player.sword.attack and not self.damage then
 			self.damage = true
 			self.damageTime = 1
 			self.life = self.life - 1
 			self.dy = -2
-			self.dx = screenmanager.currentScreen.objects[1].sword.flip * 2
+			self.dx = screenmanager.currentScreen.player.sword.flip * 2
 		end
 	end
 
