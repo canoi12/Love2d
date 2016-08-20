@@ -78,6 +78,12 @@ function bunny:load()
 	self.life = 2
 	self.kind = 2
 
+	self.damageSound = love.audio.newSource("Assets/sounds/Hit_Hurt.wav","static")
+	self.damageSound:setVolume(0.5)
+
+	self.shootSound = love.audio.newSource("Assets/sounds/Shoot.wav","static")
+	self.shootSound:setVolume(0.5)
+
 	self.bbox = {
 		left = 4,
 		right = 12,
@@ -90,7 +96,7 @@ end
 
 function bunny:shoot()
 	newBullet = bullet:new({x=self.x, dx=self.flip*1.5,y=self.y+4,quadrant=self.quadrant})
-
+	self.shootSound:play()
 	table.insert(screenmanager.currentScreen.objects, newBullet)
 end
 
@@ -160,6 +166,7 @@ function bunny:move()
 			self.life = self.life - 1
 			self.dy = -2
 			self.dx = screenmanager.currentScreen.player.sword.flip * 2
+			self.damageSound:play()
 		end
 	end
 

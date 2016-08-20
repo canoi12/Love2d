@@ -14,11 +14,16 @@ function checkpoint:load()
 	self.showKey = false
 	self.message = false
 	self.messageTime = 2
+	self.keyImage = love.graphics.newImage("Assets/keydown.png")
+	self.keyImage:setFilter("nearest","nearest")
+
+	self.messageSound = love.audio.newSource("Assets/sounds/Pickup_Coin.wav","static")
 end
 
 function checkpoint:showMessage()
 	self.message = true
 	self.messageTime = 2
+	self.messageSound:play()
 end
 
 function checkpoint:update(dt)
@@ -40,6 +45,6 @@ end
 function checkpoint:draw()
 	love.graphics.draw(self.image, self.x, self.y,self.angle,self.xscale,self.yscale,self.xorigin,self.yorigin)
 	if self.showKey then
-
+		love.graphics.draw(self.keyImage, self.x, self.y-12,self.angle,self.xscale,self.yscale,2,2)
 	end
 end

@@ -3,6 +3,7 @@ require("utf8")
 require "player"
 require "utils"
 require "map"
+require "guardian"
 require "gamescreen"
 require "checkpoint"
 require "powerup"
@@ -18,6 +19,7 @@ require "screenmanager"
 require "Screens/menuscreen"
 require "Screens/level1screen"
 require "Screens/level2screen"
+require "Screens/creditsscreen"
 
 
 camera={}
@@ -28,15 +30,53 @@ global = {}
 
 global.width = 128
 global.height = 128
+global.language = "pt"
 
 scaleX = 4
 scaleY = 4
 
 objects={}
 
+function global:save()
+	local file = love.filesystem.newFile("save.sav","w")
+	file:write("return { \n")
+	file:write("showFirstDialogue = "..tostring(firstDialogue)..",\n")
+	file:write("checkpointx = ".. screenmanager.currentScreen.activeSpawn.x..",\n")
+	file:write("checkpointy = ".. screenmanager.currentScreen.activeSpawn.y..",\n")
+	file:write("candoublejump = ".. tostring(screenmanager.currentScreen.player.candoublejump)..",\n")
+	file:write("candash = "..tostring(screenmanager.currentScreen.player.candash)..",\n")
+	file:write("nil}")
+
+	print(screenmanager.currentScreen.activeSpawn.x, screenmanager.currentScreen.activeSpawn.y)
+	file:close()
+end
+
+function global:loadSave()
+	if love.filesystem.exists("save.sav") then
+		local file = love.filesystem.load("save.sav")
+		local File = file()
+
+		firstDialogue = File.showFirstDialogue
+		screenmanager.screens["level1"].activeSpawn.x = File.checkpointx
+		screenmanager.screens["level1"].activeSpawn.y = File.checkpointy
+		screenmanager.screens["level1"].player.candoublejump = File.candoublejump
+		screenmanager.screens["level1"].player.candash = File.candash
+
+		screenmanager.screens["level1"].player.x = File.checkpointx
+		screenmanager.screens["level1"].player.y = File.checkpointy
+	end
+end
+
+function global:resetSave()
+	if love.filesystem.exists("save.sav") then
+		love.filesystem.remove("save.sav")
+	end
+end
+
 function love.load()
 	screenmanager:addScreen("menu",menu:new())
 	screenmanager:addScreen("level1",level1:new())
+	screenmanager:addScreen("credits",credits:new())
 
 	love.window.setMode(scaleX*global.width, scaleY*global.height,{resizable = true})
 
@@ -50,6 +90,9 @@ function love.load()
 	canvas = love.graphics.newCanvas(global.width, global.height)
 	canvas:setFilter("nearest","nearest")
 	--screenmanager:addScreen("level2",level2:new())
+	--print(love.filesystem.getSaveDirectory())
+
+	global:loadSave()
 end
 
 function love.update(dt)

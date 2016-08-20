@@ -67,9 +67,9 @@ function gamescreen:getPowerUps()
 	for j,datav in ipairs(self.map.test.layers) do
 		if datav.type == "objectgroup" then
 			for i,v in ipairs(datav.objects) do
-				if v.name == "DoubleJump" then
+				if v.name == "DoubleJump" and not level1.player.candoublejump then
 					table.insert(self.powerups,powerup:new{x=v.x,y=v.y,type="doublejump"})
-				elseif v.name == "Dash" then
+				elseif v.name == "Dash" and not level1.player.candash then
 					table.insert(self.powerups,powerup:new{x=v.x,y=v.y,type="dash"})
 				end
 			end

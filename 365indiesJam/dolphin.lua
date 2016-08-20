@@ -80,6 +80,10 @@ function dolphin:load()
 	self.kind = 2
 	self.image:setFilter("nearest","nearest")
 	self.type = "dolphin"
+
+	self.damageSound = love.audio.newSource("Assets/sounds/Hit_Hurt.wav","static")
+	self.damageSound:setVolume(0.5)
+
 	self.bbox = {
 		left = 4,
 		right = 12,
@@ -147,6 +151,7 @@ function dolphin:move()
 			self.life = self.life - 1
 			self.dy = -2
 			self.dx = screenmanager.currentScreen.player.sword.flip * 1.2
+			self.damageSound:play()
 		end
 	end
 

@@ -7,7 +7,8 @@ player.bbox = {
 	bottom = 16
 }
 
-local firstDialogue = false;
+firstDialogue = false;
+local oldKeyDash = false
 
 function player:new(o)
 	o = o or {}
@@ -56,10 +57,16 @@ function player:collision(obj2)
 		if obj2.kind == 3 or obj2.kind == 5 then
 			if obj2.type == "doublejump" then
 				self.candoublejump = true
-				obj2.destroy = true
+				if not obj2.destroy then
+					obj2:showMessage()
+				end
+ 				obj2.destroy = true
 			elseif obj2.type == "dash" then
 				self.candash = true
-				obj2.destroy = true
+				if not obj2.destroy then
+					obj2:showMessage()
+				end
+ 				obj2.destroy = true
 			end
 			return true
 		end
@@ -79,11 +86,11 @@ function player:collision(obj2)
 			if wy > -hx then
 				--self.y = obj2.y + h
 			else
-				self.x = obj2.x - w
+				--self.x = obj2.x - w
 			end
 		else
 			if wy > -hx then
-				self.x = obj2.x + w
+				--self.x = obj2.x + w
 			else
 				--self.y = obj2.y - h
 			end
@@ -108,9 +115,20 @@ function player:load()
 	self.x = 50
 	self.y = 50
 	self.friction = 0.2
-	self.candoublejump = true
+	self.candoublejump = false
 	self.candash = false
 	self.jumpcount = 0
+	self.ondash = false
+	self.dashTime = 0
+	self.dashDir = 0
+
+	self.dashCount = 0
+
+	self.jumpSound = love.audio.newSource("Assets/sounds/Jump.wav","static")
+	self.jumpSound:setVolume(0.4)
+
+	self.dashSound = love.audio.newSource("Assets/sounds/Dash.wav","static")
+	self.dashSound:setVolume(0.5)
 
 	self:addAnim("idle",0,0,16,16,3)
 	self:addAnim("walk",0,16,16,16,6)
@@ -121,11 +139,13 @@ end
 
 function player:fgravity()
 	local keyUp = love.keyboard.isDown("up")
-	if not( utils.check_solid(self.x + 2, self.y+6) or utils.check_solid(self.x - 2, self.y+6)) and not((utils.check_through(self.x + 2, self.y+8) or utils.check_through(self.x - 2, self.y+8)) and self.dy >= 0) then
+	if not( utils.check_solid(self.x + math.abs(self.dx), self.y+6) or utils.check_solid(self.x - math.abs(self.dx), self.y+6)) and not((utils.check_through(self.x + 2, self.y+8) or utils.check_through(self.x - 2, self.y+8)) and self.dy >= 0) then
 		self.dy = self.dy + self.gravity
 		self.isGround = false
-		if self.jumpcount == 0 then
+		if self.jumpcount == 0 and self.candoublejump then
 			self.jumpcount = 1
+		elseif self.jumpcount == 0 or self.jumpcount == 1 and not self.candoublejump then
+			self.jumpcount = 2
 		end
 	else
 		--while map.tmap[math.floor(((self.y-9)/16))+1][math.floor((self.x)/16)] == gamescreen.map.test.tilesets[1].tiles[1].id+1 do
@@ -133,27 +153,29 @@ function player:fgravity()
 			self.isGround = true
 			self.xscale = 1.6
 			self.yscale = 0.6
+			self.dashCount = 0
 		end
 		self.jumpcount = 0
 		if not firstDialogue then
-			textbox:createDialogue(1,15)
+			textbox:createDialogue(1,16)
 			self.xscale = 1
 			self.yscale = 1
 			firstDialogue = true
 		end
-		while utils.check_solid(self.x + 2, self.y+5) or utils.check_solid(self.x - 2, self.y+5) do
+		while utils.check_solid(self.x + math.abs(self.dx), self.y+5) or utils.check_solid(self.x - math.abs(self.dx), self.y+5) do
 			self.y = self.y-1
 		end
-		while utils.check_through(self.x + 2, self.y+7) or utils.check_through(self.x - 2, self.y+7) do
+		while utils.check_through(self.x + math.abs(self.dx), self.y+7) or utils.check_through(self.x - math.abs(self.dx), self.y+7) do
 			self.y = self.y - 1
 		end
 		self.dy = self.dy * -self.bounce
 	end
-	if keyUp and not(oldKeyUp) and self.jumpcount < 2 then
+	if keyUp and not(oldKeyUp) and (self.jumpcount < 2) then
 		self.dy = -3.2
 		self.xscale=0.4
 		self.yscale=1.8
 		self.jumpcount = self.jumpcount + 1
+		self.jumpSound:play()
 	end
 	oldKeyUp = keyUp
 end
@@ -161,6 +183,7 @@ end
 function player:move()
 	local keyLeft = love.keyboard.isDown("left")
 	local keyRight = love.keyboard.isDown("right")
+	local keyDash = love.keyboard.isDown("x")
 	
 
 	local xprevious = self.x
@@ -181,7 +204,9 @@ function player:move()
 	end
 	--if self.y < 127-self.xorigin then
 	--if gamescreen.map.tmap[math.floor(((self.y-8)/16))+1][math.floor((self.x)/16)] ~= gamescreen.map.test.tilesets[1].tiles[1].id+1 then
-	self:fgravity()
+	if not self.ondash then	
+		self:fgravity()
+	end
 	
 
 	if utils.check_solid(self.x, self.y - 6) then
@@ -189,15 +214,38 @@ function player:move()
 		self.y = self.y + 1
 	end
 
+	if self.candash then
+		--print()
+		if keyDash and not oldKeyDash and not self.ondash and self.dashCount == 0 then
+			self.ondash = true
+			self.dashTime = 2
+			self.dy = 0
+			self.dashSound:play()
+			self.dashCount = 1
+			--if self
+			--print("can dash")
+		end
+		if self.ondash then
+			self.dx = 3 * self.flip
+		end
+
+		if self.dashTime > 0 then
+			self.dashTime = self.dashTime - 0.2
+		else
+			self.ondash = false
+		end
+	end
+
 	if utils.check_solid(self.x-3+self.dx,self.y) or utils.check_solid(self.x+3+self.dx,self.y) then
 		self.dx = 0
 		while utils.check_solid(self.x-3,self.y) do
-			self.x = self.x + 1.2
+			self.x = self.x  + 1.2 --(+1.2)
 		end
 		while utils.check_solid(self.x+3,self.y) do
-			self.x = self.x - 1.2
+			self.x = self.x - 1.2 --1.2
 		end
 	end
+	oldKeyDash = keyDash
 
 	self.sword.x = self.x
 	self.sword.y = self.y
@@ -247,13 +295,19 @@ function player:update(dt)
 					v:showMessage()
 				end
 				screenmanager.currentScreen.activeSpawn = v
+				global:save()
+			elseif self:collision(v) then
+				v.showKey = true
+			else
+				v.showKey = false
 			end
 		end
 		for i,v in ipairs(screenmanager.currentScreen.powerups) do
+			--print(v)
 			self:collision(v)
 		end
-	end
-	self:bounds()	
+	end	
+	self:bounds()
 end
 
 function player:draw()

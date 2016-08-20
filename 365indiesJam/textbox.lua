@@ -44,24 +44,30 @@ textbox = {
 		},
 		[11] = {
 			image = 2,
-			text = "No seu mundo voce e um heroi. Entao eu te suplico, por favor, salve este mundo."
+			text = "E eu nao sei os efeitos que isso pode gerar se ele continuar aqui, pode ate apagar esta realidade."
 		},
 		[12] = {
+			image = 2,
+			text = "No seu mundo voce e um heroi, por isso eu te trouxe. Eu te suplico, por favor, salve este mundo."
+		},
+		[13] = {
 			image = 1,
 			text = "Mas por que eu? Com tantos universos devem haver outros herois por ai."
 		},
-		[13] = {
+		[14] = {
 			image = 2,
 			text = "Bem, o Goku estava ocupado salvando a terra mais uma vez..."
 		},
-		[14] = {
+		[15] = {
 			image = 1,
 			text = "-.-'... Ja que e assim, por mim ta tudo bem. Eu vou salvar seu mundo!"
 		},
-		[15] = {
+		[16] = {
 			image = 2,
 			text = "Muito obrigado, guerreiro. Boa sorte na sua jornada."
 		}
+	},
+	["en"] = {
 	}
 }
 
@@ -118,7 +124,7 @@ function textbox:next()
 end
 
 function textbox:draw()
-	love.graphics.setColor(0,0,0,125)
+	love.graphics.setColor(0,0,0,175)
 	love.graphics.rectangle("fill",math.abs(camera.x),math.abs(camera.y),global.width, 48)
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(self.image, self.portraits[self[self.language][self.actual].image], 2+math.abs(camera.x),4+math.abs(camera.y))

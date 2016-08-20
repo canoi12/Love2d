@@ -87,6 +87,9 @@ function sword:load()
 
 	self.attack = false
 
+	self.attackSound = love.audio.newSource("Assets/sounds/Sword.wav","static")
+	self.attackSound:setVolume(0.5)
+
 	oldKeyZ = false
 
 end
@@ -97,6 +100,7 @@ function sword:update(dt)
 
 	if keyZ and self.atkCoolDown <= 0 and not(oldKeyZ) then
 		self.attack = true
+		self.attackSound:play()
 	end
 
 	oldKeyZ = keyZ

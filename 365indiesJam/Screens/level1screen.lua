@@ -7,6 +7,7 @@ level1.background={
 	dx=0,
 	dy=0
 }
+level1.guardian = nil
 
 function level1:load()
 	self.map = map:new()
@@ -31,14 +32,19 @@ function level1:load()
 	end
 
 	self.player = player:new()
+	self.guardian = guardian:new()
+	self.sound = love.audio.newSource("Assets/sounds/Bit Shift.mp3")
+	self.sound:setVolume(0.4)
+	self.sound:setLooping(true)
+	self.sound:play()
 	--[[self.player.x = 568
 	self.player.y = 88]]
 
 	table.insert(self.objects,self.player)
-	self.objects[1].x = 568
-	self.objects[1].y = 88
-	self.activeSpawn.x = 568
-	self.activeSpawn.y = 88
+	self.objects[1].x = 944
+	self.objects[1].y = 352
+	self.activeSpawn.x = 944	
+	self.activeSpawn.y = 352
 	--local dol = dolphin:new()
 	--table.insert(self.objects,dol)
 	self:getObjects()
@@ -79,8 +85,8 @@ function level1:update(dt)
 		end
 		for i,v in ipairs(self.powerups) do
 			v:update(dt)
-			if v.destroy then
-				table.remove(self.objects, i)
+			if v.destroy and not v.message then
+				table.remove(self.powerups, i)
 			end
 		end
 	end
@@ -99,10 +105,12 @@ function level1:update(dt)
 	if self.background.x <= -global.width then
 		self.background.x = 0
 	end
+	self.guardian:update(dt)
 
-	if love.keyboard.isDown("r") then
+	--[[if love.keyboard.isDown("r") then
 		self:reset()
-	end
+		global:resetSave()
+	end]]
 	--player:update(dt)
 	--dol:update(dt)
 end
@@ -113,6 +121,7 @@ function level1:draw()
 	love.graphics.translate(camera.x, camera.y)
 	self.map:draw()
 	--player:draw()
+	self.guardian:draw()
 	for i,v in ipairs(self.spawns) do
 		v:draw()
 	end
@@ -122,19 +131,23 @@ function level1:draw()
 	for i,v in ipairs(self.powerups) do
 		v:draw()
 	end
-	if self.transition then
-		transition:draw()
-	end
-	if self.dialogue then
-		textbox:draw()
-	end
 	for i,v in ipairs(self.spawns) do
 		if v.message then
 			love.graphics.setColor(0,0,0,125)
 			love.graphics.rectangle("fill",math.abs(camera.x),32+math.abs(camera.y),global.width,8)
 			love.graphics.setColor(255,255,255,255)
-			love.graphics.print("Game Saved", 40+math.abs(camera.x),28+math.abs(camera.y))
+			if global.language == "pt" then
+				love.graphics.printf("Jogo Salvo", math.abs(camera.x),27+math.abs(camera.y),global.width,"center")
+			elseif global.language == "en" then
+				love.graphics.printf("Game Saved", math.abs(camera.x),27+math.abs(camera.y),global.width,"center")
+			end
 		end
+	end
+	if self.transition then
+		transition:draw()
+	end
+	if self.dialogue then
+		textbox:draw()
 	end
 	--player:draw()
 	--dol:draw()
@@ -145,7 +158,7 @@ function level1:keypressed(key)
 	for i,v in ipairs(level1.objects) do
 		v:keypressed(key)
 	end
-	if key == "x" and self.dialogue then
+	if key == "z" and self.dialogue then
 		textbox:next()
 	end
 end
