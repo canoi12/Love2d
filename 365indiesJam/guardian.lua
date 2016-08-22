@@ -22,4 +22,8 @@ end
 
 function guardian:draw()
 	love.graphics.draw(self.image,self.x,self.y,self.angle,self.xscale,self.yscale,self.xorigin,self.yorigin)
+
+	if global.finalFinalCutsceneStart then
+		love.graphics.draw(self.image,1512,self.y+246,self.angle,self.xscale,self.yscale,self.xorigin,self.yorign)
+	end
 end

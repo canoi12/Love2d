@@ -1,4 +1,9 @@
 sword=gameobject:new()
+sword.firesword = false
+
+sword.fireswordimage = love.graphics.newImage("Assets/firesword.png")
+sword.fireswordimage:setFilter("nearest","nearest")
+
 
 function sword:new(o)
 	o = o or {}
@@ -128,7 +133,11 @@ function sword:update(dt)
 end
 
 function sword:draw()
-	love.graphics.draw(self.image,self.x,self.y,math.rad(self.angle),self.flip*self.xscale,self.yscale,self.xorigin,self.yorigin)
+	if not self.firesword then
+		love.graphics.draw(self.image,self.x,self.y,math.rad(self.angle),self.flip*self.xscale,self.yscale,self.xorigin,self.yorigin)
+	else
+		love.graphics.draw(self.fireswordimage,self.x,self.y,math.rad(self.angle),self.flip*self.xscale,self.yscale,self.xorigin,self.yorigin)
+	end
 	--love.graphics.rectangle("line",self.x+self.bbox.left-self.xorigin,self.y+self.bbox.top-self.yorigin, self.bbox.right,self.bbox.bottom)
 	self.swordcol:draw()
 end

@@ -25,11 +25,13 @@ function powerup:load()
 	self.texts = {
 		["pt"] = {
 			[1] = "Pulo Duplo Habilitado",
-			[2] = "Dash Habilitado"
+			[2] = "Dash Habilitado",
+			[3] = "Espada de Fogo Habilitado"
 		},
 		["en"] = {
 			[1] = "Double Jump Enabled",
-			[2] = "Dash Enabled"
+			[2] = "Dash Enabled",
+			[3] = "Fire Sword Enabled"
 		}
 	}
 end
@@ -59,6 +61,8 @@ function powerup:draw()
 			love.graphics.printf(self.texts[global.language][1], math.abs(camera.x),27+math.abs(camera.y),global.width,"center")
 		elseif self.type == "dash" then
 			love.graphics.printf(self.texts[global.language][2], math.abs(camera.x),27+math.abs(camera.y),global.height,"center")
+		elseif self.type == "firesword" then
+			love.graphics.printf(self.texts[global.language][3], math.abs(camera.x),27+math.abs(camera.y),global.height,"center")		
 		end
 	end
 end

@@ -1,4 +1,4 @@
-dolphin=gameobject:new{anim={}}
+dolphin=gameobject:new{anim={},particles={}}
 
 function dolphin:new(o)
 	o = o or {}
@@ -148,7 +148,11 @@ function dolphin:move()
 		if screenmanager.currentScreen.player.sword.attack and not self.damage then
 			self.damage = true
 			self.damageTime = 1
-			self.life = self.life - 1
+			if not screenmanager.currentScreen.player.sword.firesword then
+				self.life = self.life - 1
+			else
+				self.life = self.life - 2
+			end
 			self.dy = -2
 			self.dx = screenmanager.currentScreen.player.sword.flip * 1.2
 			self.damageSound:play()
@@ -157,6 +161,9 @@ function dolphin:move()
 
 	if self.life <= 0 then
 		self.destroy = true
+		for i=1,10 do
+			table.insert(screenmanager.screens["level1"].particles,particle:new{quadrant=self.quadrant,x=self.x,y=self.y,bounce=0.1,dy=-2,speed=love.math.random()*1,gravity=0.2,angle=love.math.random(180,360),life=40,radius=love.math.random(2),image=indie.partimage,fade=true})
+		end
 	end
 
 	if not self.damage then

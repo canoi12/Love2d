@@ -32,9 +32,13 @@ gameobject.damageTime=1
 gameobject.destroy = false
 gameobject.life = 5
 
+gameobject.speed = 0
+
 gameobject.knockback=8
 
 gameobject.quadrant = 0
+
+gameobject.particles = {}
 
 gameobject.bbox = {
 	left = 0,

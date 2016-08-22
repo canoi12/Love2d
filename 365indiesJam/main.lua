@@ -1,5 +1,5 @@
 require "gameobject"
-require("utf8")
+--require("utf8")
 require "player"
 require "utils"
 require "map"
@@ -9,7 +9,12 @@ require "checkpoint"
 require "powerup"
 require "enemy"
 require "dolphin"
+require "boss"
+require "shit"
+require "particles"
+require "chest"
 require "bullet"
+require "water"
 require "coelho"
 require "swordcol"
 require "transition"
@@ -20,6 +25,8 @@ require "Screens/menuscreen"
 require "Screens/level1screen"
 require "Screens/level2screen"
 require "Screens/creditsscreen"
+require "Screens/languagescreen"
+require "365indies"
 
 
 camera={}
@@ -32,10 +39,21 @@ global.width = 128
 global.height = 128
 global.language = "pt"
 
+global.write = false
+global.senha = ""
+
 scaleX = 4
 scaleY = 4
 
 objects={}
+
+finalCutscene = true
+global.activeFinalCustscene = false
+global.finalBossDialogue = false
+global.finalFinalCutscene = false
+global.finalFinalCutsceneStart = false
+global.finalGuardianDialogue = false
+global.finalFinalCutsceneEnd = false
 
 function global:save()
 	local file = love.filesystem.newFile("save.sav","w")
@@ -45,9 +63,10 @@ function global:save()
 	file:write("checkpointy = ".. screenmanager.currentScreen.activeSpawn.y..",\n")
 	file:write("candoublejump = ".. tostring(screenmanager.currentScreen.player.candoublejump)..",\n")
 	file:write("candash = "..tostring(screenmanager.currentScreen.player.candash)..",\n")
+	file:write("firesword = "..tostring(screenmanager.currentScreen.player.firesword)..",\n")
 	file:write("nil}")
 
-	print(screenmanager.currentScreen.activeSpawn.x, screenmanager.currentScreen.activeSpawn.y)
+	--print(screenmanager.currentScreen.activeSpawn.x, screenmanager.currentScreen.activeSpawn.y)
 	file:close()
 end
 
@@ -61,7 +80,7 @@ function global:loadSave()
 		screenmanager.screens["level1"].activeSpawn.y = File.checkpointy
 		screenmanager.screens["level1"].player.candoublejump = File.candoublejump
 		screenmanager.screens["level1"].player.candash = File.candash
-
+		screenmanager.screens["level1"].player.firesword = File.firesword
 		screenmanager.screens["level1"].player.x = File.checkpointx
 		screenmanager.screens["level1"].player.y = File.checkpointy
 	end
@@ -74,6 +93,7 @@ function global:resetSave()
 end
 
 function love.load()
+	screenmanager:addScreen("language",language:new())
 	screenmanager:addScreen("menu",menu:new())
 	screenmanager:addScreen("level1",level1:new())
 	screenmanager:addScreen("credits",credits:new())
@@ -91,8 +111,6 @@ function love.load()
 	canvas:setFilter("nearest","nearest")
 	--screenmanager:addScreen("level2",level2:new())
 	--print(love.filesystem.getSaveDirectory())
-
-	global:loadSave()
 end
 
 function love.update(dt)
@@ -111,10 +129,19 @@ function love.update(dt)
 	else
 		scaleX = scaleY
 	end
+
+	if love.keyboard.isDown("r") then
+		global:resetSave()
+	end
+	if global.write and love.keyboard.isDown("escape") then
+		global.write = false
+		global.senha = ""
+	end
 end
 
 function love.draw()
 	love.graphics.setCanvas(canvas)
+	love.graphics.clear()
 	love.graphics.setFont(font)
 	love.graphics.push()
 	--love.graphics.scale(1/scaleX,1/scaleY)
@@ -126,4 +153,8 @@ end
 
 function love.keypressed(key)
 	screenmanager:keypressed(key)
+end
+
+function love.textinput(t)
+	screenmanager.screens["level1"]:textinput(t)
 end

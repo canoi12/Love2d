@@ -119,6 +119,9 @@ function bunny:move()
 		if v.kind == 1 and utils.distanceToPoint(self.x,self.y,v.x,v.y) < 50 then
 			self:setAnim("shoot")
 			self.flip = utils.sign(v.x - self.x)
+			if self.flip == 0 then
+				self.flip = 1
+			end
 			if self.shootCoolDown <= 0 then
 				self:shoot()
 				self.shootCoolDown = 5
@@ -129,7 +132,7 @@ function bunny:move()
 		end
 	end
 
-	if self.shootCoolDown > 0 and not self.damageSSS then
+	if self.shootCoolDown > 0 and not self.damage then
 		self.shootCoolDown = self.shootCoolDown - 0.1
 	end
 
@@ -163,7 +166,11 @@ function bunny:move()
 		if screenmanager.currentScreen.player.sword.attack and not self.damage then
 			self.damage = true
 			self.damageTime = 1
-			self.life = self.life - 1
+			if not screenmanager.currentScreen.player.sword.firesword then
+				self.life = self.life - 1
+			else
+				self.life = self.life - 2
+			end
 			self.dy = -2
 			self.dx = screenmanager.currentScreen.player.sword.flip * 2
 			self.damageSound:play()
@@ -172,6 +179,9 @@ function bunny:move()
 
 	if self.life <= 0 then
 		self.destroy = true
+		for i=1,10 do
+			table.insert(screenmanager.screens["level1"].particles,particle:new{quadrant=self.quadrant,x=self.x,y=self.y,bounce=0.1,dy=-2,speed=love.math.random()*1,gravity=0.2,angle=love.math.random(180,360),life=40,radius=love.math.random(2),image=indie.partimage,fade=true})
+		end
 	end
 
 	if self.damage then

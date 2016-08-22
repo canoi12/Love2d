@@ -1,7 +1,7 @@
 credits=gamescreen:new()
 credits.y = 0
 
-local oldZ = false
+local oldZ = true
 
 credits.text ={
 	["pt"] = {
@@ -13,7 +13,7 @@ Efeitos sonoros feitos no: bfxr.net\
 \
 Fonte: TinyUnicode by DuffsDevice - license : (Creative Commons Attribution)\
 \
-Todo o resto: Canoi Gomes de Aguiar (twitter:@canoi12)\
+Arte e Programação: Canoi Gomes de Aguiar (twitter:@canoi12)\
 "
 	},
 	["en"] = {
@@ -24,7 +24,8 @@ http://creativecommons.org/licenses/by/3.0/\
 Sonore effects made on: bfxr.net\
 \
 Fonte: TinyUnicode by DuffsDevice - license : (Creative Commons Attribution)\
-All the rest: Canoi Gomes de Aguiar (twitter:@canoi12)\
+\
+Art and Programming: Canoi Gomes de Aguiar (twitter:@canoi12)\
 "
 	}
 }
@@ -34,7 +35,7 @@ function credits:load()
 end
 
 function credits:update(dt)
-	if love.keyboard.isDown("down") and self.y > -30 then
+	if love.keyboard.isDown("down") and self.y > -50 then
 		self.y = self.y - 5
 	elseif love.keyboard.isDown("up") and self.y < 0 then
 		self.y = self.y + 5

@@ -98,6 +98,11 @@ function bullet:update(dt)
 		self.destroy = true
 	end
 
+	if self.flip == -1 then
+		table.insert(screenmanager.screens["level1"].particles,particle:new{quadrant=self.quadrant,x=self.x,y=self.y,bounce=0.2,dy=0,speed=love.math.random(1),angle=love.math.random(-5,5),life=5,gravity = 0,radius=love.math.random(3),color={255,241,232}})
+	elseif self.flip == 1 then
+		table.insert(screenmanager.screens["level1"].particles,particle:new{quadrant=self.quadrant,x=self.x,y=self.y,bounce=0.2,dy=0,speed=love.math.random(1),angle=love.math.random(175,185),life=5,gravity = 0,radius=love.math.random(3),color={255,241,232}})
+	end
 	if self.x+4 <= math.abs(camera.x) or self.x-4 >= math.abs(camera.x-global.width) then
 		self.destroy = true
 	end

@@ -2,22 +2,25 @@ menu=gamescreen:new()
 menu.options = {
 	["pt"] = {
 		[1] = "Novo jogo",
-		[2] = "Creditos",
-		[3] = "Sair"
+		[2] = "Continuar",
+		[3] = "Creditos",
+		[4] = "Sair"
 	},
 	["en"] = {
 		[1] = "New game",
-		[2] = "Credits",
-		[3] = "Exit"
+		[2] = "Continue",
+		[3] = "Credits",
+		[4] = "Exit"
 	}
 }
 
 menu.curoption = 1
+text = "Knightvania"
 
 k = 0
 local oldDown = false
 local oldUp = false
-local oldZ = false
+local oldZ = true
 
 function menu:new(o)
 	o = o or {}
@@ -35,31 +38,38 @@ function menu:update(dt)
 	local keyDown = love.keyboard.isDown("down")
 
 	if love.keyboard.isDown("z") and not oldZ then
-		if self.curoption == 3 then
+		if self.curoption == 1 then
+			global:resetSave()
 			screenmanager:setScreen("level1")
 		elseif self.curoption == 2 then
+			global:loadSave()
+			screenmanager:setScreen("level1")
+		elseif self.curoption == 3 then
 			screenmanager:setScreen("credits")
-		elseif self.curoption == 1 then
+		elseif self.curoption == 4 then
 			love.event.quit()
 		end
 	end
 	oldZ = love.keyboard.isDown("z")
 
-	if keyDown and not oldDown and self.curoption < 3 then
+	if keyDown and not oldDown and self.curoption < 4 then
 		self.curoption = self.curoption + 1
+		if self.curoption == 2 and not love.filesystem.exists("save.sav") then
+			self.curoption = 3
+		end
 		self.optionSound:play()
 	end
 
 	if keyUp and not oldUp and self.curoption > 1 then
 		self.curoption = self.curoption - 1
+		if self.curoption == 2 and not love.filesystem.exists("save.sav") then
+			self.curoption = 1
+		end
 		self.optionSound:play()
 	end
 
 	oldUp = keyUp
 	oldDown = keyDown
-
-	text = "Knightvania"
-	
 
 	if k % (math.pi*2) == 0 then
 		k = 0
@@ -85,9 +95,22 @@ function menu:draw()
 
 	for i,v in ipairs(self.options[global.language]) do
 		if self.curoption == i then
-			love.graphics.print(v, 16, math.abs(48 + i * 16))
+			if i == 2 and not love.filesystem.exists("save.sav") then
+				love.graphics.setColor(194,195,199,255)
+				love.graphics.print(v, 16, math.abs(48 + i * 16))
+				love.graphics.setColor(255,255,255,255)
+			else
+				love.graphics.print(v, 16, math.abs(48 + i * 16))
+			end
 		else
-			love.graphics.print(v, 8, math.abs(48 + i * 16))
+			if i == 2 and not love.filesystem.exists("save.sav") then
+				love.graphics.setColor(194,195,199,255)
+				love.graphics.print(v, 8, math.abs(48 + i * 16))
+				love.graphics.setColor(255,255,255,255)
+			else
+				love.graphics.print(v, 8, math.abs(48 + i * 16))
+			end
+			--love.graphics.print(v, 8, math.abs(48 + i * 16))
 		end
 	end
 end

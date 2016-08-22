@@ -10,6 +10,8 @@ player.bbox = {
 firstDialogue = false;
 local oldKeyDash = false
 
+player.firesword = false
+
 function player:new(o)
 	o = o or {}
 	self:load()
@@ -67,7 +69,18 @@ function player:collision(obj2)
 					obj2:showMessage()
 				end
  				obj2.destroy = true
+ 			elseif obj2.type == "firesword" then
+ 				self.firesword= true
+				if not obj2.destroy then
+					obj2:showMessage()
+				end
+ 				obj2.destroy = true
 			end
+			return true
+		end
+
+		if obj2.kind == 6 and not obj2.destroy then
+			transition:doTransition(0.4)
 			return true
 		end
 
@@ -153,8 +166,8 @@ function player:fgravity()
 			self.isGround = true
 			self.xscale = 1.6
 			self.yscale = 0.6
-			self.dashCount = 0
 		end
+		self.dashCount = 0
 		self.jumpcount = 0
 		if not firstDialogue then
 			textbox:createDialogue(1,16)
@@ -283,7 +296,7 @@ function player:update(dt)
 
 	self:playAnim()
 
-	if not screenmanager.currentScreen.dialogue then
+	if not screenmanager.currentScreen.dialogue and not global.finalFinalCutscene then
 
 		self:move()
 		for i,v in ipairs(screenmanager.currentScreen.objects) do
@@ -306,7 +319,14 @@ function player:update(dt)
 			--print(v)
 			self:collision(v)
 		end
+		if not screenmanager.screens["level1"].boss.destroy then
+			self:collision(screenmanager.currentScreen.boss)
+			for i,v in ipairs(screenmanager.currentScreen.boss.minions) do
+				self:collision(v)
+			end
+		end
 	end	
+	self.sword.firesword = self.firesword
 	self:bounds()
 end
 
