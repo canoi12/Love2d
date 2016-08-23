@@ -101,7 +101,7 @@ function chest:update(dt)
 			if love.keyboard.isDown("down") then
 				global.write = true
 			end
-			if string.lower(global.senha) == "batata doce" then
+			if string.lower(global.senha) == "batata doce" or string.lower(global.senha) == "batatadoce" then
 				table.insert(screenmanager.screens["level1"].powerups,powerup:new({x=self.x,y=self.y,type="firesword"}))
 				screenmanager.screens["level1"].player.firesword = true
 			end

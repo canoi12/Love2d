@@ -254,12 +254,12 @@ function level1:keypressed(key)
 	if key == "backspace" then
 		if global.write then
         -- get the byte offset to the last UTF-8 character in the string.
-	        local byteoffset = utf8.offset(text, -1)
+	        local byteoffset = utf8.offset(global.senha, -1)
 	 
 	        if byteoffset then
 	            -- remove the last UTF-8 character.
 	            -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
-	            text = string.sub(text, 1, byteoffset - 1)
+	            global.senha = string.sub(global.senha, 1, byteoffset - 1)
 	        end
 		end
 	end
