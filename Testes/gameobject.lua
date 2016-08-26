@@ -1,13 +1,61 @@
-gameobject = {}
+gameobject={}
 
+gameobject.x=0 --posição x do objeto
+gameobject.y=0 --posição y do objeto
+gameobject.width=16 --largura do objeto
+gameobject.height=16 --altura do objeto
+gameobject.dx=0 --variação da posição x
+gameobject.dy=0 --variação da posição y
 
+gameobject.xinitial=0
+gameobject.yinitial=0
+
+gameobject.friction = 0.75
+gameobject.bounce = 0
+gameobject.gravity=0.2 --gravidade
+gameobject.xscale=1 --valor da escala do x
+gameobject.yscale=1 --valor da escala do y
+gameobject.xorigin=8 --valor da origem do eixo x
+gameobject.yorigin=8 --valor da origem do eixo y
+gameobject.image=nil --imagem
+gameobject.anim={} --tabela contendo as animações
+gameobject.frame=1 --frame atual
+gameobject.animTime=0 --tempo para trocar de frame
+gameobject.animSpeed=0.15
+gameobject.actualAnim="" --animação atual
+gameobject.kind=0
+gameobject.flip=1
+gameobject.angle=0
+gameobject.type=""
+gameobject.damage=false
+gameobject.damageTime=1
+gameobject.destroy = false
+gameobject.life = 5
+
+gameobject.speed = 0
+
+gameobject.knockback=8
+
+gameobject.quadrant = 0
+
+gameobject.particles = {}
+
+gameobject.bbox = {
+	left = 0,
+	right = 16,
+	top = 0,
+	bottom= 16
+}
+
+gameobject.isGround = false
+
+function gameobject:collision(table)
+
+end
 
 function gameobject:new(o)
 	o = o or {}
-	self:load()
-	setmetatable(o, self)
-	self.__index = self
-	return o
+	return setmetatable(o, {__index=self})
 end
 
 function gameobject:addAnim(name,x,y,frmWid,frmHei,numImages)
@@ -22,12 +70,19 @@ function gameobject:addAnim(name,x,y,frmWid,frmHei,numImages)
 	end
 end
 
+function gameobject:setAnim(name)
+	if self.actualAnim ~= name then
+		self.actualAnim = name
+		self.frame = 1
+	end
+end
+
 function gameobject:playAnim()
 	if self.animTime >= 1 then
 		self.animTime = 0
 		self.frame =  self.frame + 1
 	else
-		self.animTime = self.animTime + 0.15
+		self.animTime = self.animTime + self.animSpeed
 	end
 
 	if self.frame >= table.getn(self.anim[self.actualAnim]) then
@@ -35,34 +90,17 @@ function gameobject:playAnim()
 	end
 end
 
-function gameobject:move(x)
-	self.dx = x
-end
-
 function gameobject:load()
-	self.x = 0
-	self.y = 0
-	self.dx = 0
-	self.dy = 0
-	self.grav = 0.2
-	self.anim ={}
-	self.animTime=0
-	self.actualAnim="idle"
-	self.teste={}
-	self.frame = 1
-	self.image=nil
+
 end
 
 function gameobject:update(dt)
-	if self.y < 480 then
-		self.dy = self.dy + self.grav
-	else
-		self.dy = 0
-		self.y = 480
-	end
 
-	self.y = self.y + self.dy
 end
 
 function gameobject:draw()
+end
+
+function gameobject:keypressed(key)
+
 end

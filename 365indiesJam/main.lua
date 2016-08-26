@@ -115,6 +115,10 @@ end
 
 function love.update(dt)
 
+	if dt < 1/30 then
+      love.timer.sleep(1/30 - dt)
+   end
+
 	screenmanager:update(dt)
 	if screenmanager.currentScreen.map.test ~= nil then
 		--camera.x = math.min(0,math.max(camera.x,-(screenmanager.currentScreen.map.test.width*16)+global.width))
