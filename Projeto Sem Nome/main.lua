@@ -1,5 +1,6 @@
 gameobject = require "gameobject"
 map = require "map"
+require "utils"
 
 player = gameobject:new({image=love.graphics.newImage("assets/knight.png")})
 

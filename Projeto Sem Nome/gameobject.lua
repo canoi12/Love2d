@@ -78,7 +78,8 @@ function gameobject:update(dt)
 		self.dx = self.dx * self.friction
 	end
 
-	if map.tmap[math.floor(self.y/8)+1][math.floor(self.x/8)] == 2 then
+	--if map.tmap[math.floor(self.y/8)+1][math.floor(self.x/8)] == 2 then
+	if utils.check_solid(self.x, self.y+2+self.dy) then
 		self.dy = 0
 		if keyUp then
 			self.dy = -1.5
