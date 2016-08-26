@@ -79,13 +79,26 @@ function gameobject:update(dt)
 	end
 
 	--if map.tmap[math.floor(self.y/8)+1][math.floor(self.x/8)] == 2 then
-	if utils.check_solid(self.x, self.y+2+self.dy) then
+	if not utils.check_solid(self.x+math.abs(self.dx), self.y+2+self.dy) and not utils.check_solid(self.x-math.abs(self.dx),self.y+2+self.dy) then
+		self.dy = self.dy + self.grav
+	else
+		while utils.check_solid(self.x,self.y+1+self.dy) do
+			self.y = self.y - 1
+		end
 		self.dy = 0
 		if keyUp then
 			self.dy = -1.5
 		end
-	else
-		self.dy = self.dy + self.grav
+	end
+
+	if utils.check_solid(self.x-2+self.dx,self.y) or utils.check_solid(self.x+2+self.dx,self.y) then
+		while utils.check_solid(self.x-2,self.y) do
+			self.x = self.x + 1
+		end
+		while utils.check_solid(self.x+2,self.y) do
+			self.x = self.x - 1
+		end
+		self.dx = 0
 	end
 
 	self.x = self.x + self.dx
