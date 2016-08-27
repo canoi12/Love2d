@@ -39,6 +39,7 @@ gameobject.colbox = {
 
 function gameobject:new(o)
 	o = o or {}
+	self:load()
 	return setmetatable(o, {__index=self})
 end
 

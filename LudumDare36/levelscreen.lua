@@ -1,15 +1,28 @@
 level = gamescreen:new()
 
+level.objects = {}
+
+function orderByY(a,b)
+	return a.y < b.y
+end
+
 function level:load()
 	player:load()
 	bg_image = love.graphics.newImage("assets/bg.png")
 	bg_image:setFilter("nearest","nearest")
 	bg_image:setWrap("repeat","repeat")
 	bg_quad = love.graphics.newQuad(0,0,640,480,16,16)
+	table.insert(self.objects,player)
+
+	table.insert(self.objects,camel:new({x=100,y=100}))
 end
 
 function level:update(dt)
-	player:update(dt)
+	--player:update(dt)
+	for i,v in ipairs(self.objects) do
+		v:update(dt)
+	end
+	table.sort(self.objects,orderByY)
 	camerax = player.x-(global.width/2)
 	cameray = player.y-(global.height/2)
 
@@ -22,6 +35,9 @@ function level:draw()
 	love.graphics.push()
 	love.graphics.translate(-camerax,-cameray)
 	--love.graphics.draw(bg_image,bg_quad,0,0)
-	player:draw()
+	--player:draw()
+	for i,v in ipairs(self.objects) do
+		v:draw()
+	end
 	love.graphics.pop()
 end

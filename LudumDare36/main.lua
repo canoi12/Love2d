@@ -4,6 +4,8 @@ require "gamescreen"
 require "levelscreen"
 require "menuscreen"
 require "player"
+require "camel"
+require "utils"
 
 camerax = 0
 cameray = 0
