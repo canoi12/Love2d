@@ -15,6 +15,7 @@ function level:load()
 	table.insert(self.objects,player)
 
 	table.insert(self.objects,camel:new({x=100,y=100}))
+	table.insert(self.objects,camel:new({x=200,y=100}))
 end
 
 function level:update(dt)

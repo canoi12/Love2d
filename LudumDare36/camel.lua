@@ -3,8 +3,15 @@ camel = gameobject:new({anim={}})
 camel.walk = false
 camel.walkTime = 0
 
-camel.walkPoint = {x=0,y=0}
+camel.walkPoint = {}
 local odds = 0
+
+function camel:new(o)
+	o = o or {}
+	o.walkPoint = {}
+	self:load()
+	return setmetatable(o, {__index=self})
+end
 
 function camel:load()
 	self.image = love.graphics.newImage("assets/camel-sheet.png")

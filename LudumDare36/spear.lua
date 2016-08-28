@@ -41,8 +41,8 @@ end
 
 function spear:draw()
 	if player.actualAnim == "walk" then
-		love.graphics.draw(self.image,self.x+math.sin(self.attackMove)*6+(6*self.flip),self.y+math.sin(self.sin),self.angle,self.flip*self.xscale,self.yscale,self.xorigin,self.yorigin)
+		love.graphics.draw(self.image,self.x+math.sin(self.flip*self.attackMove)*6+(6*self.flip),self.y+math.sin(self.sin),self.angle,self.flip*self.xscale,self.yscale,self.xorigin,self.yorigin)
 	else
-		love.graphics.draw(self.image,self.x+math.sin(self.attackMove)*6+(6*self.flip),self.y,self.angle,self.flip*self.xscale,self.yscale,self.xorigin,self.yorigin)
+		love.graphics.draw(self.image,self.x+math.sin(self.flip*self.attackMove)*6+(6*self.flip),self.y,self.angle,self.flip*self.xscale,self.yscale,self.xorigin,self.yorigin)
 	end
 end
