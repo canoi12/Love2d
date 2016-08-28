@@ -1,5 +1,7 @@
 spear=gameobject:new()
 
+local oldAttack = false
+
 function spear:load()
 
 	self.image = love.graphics.newImage("assets/spear.png")
@@ -17,9 +19,12 @@ end
 
 function spear:update(dt)
 
-	if love.keyboard.isDown("z") then
+	local attackKey = love.keyboard.isDown("z")
+
+	if attackKey and not oldAttack then
 		self.attack = true
 	end
+	oldAttack = attackKey
 
 	self.sin = self.sin + 0.2
 
