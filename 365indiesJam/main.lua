@@ -28,6 +28,8 @@ require "Screens/creditsscreen"
 require "Screens/languagescreen"
 require "365indies"
 
+Joystick = love.joystick.getJoysticks()
+
 
 camera={}
 camera.x=0
@@ -157,6 +159,10 @@ end
 
 function love.keypressed(key)
 	screenmanager:keypressed(key)
+end
+
+function love.joystickpressed(joy, button)
+	screenmanager:joystickpressed(joy, button)
 end
 
 function love.textinput(t)

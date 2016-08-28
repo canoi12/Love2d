@@ -100,7 +100,7 @@ function sword:load()
 end
 
 function sword:update(dt)
-	local keyZ = love.keyboard.isDown("z")
+	local keyZ = love.keyboard.isDown("z") or (Joystick[1]:isDown(3))
 
 
 	if keyZ and self.atkCoolDown <= 0 and not(oldKeyZ) then

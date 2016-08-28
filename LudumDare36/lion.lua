@@ -1,35 +1,37 @@
-camel = enemy:new({anim={}})
+lion = enemy:new({anim={}})
 
-camel.walk = false
-camel.walkTime = 0
+lion.walk = false
+lion.walkTime = 0
 
-camel.walkPoint = {}
+lion.walkPoint = {}
 local odds = 0
 
-camel.footTime = 0
-camel.footErase = 0
+lion.footTime = 0
+lion.footErase = 0
 
-function camel:new(o)
+function lion:new(o)
 	o = o or {}
 	o.walkPoint = {}
 	self:load()
 	return setmetatable(o, {__index=self})
 end
 
-function camel:load()
+function lion:load()
 	enemy.load(self)
-	self.image = love.graphics.newImage("assets/camel-sheet.png")
+	--enemy:load()
+	self.image = love.graphics.newImage("assets/lion.png")
 	self.image:setFilter("nearest","nearest")
 
-	self:createAnimation("idle",0,0,32,32,3)
+	self:createAnimation("idle",0,0,32,32,1)
 	self:createAnimation("walk",0,32,32,32,6)
 	self.xorigin = 16
 	self.yorigin = 16
 
 	--self.footprints = screenmanager.screens["level"].footprints
+
 end
 
-function camel:update(dt)
+function lion:update(dt)
 	self:playAnim()
 	--[[if self.walkTime < 10 then
 		self.walkTime = self.walkTime + 0.1
@@ -74,14 +76,13 @@ function camel:update(dt)
 	else
 		table.remove(self.footprints,1)
 		self.footErase = 0
-	end
-
-	self.x = self.x + self.dx
-	self.y = self.y + self.dy]]
+	end]]
 	self:walkArround(dt)
+	--[[self.x = self.x + self.dx
+	self.y = self.y + self.dy]]
 
 end
 
-function camel:draw()
+function lion:draw()
 	love.graphics.draw(self.image,self.anim[self.actualAnim][self.frame],self.x,self.y,self.angle,self.flip*self.xscale,self.yscale,self.xorigin,self.yorigin,self.xske,self.yske)
 end

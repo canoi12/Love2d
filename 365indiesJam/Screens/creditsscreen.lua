@@ -35,16 +35,21 @@ function credits:load()
 end
 
 function credits:update(dt)
-	if love.keyboard.isDown("down") and self.y > -50 then
+
+	local keyUp = love.keyboard.isDown("up") or (Joystick[1]:getAxis(2) < -0.4)
+	local keyDown = love.keyboard.isDown("down") or (Joystick[1]:getAxis(2) > 0.4)
+	local keyZ = love.keyboard.isDown("z") or (Joystick[1]:isDown(1))
+
+	if keyUp and self.y > -50 then
 		self.y = self.y - 5
-	elseif love.keyboard.isDown("up") and self.y < 0 then
+	elseif keyDown and self.y < 0 then
 		self.y = self.y + 5
 	end
 
-	if love.keyboard.isDown("z") and not oldZ then
+	if keyZ and not oldZ then
 		screenmanager:setScreen("menu")
 	end
-	oldZ = love.keyboard.isDown("z")
+	oldZ = keyZ
 
 end
 

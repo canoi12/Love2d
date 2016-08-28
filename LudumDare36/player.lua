@@ -5,13 +5,12 @@ player = gameobject:new({anim={}})
 player.image = love.graphics.newImage("assets/man.png")
 player.image:setFilter("nearest","nearest")
 
-player.footprints = {}
+--player.footprints = {}
 
 player.footTime = 0
 player.footErase = 0
 
 player.printFoot = false
-
 
 function player:new(o)
 	o = o or {}
@@ -23,28 +22,36 @@ function player:load()
 	player:createAnimation("walk",0,32,16,32,8)
 	player.x = 50
 	player.y = 50
+	self.footprints = screenmanager.screens["level"].footprints
 
 	spear:load()
 end
 
 function player:move(dt)
-	local keyLeft = love.keyboard.isDown("left")
-	local keyRight = love.keyboard.isDown("right")
-	local keyUp = love.keyboard.isDown("up")
-	local keyDown = love.keyboard.isDown("down")
+	local keyLeft = love.keyboard.isDown("left") or (Joystick[1]:getAxis(1) < -0.4)
+	local keyRight = love.keyboard.isDown("right") or (Joystick[1]:getAxis(1) > 0.4)
+	local keyUp = love.keyboard.isDown("up") or (Joystick[1]:getAxis(2) < -0.4)
+	local keyDown = love.keyboard.isDown("down") or (Joystick[1]:getAxis(2) > 0.4)
+	local keyRun = love.keyboard.isDown("x") or (Joystick[1]:isDown(1))
+
+	if keyRun then
+		self.speed = 140
+	else
+		self.speed = 70
+	end
 
 	if keyLeft then
-		self.dx = -(70*dt)
+		self.dx = -(self.speed*dt)
 		self.flip = -1
 	elseif keyRight then
-		self.dx = (70*dt)
+		self.dx = (self.speed*dt)
 		self.flip = 1
 	end
 
 	if keyUp then
-		self.dy = -(70*dt)
+		self.dy = -(self.speed*dt)
 	elseif keyDown then
-		self.dy = (70*dt)
+		self.dy = (self.speed*dt)
 	end
 
 	if not(keyUp or keyDown) then
@@ -72,24 +79,10 @@ function player:move(dt)
 	else
 		self.footTime = 0
 		if self.actualAnim == "walk" then
-			table.insert(self.footprints,{x=self.x+love.math.random()*4,y=self.y+love.math.random()*8})
+			local yy = love.math.random()*6
+			local xx = love.math.random()*4
+			table.insert(self.footprints,foot:new{x=self.x+xx,y=self.y+2+yy})
 		end
-	end
-
-	if self.footErase < 5 then
-		self.footErase = self.footErase + 0.5
-	else
-		if self.printFoot then
-			table.remove(self.footprints,1)
-		end
-		self.footErase = 0
-	end
-	if table.getn(self.footprints) >= 20 then
-		self.printFoot = true
-		table.remove(self.footprints,1)
-	end
-	if table.getn(self.footprints) <= 0 then
-		self.printFoot = false
 	end
 
 	self.x = self.x + self.dx
@@ -107,11 +100,7 @@ function player:update(dt)
 end
 
 function player:draw()
-	love.graphics.setColor(171,82,54,255)
-	for i,v in ipairs(self.footprints) do
-		love.graphics.ellipse("fill",v.x,v.y+8,2,1)
-	end
-	love.graphics.setColor(255,255,255,255)
+	
 	spear:draw()
 	love.graphics.draw(self.image,self.anim[self.actualAnim][self.frame],self.x,self.y,self.angle,self.flip*self.xscale,self.yscale,self.xorigin,self.yorigin,self.xske,self.yske)
 end

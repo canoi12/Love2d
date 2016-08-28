@@ -28,13 +28,14 @@ function language:update(dt)
 	camera.x = 0
 	camera.y = 0
 
-	local keyUp = love.keyboard.isDown("up")
-	local keyDown = love.keyboard.isDown("down")
+	local keyUp = love.keyboard.isDown("up") or (Joystick[1]:getAxis(2) < -0.4)
+	local keyDown = love.keyboard.isDown("down") or (Joystick[1]:getAxis(2) > 0.4)
+	local keyZ = love.keyboard.isDown("z") or (Joystick[1]:isDown(1))
 
-	if love.keyboard.isDown("z") and not oldZ then
+	if keyZ and not oldZ then
 		screenmanager:setScreen("menu")
 	end
-	oldZ = love.keyboard.isDown("z")
+	oldZ = keyZ
 
 	if keyDown and not oldDown and self.curoption < 2 then
 		self.curoption = self.curoption + 1

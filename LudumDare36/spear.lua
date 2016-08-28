@@ -19,7 +19,7 @@ end
 
 function spear:update(dt)
 
-	local attackKey = love.keyboard.isDown("z")
+	local attackKey = love.keyboard.isDown("z") or (Joystick[1]:isDown(3))
 
 	if attackKey and not oldAttack then
 		self.attack = true

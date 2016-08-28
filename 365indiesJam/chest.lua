@@ -82,6 +82,8 @@ function chest:load()
 end
 
 function chest:update(dt)
+	local keyDown = love.keyboard.isDown("down") or (Joystick[1]:getAxis(2) > 0.4)
+
 	self.dy = self.dy + 0.1
 	if self.dy % math.pi*2 == 0 then
 		self.dy = 0
@@ -93,12 +95,12 @@ function chest:update(dt)
 	end
 
 	if self.type == "batata" or self.type == "doce" then
-		if self:collision(screenmanager.screens["level1"].player) and love.keyboard.isDown("down") then
+		if self:collision(screenmanager.screens["level1"].player) and keyDown then
 			self.open = true
 		end
 	else
 		if self:collision(screenmanager.screens["level1"].player) and not screenmanager.screens["level1"].player.firesword then
-			if love.keyboard.isDown("down") then
+			if keyDown then
 				global.write = true
 			end
 			if string.lower(global.senha) == "batata doce" or string.lower(global.senha) == "batatadoce" then

@@ -129,3 +129,6 @@ end
 
 function gamescreen:keypressed(key)
 end
+
+function gamescreen:joystickpressed(joy, button)
+end

@@ -4,8 +4,14 @@ require "gamescreen"
 require "levelscreen"
 require "menuscreen"
 require "player"
+require "enemy"
+require "foot"
 require "camel"
+require "lion"
 require "utils"
+
+Joystick = love.joystick.getJoysticks()
+print(Joystick[1])
 
 camerax = 0
 cameray = 0
@@ -14,6 +20,9 @@ global = {}
 
 global.width = 320
 global.height = 240
+
+global.roomWidth = 2560
+global.roomHeight = 1920
 
 scaleX = 2
 scaleY = 2
@@ -28,7 +37,7 @@ end
 
 function love.update(dt)
 	screenmanager:update(dt)
-
+	--print(Joystick[1]:getAxis(1))
 end
 
 function love.draw()

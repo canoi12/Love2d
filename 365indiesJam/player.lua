@@ -151,7 +151,7 @@ function player:load()
 end
 
 function player:fgravity()
-	local keyUp = love.keyboard.isDown("up")
+	local keyUp = love.keyboard.isDown("up") or (Joystick[1]:isDown(1))
 	if not( utils.check_solid(self.x + math.abs(self.dx), self.y+6) or utils.check_solid(self.x - math.abs(self.dx), self.y+6)) and not((utils.check_through(self.x + 2, self.y+8) or utils.check_through(self.x - 2, self.y+8)) and self.dy >= 0) then
 		self.dy = self.dy + self.gravity
 		self.isGround = false
@@ -194,9 +194,9 @@ function player:fgravity()
 end
 
 function player:move()
-	local keyLeft = love.keyboard.isDown("left")
-	local keyRight = love.keyboard.isDown("right")
-	local keyDash = love.keyboard.isDown("x")
+	local keyLeft = love.keyboard.isDown("left") or (Joystick[1]:getAxis(1) < -0.4)
+	local keyRight = love.keyboard.isDown("right") or (Joystick[1]:getAxis(1) > 0.4)
+	local keyDash = love.keyboard.isDown("x") or (Joystick[1]:getAxis(3) > 0) or (Joystick[1]:getAxis(6) > 0)
 	
 
 	local xprevious = self.x
@@ -293,6 +293,7 @@ function player:bounds()
 end
 
 function player:update(dt)
+	local keyDown = love.keyboard.isDown("down") or (Joystick[1]:getAxis(2) > 0.4)
 
 	self:playAnim()
 
@@ -303,7 +304,7 @@ function player:update(dt)
 			self:collision(v)
 		end
 		for i,v in ipairs(screenmanager.currentScreen.spawns) do
-			if self:collision(v) and love.keyboard.isDown("down") then
+			if self:collision(v) and keyDown then
 				if v ~= screenmanager.currentScreen.activeSpawn then
 					v:showMessage()
 				end

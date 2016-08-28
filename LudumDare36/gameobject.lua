@@ -11,6 +11,8 @@ gameobject.yorigin = 16
 gameobject.xske = 0
 gameobject.yske = 0
 
+gameobject.speed = 70
+
 gameobject.flip = 1
 
 gameobject.dx = 0

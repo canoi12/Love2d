@@ -31,3 +31,9 @@ function screenmanager:keypressed(key)
 		screenmanager.currentScreen:keypressed(key)
 	end
 end
+
+function screenmanager:joystickpressed(joy, button)
+	if screenmanager.currentScreen ~= nil then
+		screenmanager.currentScreen:joystickpressed(joy, button)
+	end
+end
