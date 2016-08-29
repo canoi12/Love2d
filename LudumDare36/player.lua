@@ -12,6 +12,12 @@ player.footErase = 0
 
 player.printFoot = false
 
+local keyLeft = false
+local keyRight = false
+local keyUp = false
+local keyDown = false
+local keyRun = false
+
 function player:new(o)
 	o = o or {}
 	return setmetatable(o, {__index=self})
@@ -28,11 +34,24 @@ function player:load()
 end
 
 function player:move(dt)
-	local keyLeft = love.keyboard.isDown("left") or (Joystick[1]:getAxis(1) < -0.4)
-	local keyRight = love.keyboard.isDown("right") or (Joystick[1]:getAxis(1) > 0.4)
-	local keyUp = love.keyboard.isDown("up") or (Joystick[1]:getAxis(2) < -0.4)
-	local keyDown = love.keyboard.isDown("down") or (Joystick[1]:getAxis(2) > 0.4)
-	local keyRun = love.keyboard.isDown("x") or (Joystick[1]:isDown(1))
+	--[[keyLeft = love.keyboard.isDown("left") or utils.iif(Joystick[1],Joystick[1]:getAxis(1) < -0.4,false)
+	keyRight = love.keyboard.isDown("right") or utils.iif(Joystick[1],Joystick[1]:getAxis(1) > 0.4,false)
+	keyUp = love.keyboard.isDown("up") or utils.iif(Joystick[1],Joystick[1]:getAxis(2) < -0.4,false)
+	keyDown = love.keyboard.isDown("down") or utils.iif(Joystick[1],Joystick[1]:getAxis(2) > 0.4,false)
+	keyRun = love.keyboard.isDown("x") or utils.iif(Joystick[1],Joystick[1]:isDown(1),false)]]
+	if Joystick[1] then
+		keyLeft = love.keyboard.isDown("left") or (Joystick[1]:getAxis(1) < -0.4)
+		keyRight = love.keyboard.isDown("right") or (Joystick[1]:getAxis(1) > 0.4)
+		keyUp = love.keyboard.isDown("up") or (Joystick[1]:getAxis(2) < -0.4)
+		keyDown = love.keyboard.isDown("down") or (Joystick[1]:getAxis(2) > 0.4)
+		keyRun = love.keyboard.isDown("x") or (Joystick[1]:isDown(1))
+	else
+		keyLeft = love.keyboard.isDown("left")
+		keyRight = love.keyboard.isDown("right")
+		keyUp = love.keyboard.isDown("up")
+		keyDown = love.keyboard.isDown("down")
+		keyRun = love.keyboard.isDown("x")
+	end
 
 	if keyRun then
 		self.speed = 140

@@ -1,6 +1,7 @@
 spear=gameobject:new()
 
 local oldAttack = false
+local attackKey = false
 
 function spear:load()
 
@@ -19,7 +20,11 @@ end
 
 function spear:update(dt)
 
-	local attackKey = love.keyboard.isDown("z") or (Joystick[1]:isDown(3))
+	if Joystick[1] then
+		attackKey = love.keyboard.isDown("z") or (Joystick[1]:isDown(3))
+	else
+		attackKey = love.keyboard.isDown("z")
+	end
 
 	if attackKey and not oldAttack then
 		self.attack = true
