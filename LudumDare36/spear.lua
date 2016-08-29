@@ -40,8 +40,6 @@ function spear:update(dt)
 	if self.attack then
 		self.attackMove = self.attackMove + 0.4
 
-		print(self.attackMove % math.pi*2)
-
 		if self.attackMove % math.pi*2 <= 0.6 then
 			self.attackMove = 0
 			self.attack = false
