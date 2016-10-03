@@ -11,7 +11,6 @@ require "lion"
 require "utils"
 
 Joystick = love.joystick.getJoysticks()
-print(Joystick[1])
 
 camerax = 0
 cameray = 0

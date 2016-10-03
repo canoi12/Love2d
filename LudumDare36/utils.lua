@@ -9,3 +9,10 @@ function utils.sign(v1)
 		return 0
 	end
 end
+
+function utils.iif(a,b,c)
+	if a then
+		return b
+	end
+	return c
+end

@@ -3,7 +3,7 @@ foot = gameobject:new()
 foot.x = 0
 foot.y = 0
 foot.destroy = true
-foot.color = {171,82,54,255}
+foot.color = {52,54,53,255}
 foot.image = love.graphics.newImage("assets/foot.png")
 foot.image:setFilter("nearest","nearest")
 
@@ -19,6 +19,6 @@ end
 
 function foot:draw()
 	love.graphics.setColor(self.color)
-	love.graphics.draw(self.image,self.x,self.y+8)
+	love.graphics.draw(self.image,math.floor(self.x),math.floor(self.y+8))
 	love.graphics.setColor(255,255,255,255)
 end
