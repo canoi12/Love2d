@@ -1,4 +1,6 @@
-player = require "player"
+scene = require "scene"
+require "screenmanager"
+require "utils"
 
 function love.load()
   myShader = love.graphics.newShader[[
@@ -76,34 +78,29 @@ function love.load()
   }
   ]]
 
-  floor = love.graphics.newImage("assets/image/floor.png")
-  plant = love.graphics.newImage("assets/image/plant.png")
   bg = love.graphics.newImage("assets/image/bg.png")
   bg:setFilter("nearest", "nearest")
 
   canvas = love.graphics.newCanvas(166, 144)
   canvas:setFilter("nearest","nearest")
 
-  char = player:new{anim={}}
-  char:init()
+  scene:init()
+
+  screenmanager:addScreen("level1", scene)
+
 end
 
 function love.update(dt)
-  char:update(dt)
+  screenmanager:update(dt)
 end
 
 function love.draw()
-  love.graphics.setBackgroundColor(205.0, 178.0, 172.0, 255.0)
   love.graphics.setCanvas(canvas)
+  love.graphics.setBackgroundColor(205.0, 178.0, 172.0, 255.0)
   love.graphics.clear()
   love.graphics.push()
 
-  char:draw()
-
-  for i=0,10 do
-    love.graphics.draw(floor, i*16, 128)
-    love.graphics.draw(plant, i * 32, 121)
-  end
+  screenmanager:draw()
 
   love.graphics.pop()
   love.graphics.setCanvas()
