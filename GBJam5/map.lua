@@ -45,7 +45,7 @@ function map:loadMap(name)
 	y = 0
 	k = 0
 	self.tmap[y] = {}
-	self.tmap[y][x]=0
+	--self.tmap[y][x]=0
 
 	for i,v in ipairs(self.test.tilesets) do
 		imgWidth = v.imagewidth / v.tilewidth
@@ -66,7 +66,7 @@ function map:loadMap(name)
 
 	k=0
 	y=-1
-	for i,v in ipairs(data) do
+	--[[for i,v in ipairs(data) do
 		if y==-1  then
 			y=0
 			k=1
@@ -79,16 +79,30 @@ function map:loadMap(name)
 			self.tmap[y][x]=v
 			k = k + 1
 		end
+	end]]
+	for j=0,(self.test.height-1) do
+		self.tmap[j] = {}
+		for i=0,(self.test.width-1) do
+			self.tmap[j][i] = data[i + (j*self.test.width)+1]
+		end
 	end
 
 	for j,datav in ipairs(self.test.layers) do
-		if datav.name == "Chao" then
-			for i,v in ipairs(datav.objects) do
-				table.insert(self.chao, v)
-			end
-		else
-			for i,v in ipairs(datav.objects) do
-				table.insert(self.objects, v)
+		if datav.type == "objectgroup" then
+			if datav.name == "Chao" then
+				for i,v in ipairs(datav.objects) do
+					v.bbox = {
+						left = 0,
+						right = v.width,
+						top = 0,
+						bottom = v.height
+					}
+					table.insert(self.chao, v)
+				end
+			else
+				for i,v in ipairs(datav.objects) do
+					table.insert(self.objects, v)
+				end
 			end
 		end
 	end

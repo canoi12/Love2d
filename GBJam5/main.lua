@@ -2,13 +2,52 @@ scene = require "scene"
 require "screenmanager"
 require "utils"
 
+global = {}
+global.camerax = 0
+global.cameray = 0
+
+actualPalette = 1
+
+palette = {}
+palette[1] = {
+  {23.0, 23.0, 23.0, 255.0},
+  {145.0, 80.0, 90.0, 255.0},
+  {206.0, 177.0, 175.0, 255.0},
+  {224.0, 215.0, 195.0, 255.0}
+}
+
+palette[2] = {
+  {32.0, 65.0, 77.0, 255.0},
+  {99.0, 155.0, 133.0, 255.0},
+  {181.0, 220.0, 161.0, 255.0},
+  {240.0, 254.0, 231.0, 255.0}
+}
+
+palette[3] = {
+  {0.0, 0.0, 0.0, 255.0},
+  {57.0, 56.0, 41.0, 255.0},
+  {123.0, 113.0, 98.0, 255.0},
+  {180.0, 165.0, 106.0, 255.0}
+}
+
 function love.load()
   myShader = love.graphics.newShader[[
+  const int nColors = 4;
+  extern vec4 colorsa[nColors];
   vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) {
-    vec4 color_1 = vec4(23.0, 23.0, 23.0, 255.0);
+    /*vec4 color_1 = vec4(23.0, 23.0, 23.0, 255.0);
     vec4 color_2 = vec4(145.0, 80.0, 90.0, 255.0);
     vec4 color_3 = vec4(206.0, 177.0, 175.0, 255.0);
-    vec4 color_4 = vec4(224.0, 215.0, 195.0, 255.0);
+    vec4 color_4 = vec4(224.0, 215.0, 195.0, 255.0);*/
+
+    vec4 colors[nColors];
+
+    int nColorss = nColors;
+
+    for (int i = 0; i < nColors; i++) {
+      colors[i] = colorsa[i];
+    }
+
     vec4 pixel = Texel(texture, texture_coords);
 
     float pixH = 1.0 / 160.0;
@@ -26,7 +65,7 @@ function love.load()
     test = Texel(texture, texture_coords - vec2(0.0, pixV));
     pixel.a = max(pixel.a, test.a);
 
-    color_1 /= 255.0;
+    /*color_1 /= 255.0;
     color_2 /= 255.0;
     color_3 /= 255.0;
     color_4 /= 255.0;
@@ -71,7 +110,39 @@ function love.load()
     if (d_min == dist_3)
     return color_3;
     if (d_min == dist_4)
-    return color_4;
+    return color_4;*/
+
+    for (int i = 0; i < nColors; i++) {
+      colors[i] /= 255;
+    }
+
+    float dist[nColors];
+
+    for (int i = 0; i < nColors; i++) {
+      dist[i] = 0;
+    }
+
+    for(int i = 0; i < nColors; i++) {
+      float dist_r = (colors[i].r - pixel.r) * (colors[i].r - pixel.r);
+      float dist_g = (colors[i].g - pixel.g) * (colors[i].g - pixel.g);
+      float dist_b = (colors[i].b - pixel.b) * (colors[i].b - pixel.b);
+
+      dist[i] = dist_r + dist_g + dist_b;
+    }
+
+    float d_min = min(dist[0], dist[1]);
+    for (int i = 2; i < nColors; i++) {
+      d_min = min(d_min, dist[i]);
+    }
+
+    for (int i = 0; i < nColors; i++) {
+      colors[i].a = pixel.a;
+    }
+
+    for (int i = 0; i < nColors; i++) {
+      if (d_min == dist[i])
+        return colors[i];
+    }
 
     //return pixel * color;
     //return vec4(1,0,0,1);
@@ -96,15 +167,25 @@ end
 
 function love.draw()
   love.graphics.setCanvas(canvas)
-  love.graphics.setBackgroundColor(205.0, 178.0, 172.0, 255.0)
   love.graphics.clear()
+  love.graphics.setBackgroundColor(palette[actualPalette][3])
   love.graphics.push()
 
   screenmanager:draw()
 
   love.graphics.pop()
   love.graphics.setCanvas()
-  love.graphics.draw(bg, 0, 0, 0, 4, 4)
+  --love.graphics.draw(bg, 0, 0, 0, 4, 4)
+
+  --[[for i=1,4 do
+    myShader:send("color_"..i, palette[1][i])
+  end]]
+
+  myShader:send("colorsa",palette[actualPalette][1], palette[actualPalette][2], palette[actualPalette][3], palette[actualPalette][4])
+  --[[myShader:send("color_1", palette[1][1])
+  myShader:send("color_2", palette[1][2])
+  myShader:send("color_3", palette[1][3])
+  myShader:send("color_4", palette[1][4])]]
   love.graphics.setShader(myShader)
   love.graphics.draw(canvas,0,0,0,4, 4)
   love.graphics.setShader()

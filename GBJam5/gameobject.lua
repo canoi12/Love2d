@@ -18,8 +18,17 @@ gameobject.flip = -1
 gameobject.angle = 0
 gameobject.xorigin = 8
 gameobject.yorigin = 8
-gameobject.gravity = 0.2
+gameobject.gravity = 0.08
 gameobject.friction = 0
+gameobject.bounce = 0
+gameobject.width = 16
+gameobject.height = 16
+gameobject.bbox = {
+    left = 0,
+    right = 16,
+    top = 0,
+    bottom = 16
+}
 
 
 function gameobject:new(o)

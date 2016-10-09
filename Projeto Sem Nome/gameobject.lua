@@ -90,9 +90,9 @@ function gameobject:update(dt)
 		--self:playAnim("idle")
 	end
 
-<<<<<<< HEAD
+--[[[<<<<<<< HEAD
 	if utils.check_solid(self.x, self.y + 2 + self.dy) then
-=======
+=======]]
 	if (keyLeft or keyRight) and self.isGround then
 		self:playAnim("walk")
 	elseif not(keyLeft or keyRight) and self.isGround then
@@ -113,7 +113,7 @@ function gameobject:update(dt)
 		while utils.check_solid(self.x,self.y+1+self.dy) do
 			self.y = self.y - 1
 		end
->>>>>>> a03cc97e9e424f6ff5abd12f4377df4b457e0b94
+-->>>>>>> a03cc97e9e424f6ff5abd12f4377df4b457e0b94
 		self.dy = 0
 		if not self.isGround then
 			self.xscale = 1.4
@@ -147,15 +147,15 @@ function gameobject:update(dt)
 	self.x = self.x + self.dx
 	self.y = self.y + self.dy
 
-<<<<<<< HEAD
-	self.x = math.max(4,math.min(self.x,124))
-=======
+--<<<<<<< HEAD
+	--self.x = math.max(4,math.min(self.x,124))
+--=======
 	self.xscale = utils.approach(self.xscale,1,0.1)
 	self.yscale = utils.approach(self.yscale,1,0.1)
 
 	self.x = math.max(4,math.min(self.x,192-4))
 	self.y = math.max(4,math.min(self.y,192-4))
->>>>>>> a03cc97e9e424f6ff5abd12f4377df4b457e0b94
+-->>>>>>> a03cc97e9e424f6ff5abd12f4377df4b457e0b94
 
 end
 

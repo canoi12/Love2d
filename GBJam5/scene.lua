@@ -1,5 +1,6 @@
 local scene = {}
 require "map"
+require "plant"
 player = require "player"
 char = {}
 
@@ -24,6 +25,17 @@ function scene:init()
       char:init()
       table.insert(self.objects, char)
     end
+
+    if v.name == "plant" then
+      planta = plant:new{anim={}, x=v.x+8, y=v.y+8}
+      planta:init()
+      print(planta)
+      table.insert(self.objects, planta)
+    end
+
+    for i,v in ipairs(self.map.chao) do
+      table.insert(self.chao, v)
+    end
   end
 
   for i,v in ipairs(self.map.chao) do
@@ -38,12 +50,9 @@ function scene:update(dt)
 end
 
 function scene:draw()
-  love.graphics.translate(-char.x + 80, -char.y + 72)
+  love.graphics.translate(-global.camerax, -global.cameray)
   love.graphics.print(table.getn(self.objects), 0, 0)
   self.map:draw()
-  for i,v in ipairs(self.chao) do
-    love.graphics.rectangle("fill", v.x, v.y, v.width, v.height)
-  end
 
   for i,obj in ipairs(self.objects) do
     obj:draw()
